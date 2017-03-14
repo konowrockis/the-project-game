@@ -40,6 +40,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Internal\ClientConnector.cs" />
+    <Compile Include="Internal\Connection.cs" />
+    <Compile Include="Exposed\IConnectionData.cs" />
+    <Compile Include="Exposed\IServerEventHandler.cs" />
+    <Compile Include="Exposed\Start.cs" />
+    <Compile Include="Internal\NullConnectionData.cs" />
+    <Compile Include="Internal\ServerHandler.cs" />
+    <Compile Include="Internal\Utils.cs" />
+    <Compile Include="Internal\ClientHandler.cs" />
+    <Compile Include="Exposed\IConnection.cs" />
+    <Compile Include="Exposed\IClientEventHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
