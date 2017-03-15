@@ -32,7 +32,8 @@ namespace TheProjectGame.Network
             }
             catch (Exception e)
             {
-                if (!(e is System.ObjectDisposedException)) eventHandler.OnError(connection, e);
+                if ((!(e is System.ObjectDisposedException)))
+                    eventHandler.OnError(connection, e);
             }
             eventHandler.OnClose(connection);
         }

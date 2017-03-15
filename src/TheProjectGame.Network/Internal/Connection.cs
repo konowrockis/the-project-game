@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,7 +25,16 @@ namespace TheProjectGame.Network
             address = endpoint.Address;
         }
 
-        public void Send(string message)
+        public void Send(string message, long delayMillis = 0)
+        {
+            Task.Run(async delegate
+            {
+                await Task.Delay(TimeSpan.FromMilliseconds(delayMillis));
+                DoSend(message);
+            });
+        }
+
+        private void DoSend(string message)
         {
             if (closed) return;
             byte[] msgBytes = Utils.StringToBytes(message);

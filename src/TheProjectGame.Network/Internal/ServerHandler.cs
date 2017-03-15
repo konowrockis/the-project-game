@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -90,12 +91,18 @@ namespace TheProjectGame.Network.Internal
 
             public void OnMessage(string message, IConnection connection)
             {
-                eventHandler.OnMessage(message,connection);
+                lock (handler.mtx)
+                {
+                    eventHandler.OnMessage(message, connection);
+                }
             }
 
             public void OnOpen(IConnection connection)
             {
-                eventHandler.OnOpen(connection);
+                lock (handler.mtx)
+                {
+                    eventHandler.OnOpen(connection);
+                }
             }
 
             public void OnClose(IConnectionData data)
@@ -103,28 +110,40 @@ namespace TheProjectGame.Network.Internal
                 lock (handler.mtx)
                 {
                     handler.socketDictionary.Remove(handler.GetId(data.Address(), data.Port()));
+                    eventHandler.OnClose(data);
                 }   
-                eventHandler.OnClose(data);
             }
 
             public void OnError(IConnectionData data, Exception exception)
             {
-                eventHandler.OnError(data,exception);
+                lock (handler.mtx)
+                {
+                    eventHandler.OnError(data, exception);
+                }
             }
 
             public void OnServerStart()
             {
-                eventHandler.OnServerStart();
+                lock (handler.mtx)
+                {
+                    eventHandler.OnServerStart();
+                }
             }
 
             public void OnServerError(Exception exception)
             {
-                eventHandler.OnServerError(exception);
+                lock (handler.mtx)
+                {
+                    eventHandler.OnServerError(exception);
+                }
             }
 
             public void OnServerStop()
             {
-                eventHandler.OnServerStop();
+                lock (handler.mtx)
+                {
+                    eventHandler.OnServerStop();
+                }
             }
         }
 
