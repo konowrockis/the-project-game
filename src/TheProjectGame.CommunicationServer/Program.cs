@@ -25,7 +25,8 @@ namespace TheProjectGame.CommunicationServer
             public void OnOpen(IConnection connection)
             {
                 Console.WriteLine("New connection @{0}:{1}",connection.Address(),connection.Port());
-                connection.Send("Ping");
+                connection.Send("Ping",1000);
+                connection.Send("PingFaster", 200);
             }
 
             public void OnClose(IConnectionData data)

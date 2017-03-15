@@ -9,7 +9,7 @@ namespace TheProjectGame.Network
 {
     public interface IConnection : IConnectionData
     {
-        void Send(string message);
+        void Send(string message, long delayMillis=0);
         void Close();
     }
 }
