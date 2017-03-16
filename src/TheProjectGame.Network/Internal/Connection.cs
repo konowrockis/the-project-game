@@ -27,9 +27,8 @@ namespace TheProjectGame.Network
 
         public void Send(string message, long delayMillis = 0)
         {
-            Task.Run(async delegate
+            Task.Delay(TimeSpan.FromMilliseconds(delayMillis)).ContinueWith((t) =>
             {
-                await Task.Delay(TimeSpan.FromMilliseconds(delayMillis));
                 DoSend(message);
             });
         }
