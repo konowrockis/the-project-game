@@ -11,5 +11,6 @@ namespace TheProjectGame.Network
     {
         IPAddress Address();
         int Port();
+        bool Connected { get; }
     }
 }

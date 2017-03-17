@@ -7,7 +7,7 @@ using System.Threading.Tasks;using TheProjectGame.Network;
 
 namespace TheProjectGame.Network.Internal
 {
-    internal class NullConnectionData : IConnectionData
+    internal class VoidConnectionData : IConnectionData
     {
         public IPAddress Address()
         {
@@ -18,5 +18,7 @@ namespace TheProjectGame.Network.Internal
         {
             return -1;
         }
+
+        public bool Connected => false;
     }
 }

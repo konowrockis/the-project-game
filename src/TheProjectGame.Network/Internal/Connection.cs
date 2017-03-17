@@ -1,28 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Net.Sockets;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading.Tasks;
+using TheProjectGame.Network.Internal.Contract;
 
-namespace TheProjectGame.Network
+namespace TheProjectGame.Network.Internal
 {
     internal class Connection : IConnection
     {
-        private Socket socket;
-        private bool closed = false;
-        private IPAddress address;
-        private int port;
+        private IClientSocket socket;
+        private IMessageWriter messageHandler;
 
-        public Connection(Socket socket)
+        public Connection(IClientSocket socket, IMessageWriter messageHandler)
         {
             this.socket = socket;
-            IPEndPoint endpoint = socket.RemoteEndPoint as IPEndPoint;
-            if (endpoint == null) return;
-            port = endpoint.Port;
-            address = endpoint.Address;
+            this.messageHandler = messageHandler;
         }
 
         public void Send(string message, long delayMillis = 0)
@@ -30,39 +21,25 @@ namespace TheProjectGame.Network
             Task.Run(async delegate
             {
                 await Task.Delay(TimeSpan.FromMilliseconds(delayMillis));
-                DoSend(message);
+                messageHandler.Send(socket,message);
             });
-        }
-
-        private void DoSend(string message)
-        {
-            if (closed) return;
-            byte[] msgBytes = Utils.StringToBytes(message);
-            byte[] data = new byte[msgBytes.Length + 1];
-            Array.Copy(msgBytes, 0, data, 0, msgBytes.Length);
-            data[msgBytes.Length] = Utils.ETB;
-            int wrote = 0;
-            while (wrote < data.Length)
-            {
-                wrote += socket.Send(data, wrote, data.Length - wrote, SocketFlags.None);
-            }
         }
 
         public void Close()
         {
-            if (closed) return;
             socket.Close();
-            closed = true;
         }
 
         public IPAddress Address()
         {
-            return address;
+            return socket.Address();
         }
 
         public int Port()
         {
-            return port;
+            return socket.Port();
         }
+
+        public bool Connected => socket.Connected;
     }
 }
