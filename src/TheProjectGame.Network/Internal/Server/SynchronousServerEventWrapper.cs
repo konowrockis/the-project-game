@@ -25,7 +25,7 @@ namespace TheProjectGame.Network.Internal.Server
             }
         }
 
-        public virtual void OnError(IConnectionData data, Exception exception)
+        public virtual void OnError(IConnectionData data, System.Exception exception)
         {
             lock (mutex)
             {
@@ -49,7 +49,7 @@ namespace TheProjectGame.Network.Internal.Server
             }
         }
 
-        public virtual void OnServerError(Exception exception)
+        public virtual void OnServerError(System.Exception exception)
         {
             lock (mutex)
             {

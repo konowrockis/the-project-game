@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Sockets;
 using TheProjectGame.Network.Internal;
 using TheProjectGame.Network.Internal.Contract;
+using TheProjectGame.Network.Internal.Exception;
 
 namespace TheProjectGame.Network
 {
@@ -44,13 +45,27 @@ namespace TheProjectGame.Network
 
                 Listen();
             }
+            catch (SocketClosedException e)
+            {
+                socket.Close();
+            }
+            catch (ObjectDisposedException)
+            {
+                // ignored
+            }
+            catch (SocketException e)
+            {
+                if (e.ErrorCode != 10054 && e.ErrorCode != 10053)
+                {
+                    IConnectionData connData = connection;
+                    eventHandler.OnError(opened ? connData : new VoidConnectionData(), e);
+                }
+            }
             catch (Exception e)
-                when (!(e is ObjectDisposedException || (e is SocketException && ((SocketException)e).ErrorCode == 10054)))
             {
                 IConnectionData connData = connection;
                 eventHandler.OnError(opened ? connData : new VoidConnectionData(), e);
             }
-            catch (Exception) { } // ignored
             finally
             {
                 if (opened) eventHandler.OnClose(connection);

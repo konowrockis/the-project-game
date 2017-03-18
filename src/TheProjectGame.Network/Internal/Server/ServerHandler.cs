@@ -27,7 +27,7 @@ namespace TheProjectGame.Network.Internal.Server
             {
                 Work();
             }
-            catch (Exception e)
+            catch (System.Exception e)
             {
                 this.OnServerError(e);
             }

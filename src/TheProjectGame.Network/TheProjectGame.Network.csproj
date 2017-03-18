@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Exposed\INetworkHandler.cs" />
+    <Compile Include="Internal\Exception\SocketClosedException.cs" />
     <Compile Include="NetworkModule.cs" />
     <Compile Include="ServerNetworkModule.cs" />
     <Compile Include="ClientNetworkModule.cs" />
