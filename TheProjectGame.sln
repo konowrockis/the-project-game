@@ -21,6 +21,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{5F917850
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheProjectGame.Common.Tests", "test\TheProjectGame.Common.Tests\TheProjectGame.Common.Tests.csproj", "{B8C6182F-FD1F-430D-A34A-0EC58258A478}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheProjectGame.Settings", "src\TheProjectGame.Settings\TheProjectGame.Settings.csproj", "{0337F899-985C-4950-AFCE-C7B7CFA48311}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,10 @@ Global
 		{B8C6182F-FD1F-430D-A34A-0EC58258A478}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8C6182F-FD1F-430D-A34A-0EC58258A478}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B8C6182F-FD1F-430D-A34A-0EC58258A478}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0337F899-985C-4950-AFCE-C7B7CFA48311}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0337F899-985C-4950-AFCE-C7B7CFA48311}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0337F899-985C-4950-AFCE-C7B7CFA48311}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0337F899-985C-4950-AFCE-C7B7CFA48311}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -64,5 +70,6 @@ Global
 		{2DA9C8BB-5219-4579-9832-30138BC01A6C} = {D37CCD43-553C-41ED-85E3-A94BC6FDBE68}
 		{859953A6-2013-4E67-909A-9D7DF5A2CADA} = {D37CCD43-553C-41ED-85E3-A94BC6FDBE68}
 		{B8C6182F-FD1F-430D-A34A-0EC58258A478} = {5F917850-F82F-4563-94BF-9807E85B6CCF}
+		{0337F899-985C-4950-AFCE-C7B7CFA48311} = {D37CCD43-553C-41ED-85E3-A94BC6FDBE68}
 	EndGlobalSection
 EndGlobal
