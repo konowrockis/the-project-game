@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheProjectGame.Settings", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheProjectGame.Player", "src\TheProjectGame.Player\TheProjectGame.Player.csproj", "{1AF9BB34-4BC9-495E-91BC-28C08390988F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheProjectGame.Client", "src\TheProjectGame.Client\TheProjectGame.Client.csproj", "{552A6FE0-6B18-4499-94D1-4ADBC1303168}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,7 +63,10 @@ Global
 		{1AF9BB34-4BC9-495E-91BC-28C08390988F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1AF9BB34-4BC9-495E-91BC-28C08390988F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1AF9BB34-4BC9-495E-91BC-28C08390988F}.Release|Any CPU.Build.0 = Release|Any CPU
->>>>>>> Rename TheProjectGame.Client to TheProjectGame.Player
+		{552A6FE0-6B18-4499-94D1-4ADBC1303168}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{552A6FE0-6B18-4499-94D1-4ADBC1303168}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{552A6FE0-6B18-4499-94D1-4ADBC1303168}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{552A6FE0-6B18-4499-94D1-4ADBC1303168}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -72,5 +77,6 @@ Global
 		{859953A6-2013-4E67-909A-9D7DF5A2CADA} = {D37CCD43-553C-41ED-85E3-A94BC6FDBE68}
 		{B8C6182F-FD1F-430D-A34A-0EC58258A478} = {5F917850-F82F-4563-94BF-9807E85B6CCF}
 		{0337F899-985C-4950-AFCE-C7B7CFA48311} = {D37CCD43-553C-41ED-85E3-A94BC6FDBE68}
+		{552A6FE0-6B18-4499-94D1-4ADBC1303168} = {D37CCD43-553C-41ED-85E3-A94BC6FDBE68}
 	EndGlobalSection
 EndGlobal

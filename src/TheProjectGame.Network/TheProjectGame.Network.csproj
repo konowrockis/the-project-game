@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=4.4.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Autofac.4.4.0\lib\net45\Autofac.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -40,6 +44,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exposed\INetworkHandler.cs" />
+    <Compile Include="NetworkModule.cs" />
+    <Compile Include="ServerNetworkModule.cs" />
+    <Compile Include="ClientNetworkModule.cs" />
     <Compile Include="Internal\Contract\IMessageHandler.cs" />
     <Compile Include="Internal\Contract\IMessageReader.cs" />
     <Compile Include="Internal\Contract\IMessageWriter.cs" />
@@ -50,7 +58,6 @@
     <Compile Include="Internal\Connection.cs" />
     <Compile Include="Exposed\IConnectionData.cs" />
     <Compile Include="Exposed\IServerEventHandler.cs" />
-    <Compile Include="Exposed\Start.cs" />
     <Compile Include="Internal\Contract\IClientSocket.cs" />
     <Compile Include="Internal\Contract\IServerSocket.cs" />
     <Compile Include="Internal\VoidConnectionData.cs" />
@@ -61,6 +68,9 @@
     <Compile Include="Exposed\IConnection.cs" />
     <Compile Include="Exposed\IClientEventHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

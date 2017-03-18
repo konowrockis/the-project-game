@@ -4,17 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1AF9BB34-4BC9-495E-91BC-28C08390988F}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{552A6FE0-6B18-4499-94D1-4ADBC1303168}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TheProjectGame.Player</RootNamespace>
-    <AssemblyName>TheProjectGame.Player</AssemblyName>
+    <RootNamespace>TheProjectGame.Client</RootNamespace>
+    <AssemblyName>TheProjectGame.Client</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -47,23 +44,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PlayerEventHandler.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="ClientProgram.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\TheProjectGame.Client\TheProjectGame.Client.csproj">
-      <Project>{552A6FE0-6B18-4499-94D1-4ADBC1303168}</Project>
-      <Name>TheProjectGame.Client</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TheProjectGame.Network\TheProjectGame.Network.csproj">
-      <Project>{859953a6-2013-4e67-909a-9d7df5a2cada}</Project>
+    <ProjectReference Include="..\..\src\TheProjectGame.Network\TheProjectGame.Network.csproj">
+      <Project>{859953A6-2013-4E67-909A-9D7DF5A2CADA}</Project>
       <Name>TheProjectGame.Network</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

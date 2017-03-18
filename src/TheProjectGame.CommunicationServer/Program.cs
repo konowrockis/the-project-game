@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Autofac;
 using TheProjectGame.Network;
 
 namespace TheProjectGame.CommunicationServer
@@ -11,48 +7,18 @@ namespace TheProjectGame.CommunicationServer
     {
         static void Main(string[] args)
         {
-            Network.Start.Server(20000, new ServerEventHandler());
+            var container = ConfigureContainer();
+
+            container.Resolve<INetworkHandler>().Run();
         }
 
-        private class ServerEventHandler : IServerEventHandler
+        private static IContainer ConfigureContainer()
         {
-            public void OnMessage(IConnection connection, string message)
-            {
-                Console.WriteLine("Message from @{0}:{1} - {2}",connection.Address(),connection.Port(),message);
-                connection.Close();
-            }
+            ContainerBuilder builder = new ContainerBuilder();
 
-            public void OnOpen(IConnection connection)
-            {
-                Console.WriteLine("New connection @{0}:{1}",connection.Address(),connection.Port());
-                connection.Send("Ping",3000);
-            }
+            builder.RegisterModule(new ServerNetworkModule(new ServerEventHandler()));
 
-            public void OnClose(IConnectionData data)
-            {
-                Console.WriteLine("Connection closed @{0}:{1}", data.Address(),data.Port());
-            }
-
-            public void OnError(IConnectionData data, Exception exception)
-            {
-                Console.WriteLine("Client @{0}:{1} error {2}",data.Address(),data.Port(),exception);
-            }
-
-            public void OnServerStart()
-            {
-                Console.WriteLine("Server started");
-            }
-
-            public void OnServerError(Exception exception)
-            {
-                Console.WriteLine("Server error: {0}",exception.Message);
-            }
-
-            public void OnServerStop()
-            {
-                Console.WriteLine("Server stopped");
-            }
+            return builder.Build();
         }
-
     }
 }
