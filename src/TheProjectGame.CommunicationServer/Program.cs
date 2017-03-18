@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using TheProjectGame.Network;
+using TheProjectGame.Settings;
 
 namespace TheProjectGame.CommunicationServer
 {
@@ -16,7 +17,10 @@ namespace TheProjectGame.CommunicationServer
         {
             ContainerBuilder builder = new ContainerBuilder();
 
+            builder.RegisterModule(new SettingsModule());
             builder.RegisterModule(new ServerNetworkModule(new ServerEventHandler()));
+
+            builder.RegisterOptions<Settings.Options.NetworkOptions>();
 
             return builder.Build();
         }

@@ -30,8 +30,6 @@ namespace TheProjectGame.Network
             builder.RegisterInstance(eventHandler).As<IClientEventHandler>();
 
             builder.RegisterType<ClientHandler>().As<INetworkHandler>();
-
-            builder.RegisterInstance(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 20000)).As<IPEndPoint>();
         }
     }
 }

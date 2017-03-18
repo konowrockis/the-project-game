@@ -60,6 +60,15 @@
       <Project>{859953a6-2013-4e67-909a-9d7df5a2cada}</Project>
       <Name>TheProjectGame.Network</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TheProjectGame.Settings\TheProjectGame.Settings.csproj">
+      <Project>{0337F899-985C-4950-AFCE-C7B7CFA48311}</Project>
+      <Name>TheProjectGame.Settings</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="config.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

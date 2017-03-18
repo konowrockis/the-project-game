@@ -15,8 +15,6 @@ namespace TheProjectGame.Player
         static void Main(string[] args)
         {
             new Program().Start();
-
-            Console.ReadKey();
         }
 
         protected override IClientEventHandler GetClientEventHandler()

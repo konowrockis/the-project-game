@@ -2,6 +2,8 @@
 using System.Net;
 using System.Threading;
 using TheProjectGame.Network.Internal.Contract;
+using TheProjectGame.Settings;
+using TheProjectGame.Settings.Options;
 
 namespace TheProjectGame.Network.Internal.Server
 {
@@ -12,9 +14,12 @@ namespace TheProjectGame.Network.Internal.Server
         private readonly IMessageHandler messageHandler;
         private readonly ClientHandler.Factory clientHandlerFactory;
 
-        public ServerHandler(IServerSocket server, IServerEventHandler eventHandler, IMessageHandler messageHandler, ClientHandler.Factory clientHandlerFactory) : base(eventHandler)
+        public ServerHandler(IServerSocket server, IServerEventHandler eventHandler, 
+            IMessageHandler messageHandler, ClientHandler.Factory clientHandlerFactory,
+            IOptions<NetworkOptions> networkOptions) : base(eventHandler)
         {
-            this.port = 20000;
+            this.port = networkOptions.Value.Port;
+
             this.server = server;
             this.messageHandler = messageHandler;
             this.clientHandlerFactory = clientHandlerFactory;
@@ -43,7 +48,7 @@ namespace TheProjectGame.Network.Internal.Server
             {
                 IClientSocket client = server.Accept();
 
-                var clientHandler = clientHandlerFactory(null, client, this);
+                var clientHandler = clientHandlerFactory(client, this);
                 var clientThread = new Thread(() => clientHandler.Run());
 
                 clientThread.Start();

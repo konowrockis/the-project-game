@@ -12,8 +12,8 @@ namespace TheProjectGame.CommunicationServer
         public void OnMessage(IConnection connection, string message)
         {
             Console.WriteLine("Message from @{0}:{1} - {2}", connection.Address(), connection.Port(), message);
-            connection.Close();
-            //connection.Send("Ping", 1000);
+            //connection.Close();
+            connection.Send("Ping", 1000);
         }
 
         public void OnOpen(IConnection connection)

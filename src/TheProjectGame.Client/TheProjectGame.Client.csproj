@@ -52,6 +52,10 @@
       <Project>{859953A6-2013-4E67-909A-9D7DF5A2CADA}</Project>
       <Name>TheProjectGame.Network</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TheProjectGame.Settings\TheProjectGame.Settings.csproj">
+      <Project>{0337F899-985C-4950-AFCE-C7B7CFA48311}</Project>
+      <Name>TheProjectGame.Settings</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Autofac;
 using TheProjectGame.Network;
+using TheProjectGame.Settings;
 
 namespace TheProjectGame.Client
 {
@@ -23,8 +24,11 @@ namespace TheProjectGame.Client
         {
             ContainerBuilder builder = new ContainerBuilder();
 
+            builder.RegisterModule(new SettingsModule());
             builder.RegisterModule(new ClientNetworkModule(GetClientEventHandler()));
 
+            builder.RegisterOptions<Settings.Options.NetworkOptions>();
+            
             return builder.Build();
         }
     }

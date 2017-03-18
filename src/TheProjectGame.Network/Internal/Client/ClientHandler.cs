@@ -4,6 +4,8 @@ using System.Net.Sockets;
 using TheProjectGame.Network.Internal;
 using TheProjectGame.Network.Internal.Contract;
 using TheProjectGame.Network.Internal.Exception;
+using TheProjectGame.Settings;
+using TheProjectGame.Settings.Options;
 
 namespace TheProjectGame.Network
 {
@@ -15,9 +17,9 @@ namespace TheProjectGame.Network
         private readonly Action setup;
         private readonly IMessageReader messageReader;
 
-        public delegate ClientHandler Factory(IPEndPoint endPoint, IClientSocket socket, IClientEventHandler eventHandler);
+        public delegate ClientHandler Factory(IClientSocket socket, IClientEventHandler eventHandler);
 
-        public ClientHandler(IPEndPoint endPoint, IClientSocket socket, IClientEventHandler eventHandler, IMessageHandler messageHandler)
+        public ClientHandler(IOptions<NetworkOptions> networkOptions, IClientSocket socket, IClientEventHandler eventHandler, IMessageHandler messageHandler)
         {
             this.socket = socket;
             this.eventHandler = eventHandler;
@@ -26,8 +28,9 @@ namespace TheProjectGame.Network
 
             setup = () =>
             {
-                if (endPoint != null)
-                {
+                if (!socket.Connected)
+                { 
+                    var endPoint = new IPEndPoint(IPAddress.Parse(networkOptions.Value.Address), networkOptions.Value.Port);
                     socket.Connect(endPoint);
                 }
             };
@@ -45,7 +48,7 @@ namespace TheProjectGame.Network
 
                 Listen();
             }
-            catch (SocketClosedException e)
+            catch (SocketClosedException)
             {
                 socket.Close();
             }
