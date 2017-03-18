@@ -11,7 +11,7 @@ namespace TheProjectGame.CommunicationServer
     {
         static void Main(string[] args)
         {
-            Network.Start.Server(20000,new ServerEventHandler());
+            Network.Start.Server(20000, new ServerEventHandler());
         }
 
         private class ServerEventHandler : IServerEventHandler

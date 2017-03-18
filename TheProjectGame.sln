@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheProjectGame.Client", "src\TheProjectGame.Client\TheProjectGame.Client.csproj", "{1AF9BB34-4BC9-495E-91BC-28C08390988F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheProjectGame.GameMaster", "src\TheProjectGame.GameMaster\TheProjectGame.GameMaster.csproj", "{D94B8329-B008-4548-9285-CC34DFD7D53C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheProjectGame.CommunicationServer", "src\TheProjectGame.CommunicationServer\TheProjectGame.CommunicationServer.csproj", "{FF70C77E-4629-4E20-B9C2-DB1F142C99B9}"
@@ -23,16 +21,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheProjectGame.Common.Tests
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheProjectGame.Settings", "src\TheProjectGame.Settings\TheProjectGame.Settings.csproj", "{0337F899-985C-4950-AFCE-C7B7CFA48311}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheProjectGame.Player", "src\TheProjectGame.Player\TheProjectGame.Player.csproj", "{1AF9BB34-4BC9-495E-91BC-28C08390988F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1AF9BB34-4BC9-495E-91BC-28C08390988F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1AF9BB34-4BC9-495E-91BC-28C08390988F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1AF9BB34-4BC9-495E-91BC-28C08390988F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1AF9BB34-4BC9-495E-91BC-28C08390988F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D94B8329-B008-4548-9285-CC34DFD7D53C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D94B8329-B008-4548-9285-CC34DFD7D53C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D94B8329-B008-4548-9285-CC34DFD7D53C}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -61,6 +57,11 @@ Global
 		{0337F899-985C-4950-AFCE-C7B7CFA48311}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0337F899-985C-4950-AFCE-C7B7CFA48311}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0337F899-985C-4950-AFCE-C7B7CFA48311}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1AF9BB34-4BC9-495E-91BC-28C08390988F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AF9BB34-4BC9-495E-91BC-28C08390988F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AF9BB34-4BC9-495E-91BC-28C08390988F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AF9BB34-4BC9-495E-91BC-28C08390988F}.Release|Any CPU.Build.0 = Release|Any CPU
+>>>>>>> Rename TheProjectGame.Client to TheProjectGame.Player
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

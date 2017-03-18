@@ -12,7 +12,7 @@ namespace TheProjectGame.Client
     {
         static void Main(string[] args)
         {
-            Network.Start.Client(new IPEndPoint(IPAddress.Parse("127.0.0.1"),20000),new ClientEventHandler());
+            Network.Start.Client(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 20000), new ClientEventHandler());
         }
 
         private class ClientEventHandler : IClientEventHandler
