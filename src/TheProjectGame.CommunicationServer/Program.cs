@@ -16,7 +16,7 @@ namespace TheProjectGame.CommunicationServer
 
         private class ServerEventHandler : IServerEventHandler
         {
-            public void OnMessage(string message, IConnection connection)
+            public void OnMessage(IConnection connection, string message)
             {
                 Console.WriteLine("Message from @{0}:{1} - {2}",connection.Address(),connection.Port(),message);
                 connection.Close();
@@ -25,8 +25,7 @@ namespace TheProjectGame.CommunicationServer
             public void OnOpen(IConnection connection)
             {
                 Console.WriteLine("New connection @{0}:{1}",connection.Address(),connection.Port());
-                connection.Send("Ping",1000);
-                connection.Send("PingFaster", 200);
+                connection.Send("Ping",3000);
             }
 
             public void OnClose(IConnectionData data)

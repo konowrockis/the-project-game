@@ -8,7 +8,7 @@ namespace TheProjectGame.Network
 {
     public interface IClientEventHandler
     {
-        void OnMessage(string message, IConnection connection);
+        void OnMessage(IConnection connection, string message);
         void OnOpen(IConnection connection);
         void OnClose(IConnectionData data);
         void OnError(IConnectionData data, Exception exception);

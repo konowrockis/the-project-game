@@ -17,7 +17,7 @@ namespace TheProjectGame.Client
 
         private class ClientEventHandler : IClientEventHandler
         {
-            public void OnMessage(string message, IConnection connection)
+            public void OnMessage(IConnection connection, string message)
             {
                 Console.WriteLine("Received message: {0}",message);
                 connection.Send("Pong");

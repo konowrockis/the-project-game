@@ -40,15 +40,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Internal\ClientConnector.cs" />
+    <Compile Include="Internal\Contract\IMessageHandler.cs" />
+    <Compile Include="Internal\Contract\IMessageReader.cs" />
+    <Compile Include="Internal\Contract\IMessageWriter.cs" />
+    <Compile Include="Internal\Contract\IReader.cs" />
+    <Compile Include="Internal\Contract\IWriter.cs" />
+    <Compile Include="Internal\MessageHandler.cs" />
+    <Compile Include="Internal\Client\TcpClientSocket.cs" />
     <Compile Include="Internal\Connection.cs" />
     <Compile Include="Exposed\IConnectionData.cs" />
     <Compile Include="Exposed\IServerEventHandler.cs" />
     <Compile Include="Exposed\Start.cs" />
-    <Compile Include="Internal\NullConnectionData.cs" />
-    <Compile Include="Internal\ServerHandler.cs" />
-    <Compile Include="Internal\Utils.cs" />
-    <Compile Include="Internal\ClientHandler.cs" />
+    <Compile Include="Internal\Contract\IClientSocket.cs" />
+    <Compile Include="Internal\Contract\IServerSocket.cs" />
+    <Compile Include="Internal\VoidConnectionData.cs" />
+    <Compile Include="Internal\Server\SynchronousServerEventWrapper.cs" />
+    <Compile Include="Internal\Server\ServerHandler.cs" />
+    <Compile Include="Internal\Server\TcpServerSocket.cs" />
+    <Compile Include="Internal\Client\ClientHandler.cs" />
     <Compile Include="Exposed\IConnection.cs" />
     <Compile Include="Exposed\IClientEventHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
