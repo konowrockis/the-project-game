@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=4.4.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Autofac.4.4.0\lib\net45\Autofac.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="CommandLine, Version=1.9.71.2, Culture=neutral, PublicKeyToken=de6f01bd326f8c32, processorArchitecture=MSIL">
       <HintPath>..\..\packages\CommandLineParser.1.9.71\lib\net45\CommandLine.dll</HintPath>
       <Private>True</Private>
@@ -45,19 +49,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FromCommandLine\BaseParameters.cs" />
-    <Compile Include="FromCommandLine\CommunicationServerParameters.cs" />
-    <Compile Include="FromCommandLine\GameMasterParameters.cs" />
-    <Compile Include="FromCommandLine\PlayerParameters.cs" />
-    <Compile Include="FromFile\Classes\GameConfig.cs" />
-    <Compile Include="FromFile\Classes\ParametersDeserializer.cs" />
-    <Compile Include="FromFile\Classes\ParametersSerializer.cs" />
-    <Compile Include="FromFile\Classes\PlayerRetryConfig.cs" />
-    <Compile Include="FromFile\Classes\TechnicalConfig.cs" />
-    <Compile Include="FromFile\Interfaces\IParametersDeserializer.cs" />
-    <Compile Include="FromFile\Interfaces\IParametersSerializer.cs" />
-    <Compile Include="FromFile\Classes\TimeIntervalsConfig.cs" />
+    <Compile Include="OptionsParser.cs" />
+    <Compile Include="ConfigurationBuilderExtensions.cs" />
+    <Compile Include="IOptions.cs" />
+    <Compile Include="Options\ConfigLocation.cs" />
+    <Compile Include="Options\NetworkOptions.cs" />
+    <Compile Include="Options\PlayerOptions.cs" />
+    <Compile Include="Options\GameOptions.cs" />
+    <Compile Include="Options\DelaysOptions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SettingsModule.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

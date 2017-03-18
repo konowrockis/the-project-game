@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using TheProjectGame.Network.Internal.Contract;
+using TheProjectGame.Network.Internal.Exception;
 
 namespace TheProjectGame.Network.Internal
 {
@@ -22,7 +23,8 @@ namespace TheProjectGame.Network.Internal
         {
             MemoryStream buffer = new MemoryStream();
             byte[] b = new byte[1];
-            while (reader.Read(b, 0, 1) > 0)
+            int read = 0;
+            while ((read=reader.Read(b, 0, 1)) > 0)
             {
                 if (b[0] != ETB)
                 {
@@ -30,6 +32,7 @@ namespace TheProjectGame.Network.Internal
                 }
                 else break;
             }
+            if (read == 0) throw new SocketClosedException();
             return BytesToString(buffer.ToArray());
         }
 

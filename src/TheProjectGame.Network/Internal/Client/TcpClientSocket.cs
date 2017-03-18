@@ -16,15 +16,13 @@ namespace TheProjectGame.Network.Internal.Client
 
         public bool Connected => socket != null && socket.Connected;
 
+        public TcpClientSocket()
+        { }
+
         public TcpClientSocket(Socket socket)
         {
             this.socket = socket;
             this.endPoint = socket.RemoteEndPoint as IPEndPoint;
-        }
-
-        public TcpClientSocket()
-        {
-
         }
 
         public IPAddress Address()

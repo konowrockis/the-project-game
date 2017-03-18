@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("TheProjectGame.Client")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("17-PL-12")]
 [assembly: AssemblyProduct("TheProjectGame.Client")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("552a6fe0-6b18-4499-94d1-4adbc1303168")]
+[assembly: Guid("1af9bb34-4bc9-495e-91bc-28c08390988f")]
 
 // Version information for an assembly consists of the following four values:
 //

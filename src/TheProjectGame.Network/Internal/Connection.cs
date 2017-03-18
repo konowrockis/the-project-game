@@ -20,7 +20,11 @@ namespace TheProjectGame.Network.Internal
         {
             Task.Delay(TimeSpan.FromMilliseconds(delayMillis)).ContinueWith((t) =>
             {
-                messageHandler.Send(socket, message);
+                try
+                {
+                    messageHandler.Send(socket, message);
+                }
+                catch { }
             });
         }
 
