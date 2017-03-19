@@ -49,6 +49,7 @@
     <Compile Include="IMessageExecutor.cs" />
     <Compile Include="IMessageHandler.cs" />
     <Compile Include="IMessageHandlerResolver.cs" />
+    <Compile Include="MessageProxy.cs" />
     <Compile Include="MessageStream.cs" />
     <Compile Include="IMessageParser.cs" />
     <Compile Include="MessagesParser.cs" />

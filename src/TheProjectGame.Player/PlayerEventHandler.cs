@@ -12,24 +12,26 @@ namespace TheProjectGame.Player
 {
     class PlayerEventHandler : IClientEventHandler
     {
-        private readonly MessageStream.Factory messageStreamFactory;
+        private readonly IMessageReader messageReader;
         private readonly IMessageExecutor messageExecutor;
+        private readonly IMessageProxyCreator proxyCreator;
 
-        public PlayerEventHandler(MessageStream.Factory messageStreamFactory, IMessageExecutor messageExecutor)
+        public PlayerEventHandler(IMessageReader messageReader, IMessageProxyCreator proxyCreator, IMessageExecutor messageExecutor)
         {
-            this.messageStreamFactory = messageStreamFactory;
+            this.messageReader = messageReader;
+            this.proxyCreator = proxyCreator;
             this.messageExecutor = messageExecutor;
         }
-        
+
         public void OnOpen(IConnection connection, Stream stream)
         {
             Console.WriteLine("Connected");
 
-            MessageStream messages = messageStreamFactory(stream);
+            proxyCreator.SetStream(stream);
 
             while (true)
             {
-                var message = messages.Read();
+                var message = messageReader.Read();
 
                 messageExecutor.Execute(message);
             }

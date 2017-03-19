@@ -46,17 +46,10 @@ namespace TheProjectGame.Messaging
             return null;
         }
 
-        public void Write(IMessage message, double delayMillis = 0)
+        public void Write(IMessage message)
         {
-            Task.Delay(TimeSpan.FromMilliseconds(delayMillis)).ContinueWith((t) =>
-            {
-                try
-                {
-                    messageParser.Write(stream, message);
-                    stream.WriteByte(ETB);
-                }
-                catch { }
-            });
+            messageParser.Write(stream, message);
+            stream.WriteByte(ETB);
         }
     }
 }

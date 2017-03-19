@@ -14,22 +14,27 @@ namespace TheProjectGame.CommunicationServer
 {
     class ServerEventHandler : IServerEventHandler
     {
-        private readonly MessageStream.Factory messageStreamFactory;
+        private readonly IMessageReader messageReader;
+        private readonly IMessageWriter messageWriter;
+        private readonly IMessageProxyCreator proxyCreator;
 
-        public ServerEventHandler(MessageStream.Factory messageStreamFactory)
+        public ServerEventHandler(IMessageReader messageReader, IMessageWriter messageWriter, IMessageProxyCreator proxyCreator)
         {
-            this.messageStreamFactory = messageStreamFactory;
+            this.messageReader = messageReader;
+            this.messageWriter = messageWriter;
+            this.proxyCreator = proxyCreator;
         }
 
         public void OnOpen(IConnection connection, Stream stream)
         {
             Console.WriteLine("New connection @{0}:{1}", connection.Address(), connection.Port());
 
-            MessageStream messages = messageStreamFactory(stream);
-
+            proxyCreator.SetStream(stream);
+            
             while (true)
             {
-                messages.Write(new GetGames(), 1000);
+                messageWriter.Write(new GetGames(), 1000);
+                messageReader.Read();
             }
         }
 
