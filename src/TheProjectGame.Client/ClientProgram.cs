@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autofac;
+﻿using Autofac;
+using TheProjectGame.Messaging;
 using TheProjectGame.Network;
 using TheProjectGame.Settings;
 
 namespace TheProjectGame.Client
 {
-    public abstract class ClientProgram
+    public abstract class ClientProgram<T> where T: IClientEventHandler
     {
         protected void Start()
         {
@@ -18,14 +14,13 @@ namespace TheProjectGame.Client
             container.Resolve<INetworkHandler>().Run();
         }
 
-        protected abstract IClientEventHandler GetClientEventHandler();
-
         private IContainer ConfigureContainer()
         {
             ContainerBuilder builder = new ContainerBuilder();
 
             builder.RegisterModule(new SettingsModule());
-            builder.RegisterModule(new ClientNetworkModule(GetClientEventHandler()));
+            builder.RegisterModule(new ClientNetworkModule(typeof(T)));
+            builder.RegisterModule(new MessagingModule());
 
             builder.RegisterOptions<Settings.Options.NetworkOptions>();
             

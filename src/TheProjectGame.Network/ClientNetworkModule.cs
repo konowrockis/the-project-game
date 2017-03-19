@@ -14,9 +14,9 @@ namespace TheProjectGame.Network
 {
     public class ClientNetworkModule : NetworkModule
     {
-        private readonly IClientEventHandler eventHandler;
+        private readonly Type eventHandler;
 
-        public ClientNetworkModule(IClientEventHandler eventHandler)
+        public ClientNetworkModule(Type eventHandler)
         {
             this.eventHandler = eventHandler;
         }
@@ -27,7 +27,7 @@ namespace TheProjectGame.Network
 
             builder.RegisterType<TcpClientSocket>().As<IClientSocket>().SingleInstance();
 
-            builder.RegisterInstance(eventHandler).As<IClientEventHandler>();
+            builder.RegisterType(eventHandler).As<IClientEventHandler>().SingleInstance();
 
             builder.RegisterType<ClientHandler>().As<INetworkHandler>();
         }
