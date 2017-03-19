@@ -13,10 +13,12 @@ namespace TheProjectGame.Player
     class PlayerEventHandler : IClientEventHandler
     {
         private readonly MessageStream.Factory messageStreamFactory;
+        private readonly IMessageExecutor messageExecutor;
 
-        public PlayerEventHandler(MessageStream.Factory messageStreamFactory)
+        public PlayerEventHandler(MessageStream.Factory messageStreamFactory, IMessageExecutor messageExecutor)
         {
             this.messageStreamFactory = messageStreamFactory;
+            this.messageExecutor = messageExecutor;
         }
         
         public void OnOpen(IConnection connection, Stream stream)
@@ -27,11 +29,9 @@ namespace TheProjectGame.Player
 
             while (true)
             {
-                Console.WriteLine("Message received.");
-                var msg = messages.Read();
+                var message = messages.Read();
 
-                Console.WriteLine("Sending GetGames message.");
-                messages.Write(new GetGames());
+                messageExecutor.Execute(message);
             }
         }
 

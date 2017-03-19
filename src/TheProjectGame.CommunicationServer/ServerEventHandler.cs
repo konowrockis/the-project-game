@@ -29,11 +29,7 @@ namespace TheProjectGame.CommunicationServer
 
             while (true)
             {
-                Console.WriteLine("Sending GetGames message.");
                 messages.Write(new GetGames(), 1000);
-
-                var msg = messages.Read();
-                Console.WriteLine("Message received.");
             }
         }
 

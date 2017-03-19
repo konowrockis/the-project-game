@@ -44,6 +44,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutofacMessageHandlerResolver.cs" />
+    <Compile Include="DefaultMessageExecutor.cs" />
+    <Compile Include="IMessageExecutor.cs" />
+    <Compile Include="IMessageHandler.cs" />
+    <Compile Include="IMessageHandlerResolver.cs" />
     <Compile Include="MessageStream.cs" />
     <Compile Include="IMessageParser.cs" />
     <Compile Include="MessagesParser.cs" />
