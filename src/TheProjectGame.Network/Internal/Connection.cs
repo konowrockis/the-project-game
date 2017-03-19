@@ -8,24 +8,10 @@ namespace TheProjectGame.Network.Internal
     internal class Connection : IConnection
     {
         private IClientSocket socket;
-        private IMessageWriter messageHandler;
 
-        public Connection(IClientSocket socket, IMessageWriter messageHandler)
+        public Connection(IClientSocket socket)
         {
             this.socket = socket;
-            this.messageHandler = messageHandler;
-        }
-
-        public void Send(string message, long delayMillis = 0)
-        {
-            Task.Delay(TimeSpan.FromMilliseconds(delayMillis)).ContinueWith((t) =>
-            {
-                try
-                {
-                    messageHandler.Send(socket, message);
-                }
-                catch { }
-            });
         }
 
         public void Close()

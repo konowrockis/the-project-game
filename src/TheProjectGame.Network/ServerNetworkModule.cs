@@ -13,9 +13,9 @@ namespace TheProjectGame.Network
 {
     public class ServerNetworkModule : NetworkModule
     {
-        private IServerEventHandler eventHandler;
+        private Type eventHandler;
 
-        public ServerNetworkModule(IServerEventHandler eventHandler)
+        public ServerNetworkModule(Type eventHandler)
         {
             this.eventHandler = eventHandler;
         }
@@ -26,7 +26,7 @@ namespace TheProjectGame.Network
 
             builder.RegisterType<TcpServerSocket>().As<IServerSocket>().SingleInstance();
 
-            builder.RegisterInstance(eventHandler).As<IServerEventHandler>();
+            builder.RegisterType(eventHandler).As<IServerEventHandler>().SingleInstance();
 
             builder.RegisterType<ServerHandler>().As<INetworkHandler>();
 

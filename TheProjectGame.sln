@@ -25,6 +25,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheProjectGame.Player", "sr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheProjectGame.Client", "src\TheProjectGame.Client\TheProjectGame.Client.csproj", "{552A6FE0-6B18-4499-94D1-4ADBC1303168}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheProjectGame.Messaging", "src\TheProjectGame.Messaging\TheProjectGame.Messaging.csproj", "{EDA1F6BB-A74B-4678-B070-89B3FCCA10E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheProjectGame.Messaging.Tests", "test\TheProjectGame.Messaging.Tests\TheProjectGame.Messaging.Tests.csproj", "{8C9064A6-AB90-463B-9D9C-A8D7D539070A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +71,14 @@ Global
 		{552A6FE0-6B18-4499-94D1-4ADBC1303168}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{552A6FE0-6B18-4499-94D1-4ADBC1303168}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{552A6FE0-6B18-4499-94D1-4ADBC1303168}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDA1F6BB-A74B-4678-B070-89B3FCCA10E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDA1F6BB-A74B-4678-B070-89B3FCCA10E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDA1F6BB-A74B-4678-B070-89B3FCCA10E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDA1F6BB-A74B-4678-B070-89B3FCCA10E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C9064A6-AB90-463B-9D9C-A8D7D539070A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C9064A6-AB90-463B-9D9C-A8D7D539070A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C9064A6-AB90-463B-9D9C-A8D7D539070A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C9064A6-AB90-463B-9D9C-A8D7D539070A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -78,5 +90,7 @@ Global
 		{B8C6182F-FD1F-430D-A34A-0EC58258A478} = {5F917850-F82F-4563-94BF-9807E85B6CCF}
 		{0337F899-985C-4950-AFCE-C7B7CFA48311} = {D37CCD43-553C-41ED-85E3-A94BC6FDBE68}
 		{552A6FE0-6B18-4499-94D1-4ADBC1303168} = {D37CCD43-553C-41ED-85E3-A94BC6FDBE68}
+		{EDA1F6BB-A74B-4678-B070-89B3FCCA10E0} = {D37CCD43-553C-41ED-85E3-A94BC6FDBE68}
+		{8C9064A6-AB90-463B-9D9C-A8D7D539070A} = {5F917850-F82F-4563-94BF-9807E85B6CCF}
 	EndGlobalSection
 EndGlobal

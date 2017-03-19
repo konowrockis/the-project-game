@@ -43,11 +43,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameMasterEventHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TheProjectGame.Client\TheProjectGame.Client.csproj">
+      <Project>{552A6FE0-6B18-4499-94D1-4ADBC1303168}</Project>
+      <Name>TheProjectGame.Client</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TheProjectGame.Network\TheProjectGame.Network.csproj">
+      <Project>{859953A6-2013-4E67-909A-9D7DF5A2CADA}</Project>
+      <Name>TheProjectGame.Network</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

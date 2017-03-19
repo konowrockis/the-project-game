@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 
 namespace TheProjectGame.Network.Internal.Server
 {
@@ -33,19 +29,11 @@ namespace TheProjectGame.Network.Internal.Server
             }
         }
 
-        public virtual void OnMessage(IConnection connection, string message)
+        public virtual void OnOpen(IConnection connection, Stream stream)
         {
             lock (mutex)
             {
-                serverEventHandler.OnMessage(connection, message);
-            }
-        }
-
-        public virtual void OnOpen(IConnection connection)
-        {
-            lock (mutex)
-            {
-                serverEventHandler.OnOpen(connection);
+                serverEventHandler.OnOpen(connection, stream);
             }
         }
 

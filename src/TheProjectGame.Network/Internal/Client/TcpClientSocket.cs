@@ -1,27 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 using TheProjectGame.Network.Internal.Contract;
 
 namespace TheProjectGame.Network.Internal.Client
 {
     internal class TcpClientSocket : IClientSocket
     {
-        private Socket socket;
+        public Socket RawSocket { get; private set; }
         private IPEndPoint endPoint;
 
-        public bool Connected => socket != null && socket.Connected;
+        public bool Connected => RawSocket != null && RawSocket.Connected;
 
         public TcpClientSocket()
         { }
 
         public TcpClientSocket(Socket socket)
         {
-            this.socket = socket;
+            RawSocket = socket;
             this.endPoint = socket.RemoteEndPoint as IPEndPoint;
         }
 
@@ -32,30 +34,20 @@ namespace TheProjectGame.Network.Internal.Client
 
         public void Close()
         {
-            this.socket.Close();
+            this.RawSocket.Close();
         }
 
         public void Connect(IPEndPoint endPoint)
         {
-            this.socket = new Socket(AddressFamily.InterNetwork,
-                SocketType.Stream, ProtocolType.Tcp);
-            this.socket.Connect(endPoint);
+            RawSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            RawSocket.Connect(endPoint);
+
             this.endPoint = endPoint;
         }
 
         public int Port()
         {
             return this.endPoint.Port;
-        }
-
-        public int Read(byte[] bytes, int offset, int length)
-        {
-            return this.socket.Receive(bytes, offset, length, SocketFlags.None);
-        }
-
-        public int Write(byte[] bytes, int offset, int length)
-        {
-            return this.socket.Send(bytes, offset, length, SocketFlags.None);
         }
     }
 }

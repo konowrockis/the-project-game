@@ -1,23 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheProjectGame.Contracts.Messages.GameActions;
+using TheProjectGame.Messaging;
 using TheProjectGame.Network;
 
 namespace TheProjectGame.Player
 {
     class PlayerEventHandler : IClientEventHandler
     {
-        public void OnMessage(IConnection connection, string message)
+        private readonly IMessageReader messageReader;
+        private readonly IMessageExecutor messageExecutor;
+        private readonly IMessageProxyCreator proxyCreator;
+
+        public PlayerEventHandler(IMessageReader messageReader, IMessageProxyCreator proxyCreator, IMessageExecutor messageExecutor)
         {
-            Console.WriteLine("Received message: {0}", message);
-            connection.Send("Pong");
+            this.messageReader = messageReader;
+            this.proxyCreator = proxyCreator;
+            this.messageExecutor = messageExecutor;
         }
 
-        public void OnOpen(IConnection connection)
+        public void OnOpen(IConnection connection, Stream stream)
         {
             Console.WriteLine("Connected");
+
+            proxyCreator.SetStream(stream);
+
+            while (true)
+            {
+                var message = messageReader.Read();
+
+                messageExecutor.Execute(message);
+            }
         }
 
         public void OnClose(IConnectionData data)

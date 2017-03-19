@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using TheProjectGame.Network.Internal;
@@ -15,16 +16,14 @@ namespace TheProjectGame.Network
         private readonly IClientEventHandler eventHandler;
         private readonly IConnection connection;
         private readonly Action setup;
-        private readonly IMessageReader messageReader;
 
         public delegate ClientHandler Factory(IClientSocket socket, IClientEventHandler eventHandler);
 
-        public ClientHandler(IOptions<NetworkOptions> networkOptions, IClientSocket socket, IClientEventHandler eventHandler, IMessageHandler messageHandler)
+        public ClientHandler(IOptions<NetworkOptions> networkOptions, IClientSocket socket, IClientEventHandler eventHandler)
         {
             this.socket = socket;
             this.eventHandler = eventHandler;
-            this.connection = new Connection(socket, messageHandler);
-            this.messageReader = messageHandler;
+            this.connection = new Connection(socket);
 
             setup = () =>
             {
@@ -44,9 +43,7 @@ namespace TheProjectGame.Network
                 setup();
                 opened = true;
 
-                eventHandler.OnOpen(connection);
-
-                Listen();
+                eventHandler.OnOpen(connection, new NetworkStream(socket.RawSocket));
             }
             catch (SocketClosedException)
             {
@@ -64,6 +61,10 @@ namespace TheProjectGame.Network
                     eventHandler.OnError(opened ? connData : new VoidConnectionData(), e);
                 }
             }
+            catch (IOException)
+            {
+                // ignored
+            }
             catch (Exception e)
             {
                 IConnectionData connData = connection;
@@ -72,15 +73,6 @@ namespace TheProjectGame.Network
             finally
             {
                 if (opened) eventHandler.OnClose(connection);
-            }
-        }
-
-        private void Listen()
-        {
-            while (true)
-            {
-                string msg = messageReader.Read(socket);
-                eventHandler.OnMessage(connection, msg);
             }
         }
     }

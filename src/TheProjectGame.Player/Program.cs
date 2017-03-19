@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Autofac;
@@ -10,16 +11,18 @@ using TheProjectGame.Network;
 
 namespace TheProjectGame.Player
 {
-    class Program : ClientProgram
+    class Program : ClientProgram<PlayerEventHandler>
     {
+        protected override Assembly[] messageHandlersAssemblies => new Assembly[]
+        {
+            typeof(ClientProgram<>).Assembly
+        };
+
         static void Main(string[] args)
         {
             new Program().Start();
-        }
 
-        protected override IClientEventHandler GetClientEventHandler()
-        {
-            return new PlayerEventHandler();
+            Console.ReadKey();
         }
     }
 }

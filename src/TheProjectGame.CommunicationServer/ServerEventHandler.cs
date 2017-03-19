@@ -1,25 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Xml;
+using TheProjectGame.Contracts.Messages.GameActions;
+using TheProjectGame.Messaging;
 using TheProjectGame.Network;
 
 namespace TheProjectGame.CommunicationServer
 {
     class ServerEventHandler : IServerEventHandler
     {
-        public void OnMessage(IConnection connection, string message)
+        private readonly IMessageReader messageReader;
+        private readonly IMessageWriter messageWriter;
+        private readonly IMessageProxyCreator proxyCreator;
+
+        public ServerEventHandler(IMessageReader messageReader, IMessageWriter messageWriter, IMessageProxyCreator proxyCreator)
         {
-            Console.WriteLine("Message from @{0}:{1} - {2}", connection.Address(), connection.Port(), message);
-            //connection.Close();
-            connection.Send("Ping", 1000);
+            this.messageReader = messageReader;
+            this.messageWriter = messageWriter;
+            this.proxyCreator = proxyCreator;
         }
 
-        public void OnOpen(IConnection connection)
+        public void OnOpen(IConnection connection, Stream stream)
         {
             Console.WriteLine("New connection @{0}:{1}", connection.Address(), connection.Port());
-            connection.Send("Ping", 3000);
+
+            proxyCreator.SetStream(stream);
+            
+            while (true)
+            {
+                messageWriter.Write(new GetGames(), 1000);
+                messageReader.Read();
+            }
         }
 
         public void OnClose(IConnectionData data)

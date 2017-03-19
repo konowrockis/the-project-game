@@ -45,12 +45,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClientProgram.cs" />
+    <Compile Include="MessageHandlers\ReplyMessageHandler.cs" />
+    <Compile Include="MessageHandlers\LogMessageHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\TheProjectGame.Network\TheProjectGame.Network.csproj">
       <Project>{859953A6-2013-4E67-909A-9D7DF5A2CADA}</Project>
       <Name>TheProjectGame.Network</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TheProjectGame.Contracts\TheProjectGame.Contracts.csproj">
+      <Project>{F91C87F2-0417-4882-8312-C2F8CA3590CF}</Project>
+      <Name>TheProjectGame.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TheProjectGame.Messaging\TheProjectGame.Messaging.csproj">
+      <Project>{EDA1F6BB-A74B-4678-B070-89B3FCCA10E0}</Project>
+      <Name>TheProjectGame.Messaging</Name>
     </ProjectReference>
     <ProjectReference Include="..\TheProjectGame.Settings\TheProjectGame.Settings.csproj">
       <Project>{0337F899-985C-4950-AFCE-C7B7CFA48311}</Project>
