@@ -10,16 +10,13 @@ using TheProjectGame.Network;
 
 namespace TheProjectGame.Player
 {
-    class Program : ClientProgram
+    class Program : ClientProgram<PlayerEventHandler>
     {
         static void Main(string[] args)
         {
             new Program().Start();
-        }
 
-        protected override IClientEventHandler GetClientEventHandler()
-        {
-            return new PlayerEventHandler();
+            Console.ReadKey();
         }
     }
 }
