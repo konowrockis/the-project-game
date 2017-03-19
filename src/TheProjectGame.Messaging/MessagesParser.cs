@@ -13,7 +13,7 @@ using TheProjectGame.Contracts.Messages.PlayerActions;
 
 namespace TheProjectGame.Messaging
 {
-    public class MessagesParser
+    public class MessagesParser : IMessageParser
     {
         private readonly Dictionary<string, XmlSerializer> messageSerializers;
 
@@ -56,21 +56,16 @@ namespace TheProjectGame.Messaging
             messageSerializers[t.Name] = new XmlSerializer(t);
         }
 
-        public IMessage Parse(Stream message)
+        public IMessage Parse(string messageName, XmlReader reader)
         {
-            var messageName = getMessageName(message);
-
-            return messageSerializers[messageName].Deserialize(message) as IMessage;
+            return messageSerializers[messageName].Deserialize(reader) as IMessage;
         }
 
-        private string getMessageName(Stream message)
+        public void Write(Stream stream, IMessage message)
         {
-            XmlDocument document = new XmlDocument();
-            document.Load(message);
+            var t = message.GetType();
 
-            message.Position = 0;
-
-            return document.DocumentElement.Name;
+            messageSerializers[t.Name].Serialize(stream, message);
         }
     }
 }
