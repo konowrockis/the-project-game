@@ -11,17 +11,14 @@ namespace TheProjectGame.Network.Internal.Server
     {
         private readonly IServerSocket server;
         private readonly int port;
-        private readonly IMessageHandler messageHandler;
         private readonly ClientHandler.Factory clientHandlerFactory;
 
         public ServerHandler(IServerSocket server, IServerEventHandler eventHandler, 
-            IMessageHandler messageHandler, ClientHandler.Factory clientHandlerFactory,
-            IOptions<NetworkOptions> networkOptions) : base(eventHandler)
+            ClientHandler.Factory clientHandlerFactory, IOptions<NetworkOptions> networkOptions) : base(eventHandler)
         {
             this.port = networkOptions.Value.Port;
 
             this.server = server;
-            this.messageHandler = messageHandler;
             this.clientHandlerFactory = clientHandlerFactory;
         }
 

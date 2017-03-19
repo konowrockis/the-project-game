@@ -49,12 +49,6 @@
     <Compile Include="NetworkModule.cs" />
     <Compile Include="ServerNetworkModule.cs" />
     <Compile Include="ClientNetworkModule.cs" />
-    <Compile Include="Internal\Contract\IMessageHandler.cs" />
-    <Compile Include="Internal\Contract\IMessageReader.cs" />
-    <Compile Include="Internal\Contract\IMessageWriter.cs" />
-    <Compile Include="Internal\Contract\IReader.cs" />
-    <Compile Include="Internal\Contract\IWriter.cs" />
-    <Compile Include="Internal\MessageHandler.cs" />
     <Compile Include="Internal\Client\TcpClientSocket.cs" />
     <Compile Include="Internal\Connection.cs" />
     <Compile Include="Exposed\IConnectionData.cs" />
