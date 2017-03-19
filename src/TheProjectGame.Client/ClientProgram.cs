@@ -33,7 +33,7 @@ namespace TheProjectGame.Client
 
             builder.RegisterOptions<Settings.Options.NetworkOptions>();
 
-            builder.RegisterAssemblyTypes(messageHandlersAssemblies).AsClosedTypesOf(typeof(IMessageHandler<>));
+            builder.RegisterAssemblyTypes(messageHandlersAssemblies).AsClosedTypesOf(typeof(IMessageHandler<>)).InstancePerLifetimeScope();
 
             return builder.Build();
         }

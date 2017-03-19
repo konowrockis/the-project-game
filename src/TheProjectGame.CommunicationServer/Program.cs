@@ -27,7 +27,7 @@ namespace TheProjectGame.CommunicationServer
 
             builder.RegisterOptions<Settings.Options.NetworkOptions>();
 
-            builder.RegisterAssemblyTypes(typeof(Program).Assembly).AsClosedTypesOf(typeof(IMessageHandler<>));
+            builder.RegisterAssemblyTypes(typeof(Program).Assembly).AsClosedTypesOf(typeof(IMessageHandler<>)).InstancePerLifetimeScope();
 
             return builder.Build();
         }

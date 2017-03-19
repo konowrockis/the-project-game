@@ -25,11 +25,11 @@ namespace TheProjectGame.Network
         {
             base.Load(builder);
 
-            builder.RegisterType<TcpClientSocket>().As<IClientSocket>().SingleInstance();
+            builder.RegisterType<TcpClientSocket>().As<IClientSocket>().InstancePerLifetimeScope();
 
-            builder.RegisterType(eventHandler).As<IClientEventHandler>().SingleInstance();
+            builder.RegisterType(eventHandler).As<IClientEventHandler>().InstancePerLifetimeScope();
 
-            builder.RegisterType<ClientHandler>().As<INetworkHandler>();
+            builder.RegisterType<ClientHandler>().As<INetworkHandler>().InstancePerLifetimeScope();
         }
     }
 }

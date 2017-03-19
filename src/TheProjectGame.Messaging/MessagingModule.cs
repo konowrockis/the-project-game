@@ -9,8 +9,10 @@ namespace TheProjectGame.Messaging
             builder.RegisterType<MessagesParser>().As<IMessageParser>().SingleInstance();
             builder.RegisterType<MessageStream>();
 
-            builder.RegisterType<DefaultMessageExecutor>().As<IMessageExecutor>().SingleInstance();
+            builder.RegisterType<DefaultMessageExecutor>().As<IMessageExecutor>();
             builder.RegisterType<AutofacMessageHandlerResolver>().As<IMessageHandlerResolver>().SingleInstance();
+
+            builder.RegisterType<MessageProxy>().AsImplementedInterfaces().InstancePerLifetimeScope();
         }
     }
 }
