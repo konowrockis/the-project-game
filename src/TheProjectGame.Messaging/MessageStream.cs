@@ -8,6 +8,8 @@ namespace TheProjectGame.Messaging
 {
     public class MessageStream
     {
+        private const byte ETB = 0x17;
+
         private readonly Stream stream;
         private readonly XmlDocument document;
         private readonly IMessageParser messageParser;
@@ -31,7 +33,11 @@ namespace TheProjectGame.Messaging
                 {
                     var message = messageParser.Parse(reader.Name, reader.ReadSubtree());
 
-                    stream.ReadByte();
+                    var etb = stream.ReadByte();
+                    if (ETB != etb)
+                    {
+                        // TODO: Exception?
+                    }
 
                     return message;
                 }
@@ -47,7 +53,7 @@ namespace TheProjectGame.Messaging
                 try
                 {
                     messageParser.Write(stream, message);
-                    stream.WriteByte(0x17);
+                    stream.WriteByte(ETB);
                 }
                 catch { }
             });
