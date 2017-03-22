@@ -24,10 +24,11 @@ namespace TheProjectGame.CommunicationServer
             builder.RegisterModule(new SettingsModule());
             builder.RegisterModule(new ServerNetworkModule(typeof(ServerEventHandler)));
             builder.RegisterModule(new MessagingModule());
+            builder.RegisterModule(new CommunicationServerModule());
 
             builder.RegisterOptions<Settings.Options.NetworkOptions>();
 
-            builder.RegisterAssemblyTypes(typeof(Program).Assembly).AsClosedTypesOf(typeof(IMessageHandler<>)).InstancePerLifetimeScope();
+            builder.RegisterAssemblyTypes(typeof(Program).Assembly).AsClosedTypesOf(typeof(IMessageHandler<>)).InstancePerDependency();
 
             return builder.Build();
         }

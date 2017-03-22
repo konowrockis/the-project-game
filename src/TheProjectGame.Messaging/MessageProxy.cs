@@ -15,7 +15,7 @@ namespace TheProjectGame.Messaging
 
     public interface IMessageWriter
     {
-        void Write(IMessage message, double delayMiliseconds = 0);
+        Task Write(IMessage message, double delayMiliseconds = 0);
     }
 
     public interface IMessageProxyCreator
@@ -41,9 +41,9 @@ namespace TheProjectGame.Messaging
 
         public IMessage Read() => messageStream.Read();
 
-        public void Write(IMessage message, double delayMiliseconds)
+        public async Task Write(IMessage message, double delayMiliseconds)
         {
-            Task.Delay(TimeSpan.FromMilliseconds(delayMiliseconds)).ContinueWith((t) =>
+            await Task.Delay(TimeSpan.FromMilliseconds(delayMiliseconds)).ContinueWith((t) =>
             {
                 try
                 {

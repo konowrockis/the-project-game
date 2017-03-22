@@ -8,32 +8,31 @@ using TheProjectGame.Settings.Options;
 
 namespace TheProjectGame.Network.Internal.Server
 {
-    internal class ServerHandler : SynchronousServerEventWrapper, INetworkHandler
+    internal class ServerHandler : INetworkHandler
     {
         private readonly IServerSocket server;
         private readonly int port;
-        private readonly ILifetimeScope currentScope;
+        private readonly ClientHandler.Factory clientHandlerFactory;
 
-        public ServerHandler(IServerSocket server, IServerEventHandler eventHandler, 
-            ILifetimeScope currentScope, IOptions<NetworkOptions> networkOptions) : base(eventHandler)
+        public ServerHandler(IServerSocket server, ClientHandler.Factory clientHandlerFactory, IOptions<NetworkOptions> networkOptions)
         {
             this.port = networkOptions.Value.Port;
             this.server = server;
-            this.currentScope = currentScope;
+            this.clientHandlerFactory = clientHandlerFactory;
         }
 
         public void Run()
         {
-            this.OnServerStart();
+            Console.WriteLine("Server started");
             try
             {
                 Work();
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
-                this.OnServerError(e);
+                Console.WriteLine("Server error: {0}", e.Message);
             }
-            this.OnServerStop();
+            Console.WriteLine("Server stopped");
         }
 
         private void Work()
@@ -47,13 +46,7 @@ namespace TheProjectGame.Network.Internal.Server
 
                 var clientThread = new Thread(() => 
                 {
-                    using (var scope = currentScope.BeginLifetimeScope())
-                    {
-                        var clientHandlerFactory = scope.Resolve<ClientHandler.Factory>();
-                        var clientHandler = clientHandlerFactory(client, this);
-
-                        clientHandler.Run();
-                    }
+                    clientHandlerFactory(client).Run();
                 });
 
                 clientThread.Start();

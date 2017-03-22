@@ -45,19 +45,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Exposed\INetworkHandler.cs" />
-    <Compile Include="Internal\Exception\SocketClosedException.cs" />
+    <Compile Include="Internal\Exceptions\SocketClosedException.cs" />
+    <Compile Include="Internal\Server\ServerHandler.cs" />
     <Compile Include="NetworkModule.cs" />
     <Compile Include="ServerNetworkModule.cs" />
     <Compile Include="ClientNetworkModule.cs" />
     <Compile Include="Internal\Client\TcpClientSocket.cs" />
     <Compile Include="Internal\Connection.cs" />
     <Compile Include="Exposed\IConnectionData.cs" />
-    <Compile Include="Exposed\IServerEventHandler.cs" />
     <Compile Include="Internal\Contract\IClientSocket.cs" />
     <Compile Include="Internal\Contract\IServerSocket.cs" />
     <Compile Include="Internal\VoidConnectionData.cs" />
-    <Compile Include="Internal\Server\SynchronousServerEventWrapper.cs" />
-    <Compile Include="Internal\Server\ServerHandler.cs" />
     <Compile Include="Internal\Server\TcpServerSocket.cs" />
     <Compile Include="Internal\Client\ClientHandler.cs" />
     <Compile Include="Exposed\IConnection.cs" />

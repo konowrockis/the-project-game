@@ -26,9 +26,9 @@ namespace TheProjectGame.Network
 
             builder.RegisterType<TcpServerSocket>().As<IServerSocket>().SingleInstance();
 
-            builder.RegisterType(eventHandler).As<IServerEventHandler>().SingleInstance();
+            builder.RegisterType(eventHandler).As<IClientEventHandler>().InstancePerLifetimeScope();
 
-            builder.RegisterType<ServerHandler>().As<INetworkHandler>();
+            builder.RegisterType<ServerHandler>().As<INetworkHandler>().SingleInstance();
 
             builder.RegisterType<ClientHandler>();
         }

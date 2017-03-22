@@ -47,8 +47,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MessageHandlers\ReplyMessageHandler.cs" />
+    <Compile Include="Routing\CurrentClient.cs" />
+    <Compile Include="Routing\ClientsManager.cs" />
+    <Compile Include="Routing\GamesManager.cs" />
+    <Compile Include="Routing\ICurrentClient.cs" />
+    <Compile Include="Routing\IClient.cs" />
+    <Compile Include="Routing\IClientsManager.cs" />
+    <Compile Include="Routing\ServerClient.cs" />
+    <Compile Include="CommunicationServerModule.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Routing\ServerGame.cs" />
     <Compile Include="ServerEventHandler.cs" />
   </ItemGroup>
   <ItemGroup>

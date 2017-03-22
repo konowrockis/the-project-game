@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Net.Sockets;
 using System.Threading.Tasks;
 using System.Xml;
 using TheProjectGame.Contracts;
@@ -25,7 +26,7 @@ namespace TheProjectGame.Messaging
 
         public IMessage Read()
         {
-            XmlReader reader = XmlReader.Create(stream, new XmlReaderSettings());
+            XmlReader reader = XmlReader.Create(stream);
 
             while (reader.Read())
             {

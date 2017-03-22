@@ -20,6 +20,8 @@ namespace TheProjectGame.Player
 
         static void Main(string[] args)
         {
+            System.Threading.Thread.Sleep(1000); // TODO: debug purpose only, remember to remove!
+
             new Program().Start();
 
             Console.ReadKey();

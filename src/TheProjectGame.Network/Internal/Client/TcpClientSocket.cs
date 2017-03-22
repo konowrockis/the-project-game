@@ -40,8 +40,9 @@ namespace TheProjectGame.Network.Internal.Client
         public void Connect(IPEndPoint endPoint)
         {
             RawSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            RawSocket.SetSocketOption(SocketOptionLevel.Tcp, SocketOptionName.NoDelay, 1);
             RawSocket.Connect(endPoint);
-
+            
             this.endPoint = endPoint;
         }
 

@@ -12,11 +12,11 @@ namespace TheProjectGame.Messaging
     {
         private static readonly Type EnumerableType = typeof(IEnumerable<>);
         private static readonly Type HandlerType = typeof(IMessageHandler<>);
-        private readonly IComponentContext componentContext;
+        private readonly ILifetimeScope scope;
 
-        public AutofacMessageHandlerResolver(IComponentContext componentContext)
+        public AutofacMessageHandlerResolver(ILifetimeScope scope)
         {
-            this.componentContext = componentContext;
+            this.scope = scope;
         }
 
         public IList<IMessageHandler> Resolve(Type messageType)
@@ -25,7 +25,7 @@ namespace TheProjectGame.Messaging
             Type enumerableHandlerType = EnumerableType.MakeGenericType(handlerType);
 
             object handlers;
-            componentContext.TryResolve(enumerableHandlerType, out handlers);
+            scope.TryResolve(enumerableHandlerType, out handlers);
 
             return ((IEnumerable<IMessageHandler>)handlers).ToList();
         }
