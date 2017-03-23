@@ -10,6 +10,7 @@ namespace TheProjectGame.CommunicationServer
             builder.RegisterType<ServerClient>();
             builder.RegisterType<CurrentClient>().As<ICurrentClient>().InstancePerLifetimeScope();
             builder.RegisterType<ClientsManager>().As<IClientsManager>().SingleInstance();
+            builder.RegisterType<GamesManager>().As<IGamesManager>().SingleInstance();
         }
     }
 }

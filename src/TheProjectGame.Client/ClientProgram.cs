@@ -32,6 +32,7 @@ namespace TheProjectGame.Client
             builder.RegisterModule(new MessagingModule());
 
             builder.RegisterOptions<Settings.Options.NetworkOptions>();
+            builder.RegisterOptions<Settings.Options.PlayerOptions>();
 
             builder.RegisterAssemblyTypes(messageHandlersAssemblies).AsClosedTypesOf(typeof(IMessageHandler<>)).InstancePerLifetimeScope();
 

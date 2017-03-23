@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using TheProjectGame.Contracts;
@@ -15,7 +16,7 @@ namespace TheProjectGame.Messaging
 
     public interface IMessageWriter
     {
-        Task Write(IMessage message, double delayMiliseconds = 0);
+        void Write(IMessage message, double delayMiliseconds = 0);
     }
 
     public interface IMessageProxyCreator
@@ -41,16 +42,9 @@ namespace TheProjectGame.Messaging
 
         public IMessage Read() => messageStream.Read();
 
-        public async Task Write(IMessage message, double delayMiliseconds)
+        public void Write(IMessage message, double delayMiliseconds)
         {
-            await Task.Delay(TimeSpan.FromMilliseconds(delayMiliseconds)).ContinueWith((t) =>
-            {
-                try
-                {
-                    messageStream.Write(message);
-                }
-                catch { }
-            });
+            messageStream.Write(message, delayMiliseconds);
         }
     }
 }

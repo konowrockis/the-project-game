@@ -24,8 +24,8 @@ namespace TheProjectGame.Network.Internal.Server
         public void Listen(int port)
         {
             IPEndPoint localEndPoint = new IPEndPoint(IPAddress.Any, port);
-            socket = new Socket(AddressFamily.InterNetwork,
-                SocketType.Stream, ProtocolType.Tcp);
+            socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            
             socket.Bind(localEndPoint);
             socket.Listen(BACKLOG);
         }

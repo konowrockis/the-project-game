@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using TheProjectGame.Contracts.Messages.GameActions;
@@ -31,7 +32,7 @@ namespace TheProjectGame.Player
 
             proxyCreator.SetStream(stream);
 
-            messageWriter.Write(new GetGames()).Wait();
+            messageWriter.Write(new GetGames());
 
             while (true)
             {

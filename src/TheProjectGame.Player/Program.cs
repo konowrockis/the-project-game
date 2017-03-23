@@ -15,7 +15,8 @@ namespace TheProjectGame.Player
     {
         protected override Assembly[] messageHandlersAssemblies => new Assembly[]
         {
-            typeof(ClientProgram<>).Assembly
+            typeof(ClientProgram<>).Assembly,
+            typeof(Program).Assembly
         };
 
         static void Main(string[] args)
@@ -23,8 +24,6 @@ namespace TheProjectGame.Player
             System.Threading.Thread.Sleep(1000); // TODO: debug purpose only, remember to remove!
 
             new Program().Start();
-
-            Console.ReadKey();
         }
     }
 }

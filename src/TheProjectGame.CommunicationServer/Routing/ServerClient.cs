@@ -49,14 +49,7 @@ namespace TheProjectGame.CommunicationServer.Routing
 
         public void Write(IMessage message)
         {
-            Task.Delay(TimeSpan.FromMilliseconds(100)).ContinueWith((t) =>
-            {
-                try
-                {
-                    messageStream.Write(message);
-                }
-                catch { }
-            });
+            messageStream.Write(message);
         }
     }
 }

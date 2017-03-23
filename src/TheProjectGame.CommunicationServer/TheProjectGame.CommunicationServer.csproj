@@ -47,10 +47,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MessageHandlers\ReplyMessageHandler.cs" />
+    <Compile Include="MessageHandlers\JoinGameMessageHandler.cs" />
+    <Compile Include="MessageHandlers\GameMessageHandler.cs" />
+    <Compile Include="MessageHandlers\RegisterGameMessageHandler.cs" />
+    <Compile Include="MessageHandlers\GetGamesMessageHandler.cs" />
+    <Compile Include="MessageHandlers\PlayerMessageHandler.cs" />
     <Compile Include="Routing\CurrentClient.cs" />
     <Compile Include="Routing\ClientsManager.cs" />
     <Compile Include="Routing\GamesManager.cs" />
+    <Compile Include="Routing\IGamesManager.cs" />
+    <Compile Include="Routing\IGame.cs" />
     <Compile Include="Routing\ICurrentClient.cs" />
     <Compile Include="Routing\IClient.cs" />
     <Compile Include="Routing\IClientsManager.cs" />

@@ -10,7 +10,10 @@ namespace TheProjectGame.CommunicationServer.Routing
     interface IClientsManager
     {
         void Add(IClient client);
-
         void Remove(IClient client);
+
+        ulong GetNewPlayerId();
+
+        IClient GetPlayerById(ulong id);
     }
 }

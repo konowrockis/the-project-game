@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Messages\GameActions\RejectJoiningGame.cs" />
+    <Compile Include="Messages\GameActions\RejectGameRegistration.cs" />
     <Compile Include="Messages\GameActions\ConfirmGameRegistration.cs" />
     <Compile Include="Messages\GameActions\GetGames.cs" />
     <Compile Include="Messages\GameActions\GameFinished.cs" />

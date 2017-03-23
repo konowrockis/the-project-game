@@ -45,7 +45,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClientProgram.cs" />
-    <Compile Include="MessageHandlers\ReplyMessageHandler.cs" />
     <Compile Include="MessageHandlers\LogMessageHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

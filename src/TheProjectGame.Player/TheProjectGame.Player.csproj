@@ -47,6 +47,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MessageHandlers\RejectJoiningGameMessageHandler.cs" />
+    <Compile Include="MessageHandlers\ConfirmJoiningGameMessageHandler.cs" />
+    <Compile Include="MessageHandlers\RegisteredGamesMessageHandler.cs" />
     <Compile Include="PlayerEventHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -71,6 +74,10 @@
     <ProjectReference Include="..\TheProjectGame.Network\TheProjectGame.Network.csproj">
       <Project>{859953a6-2013-4e67-909a-9d7df5a2cada}</Project>
       <Name>TheProjectGame.Network</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TheProjectGame.Settings\TheProjectGame.Settings.csproj">
+      <Project>{0337F899-985C-4950-AFCE-C7B7CFA48311}</Project>
+      <Name>TheProjectGame.Settings</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
