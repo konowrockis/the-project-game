@@ -11,22 +11,16 @@ using TheProjectGame.Network.Internal.Server;
 
 namespace TheProjectGame.Network
 {
-    public class ServerNetworkModule : NetworkModule
+    public class ServerNetworkModule<TEventHandler> : NetworkModule
+        where TEventHandler: IClientEventHandler
     {
-        private Type eventHandler;
-
-        public ServerNetworkModule(Type eventHandler)
-        {
-            this.eventHandler = eventHandler;
-        }
-
         protected override void Load(ContainerBuilder builder)
         {
             base.Load(builder);
 
             builder.RegisterType<TcpServerSocket>().As<IServerSocket>().SingleInstance();
 
-            builder.RegisterType(eventHandler).As<IClientEventHandler>().InstancePerLifetimeScope();
+            builder.RegisterType<TEventHandler>().As<IClientEventHandler>().InstancePerLifetimeScope();
 
             builder.RegisterType<ServerHandler>().As<INetworkHandler>().SingleInstance();
 

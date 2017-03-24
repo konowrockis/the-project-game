@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using Autofac;
+﻿using System.Reflection;
+using System.Threading;
 using TheProjectGame.Client;
-using TheProjectGame.Network;
 
 namespace TheProjectGame.Player
 {
@@ -21,11 +14,11 @@ namespace TheProjectGame.Player
 
         static void Main(string[] args)
         {
-            System.Threading.Thread.Sleep(1000); // TODO: debug purpose only, remember to remove!
+#if DEBUG
+            Thread.Sleep(1000);
+#endif
 
             new Program().Start();
-
-            Console.ReadKey();
         }
     }
 }

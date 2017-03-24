@@ -12,22 +12,15 @@ using TheProjectGame.Network.Internal.Contract;
 
 namespace TheProjectGame.Network
 {
-    public class ClientNetworkModule : NetworkModule
+    public class ClientNetworkModule<TEventHandler> : NetworkModule where TEventHandler: IClientEventHandler
     {
-        private readonly Type eventHandler;
-
-        public ClientNetworkModule(Type eventHandler)
-        {
-            this.eventHandler = eventHandler;
-        }
-
         protected override void Load(ContainerBuilder builder)
         {
             base.Load(builder);
 
             builder.RegisterType<TcpClientSocket>().As<IClientSocket>().InstancePerLifetimeScope();
 
-            builder.RegisterType(eventHandler).As<IClientEventHandler>().InstancePerLifetimeScope();
+            builder.RegisterType<TEventHandler>().As<IClientEventHandler>().InstancePerLifetimeScope();
 
             builder.RegisterType<ClientHandler>().As<INetworkHandler>().InstancePerLifetimeScope();
         }

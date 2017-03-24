@@ -72,6 +72,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TheProjectGame.Client\TheProjectGame.Client.csproj">
+      <Project>{552A6FE0-6B18-4499-94D1-4ADBC1303168}</Project>
+      <Name>TheProjectGame.Client</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TheProjectGame.Contracts\TheProjectGame.Contracts.csproj">
       <Project>{F91C87F2-0417-4882-8312-C2F8CA3590CF}</Project>
       <Name>TheProjectGame.Contracts</Name>

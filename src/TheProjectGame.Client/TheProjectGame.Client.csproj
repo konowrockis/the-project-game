@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameProgram.cs" />
     <Compile Include="ClientProgram.cs" />
     <Compile Include="MessageHandlers\LogMessageHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

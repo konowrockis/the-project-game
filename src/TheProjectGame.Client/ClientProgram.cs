@@ -10,33 +10,7 @@ using TheProjectGame.Settings;
 
 namespace TheProjectGame.Client
 {
-    public abstract class ClientProgram<T> where T: IClientEventHandler
-    {
-        protected abstract Assembly[] messageHandlersAssemblies { get; }
-
-        protected void Start()
-        {
-            var container = ConfigureContainer();
-
-            container.Resolve<INetworkHandler>().Run();
-        }
-
-        private IContainer ConfigureContainer()
-        {
-            ContainerBuilder builder = new ContainerBuilder();
-
-            builder.RegisterSource(new ContravariantRegistrationSource());
-
-            builder.RegisterModule(new SettingsModule());
-            builder.RegisterModule(new ClientNetworkModule(typeof(T)));
-            builder.RegisterModule(new MessagingModule());
-
-            builder.RegisterOptions<Settings.Options.NetworkOptions>();
-            builder.RegisterOptions<Settings.Options.PlayerOptions>();
-
-            builder.RegisterAssemblyTypes(messageHandlersAssemblies).AsClosedTypesOf(typeof(IMessageHandler<>)).InstancePerLifetimeScope();
-
-            return builder.Build();
-        }
-    }
+    public abstract class ClientProgram<TEventHandler> : GameProgram<ClientNetworkModule<TEventHandler>> 
+        where TEventHandler: IClientEventHandler 
+    { }
 }
