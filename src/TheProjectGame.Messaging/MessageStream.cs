@@ -34,11 +34,6 @@ namespace TheProjectGame.Messaging
                 if (reader.NodeType == XmlNodeType.Element)
                 {
                     var message = messageParser.Parse(reader.Name, reader.ReadSubtree());
-                    //var etb = stream.ReadByte();
-                    //if (ETB != etb)
-                    //{
-                    // TODO: Exception?
-                    //}
 
                     return message;
                 }

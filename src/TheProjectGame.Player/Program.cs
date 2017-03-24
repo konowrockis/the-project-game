@@ -24,6 +24,8 @@ namespace TheProjectGame.Player
             System.Threading.Thread.Sleep(1000); // TODO: debug purpose only, remember to remove!
 
             new Program().Start();
+
+            Console.ReadKey();
         }
     }
 }
