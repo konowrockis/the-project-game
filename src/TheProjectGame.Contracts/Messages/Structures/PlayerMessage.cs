@@ -2,7 +2,7 @@
 
 namespace TheProjectGame.Contracts.Messages.Structures
 {
-    public class PlayerMessage
+    public class PlayerMessage : IMessage
     {
         [XmlAttribute("playerId")]
         public ulong PlayerId { get; set; }

@@ -14,5 +14,11 @@ namespace TheProjectGame.Contracts.Messages.GameActions
 
         [XmlAttribute("preferedRole")]
         public PlayerType PreferedRole { get; set; }
+
+        [XmlAttribute("playerId")]
+        public ulong PlayerId { get; set; }
+
+        [XmlIgnore]
+        public bool PlayerIdSpecified { get; set; }
     }
 }

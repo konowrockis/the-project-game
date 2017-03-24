@@ -1,9 +1,5 @@
-﻿using System;
-using System.Net;
-using System.Net.Sockets;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Threading;
-using System.Xml;
 using TheProjectGame.Client;
 
 namespace TheProjectGame.GameMaster
@@ -12,11 +8,16 @@ namespace TheProjectGame.GameMaster
     {
         protected override Assembly[] messageHandlersAssemblies => new Assembly[]
         {
-            typeof(ClientProgram<>).Assembly
+            typeof(ClientProgram<>).Assembly,
+            typeof(Program).Assembly
         };
 
         static void Main(string[] args)
         {
+#if DEBUG
+            Thread.Sleep(1000);
+#endif
+
             new Program().Start();
         }
     }

@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using Autofac;
+﻿using System.Reflection;
+using System.Threading;
 using TheProjectGame.Client;
-using TheProjectGame.Network;
 
 namespace TheProjectGame.Player
 {
@@ -15,14 +8,17 @@ namespace TheProjectGame.Player
     {
         protected override Assembly[] messageHandlersAssemblies => new Assembly[]
         {
-            typeof(ClientProgram<>).Assembly
+            typeof(ClientProgram<>).Assembly,
+            typeof(Program).Assembly
         };
 
         static void Main(string[] args)
         {
-            new Program().Start();
+#if DEBUG
+            Thread.Sleep(1000);
+#endif
 
-            Console.ReadKey();
+            new Program().Start();
         }
     }
 }

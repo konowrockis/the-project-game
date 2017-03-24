@@ -8,7 +8,7 @@ namespace TheProjectGame.Client.MessageHandlers
     {
         public override void Handle(IMessage message)
         {
-            Console.WriteLine("Received message.");
+            Console.WriteLine("Received message: " + message.GetType().ToString());
             // TODO: display message content when logging is working
         }
     }

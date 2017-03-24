@@ -1,10 +1,13 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
+using Autofac;
 using TheProjectGame.Network.Internal;
 using TheProjectGame.Network.Internal.Contract;
-using TheProjectGame.Network.Internal.Exception;
+using TheProjectGame.Network.Internal.Exceptions;
 using TheProjectGame.Settings;
 using TheProjectGame.Settings.Options;
 
@@ -13,17 +16,18 @@ namespace TheProjectGame.Network
     internal class ClientHandler : INetworkHandler
     {
         private readonly IClientSocket socket;
-        private readonly IClientEventHandler eventHandler;
+        
         private readonly IConnection connection;
+        private readonly ILifetimeScope lifetimeScope;
         private readonly Action setup;
 
-        public delegate ClientHandler Factory(IClientSocket socket, IClientEventHandler eventHandler);
+        public delegate ClientHandler Factory(IClientSocket socket);
 
-        public ClientHandler(IOptions<NetworkOptions> networkOptions, IClientSocket socket, IClientEventHandler eventHandler)
+        public ClientHandler(IClientSocket socket, IOptions<NetworkOptions> networkOptions, ILifetimeScope lifetimeScope)
         {
             this.socket = socket;
-            this.eventHandler = eventHandler;
             this.connection = new Connection(socket);
+            this.lifetimeScope = lifetimeScope;
 
             setup = () =>
             {
@@ -37,42 +41,47 @@ namespace TheProjectGame.Network
 
         public void Run()
         {
-            bool opened = false;
-            try
+            using (var scope = lifetimeScope.BeginLifetimeScope())
             {
-                setup();
-                opened = true;
+                IClientEventHandler eventHandler = scope.Resolve<IClientEventHandler>();
 
-                eventHandler.OnOpen(connection, new NetworkStream(socket.RawSocket));
-            }
-            catch (SocketClosedException)
-            {
-                socket.Close();
-            }
-            catch (ObjectDisposedException)
-            {
-                // ignored
-            }
-            catch (SocketException e)
-            {
-                if (e.ErrorCode != 10054 && e.ErrorCode != 10053)
+                bool opened = false;
+                try
+                {
+                    setup();
+                    opened = true;
+
+                    eventHandler.OnOpen(connection, new ByteStream(socket.RawSocket));
+                }
+                catch (SocketClosedException)
+                {
+                    socket.Close();
+                }
+                catch (ObjectDisposedException)
+                {
+                    // ignored
+                }
+                catch (SocketException e)
+                {
+                    if (e.ErrorCode != 10054 && e.ErrorCode != 10053)
+                    {
+                        IConnectionData connData = connection;
+                        eventHandler.OnError(opened ? connData : new VoidConnectionData(), e);
+                    }
+                }
+                catch (IOException)
+                {
+                    // ignored
+                }
+                catch (Exception e)
                 {
                     IConnectionData connData = connection;
                     eventHandler.OnError(opened ? connData : new VoidConnectionData(), e);
                 }
-            }
-            catch (IOException)
-            {
-                // ignored
-            }
-            catch (Exception e)
-            {
-                IConnectionData connData = connection;
-                eventHandler.OnError(opened ? connData : new VoidConnectionData(), e);
-            }
-            finally
-            {
-                if (opened) eventHandler.OnClose(connection);
+                finally
+                {
+                    if (opened) eventHandler.OnClose(connection);
+                }
             }
         }
     }

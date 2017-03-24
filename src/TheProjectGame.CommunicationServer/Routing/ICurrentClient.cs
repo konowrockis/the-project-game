@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TheProjectGame.Network.Internal.Exception
+namespace TheProjectGame.CommunicationServer.Routing
 {
-    internal class SocketClosedException : System.Exception
+    interface ICurrentClient
     {
+        IClient Value { get; set; }
     }
 }

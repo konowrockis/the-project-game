@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using System.Net.Sockets;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 using TheProjectGame.Contracts;
@@ -25,7 +27,7 @@ namespace TheProjectGame.Messaging
 
         public IMessage Read()
         {
-            XmlReader reader = XmlReader.Create(stream, new XmlReaderSettings());
+            var reader = XmlReader.Create(stream);
 
             while (reader.Read())
             {
@@ -33,23 +35,28 @@ namespace TheProjectGame.Messaging
                 {
                     var message = messageParser.Parse(reader.Name, reader.ReadSubtree());
 
-                    var etb = stream.ReadByte();
-                    if (ETB != etb)
-                    {
-                        // TODO: Exception?
-                    }
-
                     return message;
                 }
             }
 
+
             return null;
         }
 
-        public void Write(IMessage message)
+        public void Write(IMessage message, double delayMiliseconds = 0)
         {
-            messageParser.Write(stream, message);
-            stream.WriteByte(ETB);
+            Task.Delay(TimeSpan.FromMilliseconds(delayMiliseconds)).ContinueWith((t) =>
+            {
+                try
+                {
+                    messageParser.Write(stream, message);
+                    stream.WriteByte(ETB);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            });
         }
     }
 }

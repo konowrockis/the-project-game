@@ -41,7 +41,7 @@ namespace TheProjectGame.Network.Internal.Client
         {
             RawSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             RawSocket.Connect(endPoint);
-
+            
             this.endPoint = endPoint;
         }
 

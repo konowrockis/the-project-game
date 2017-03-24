@@ -3,7 +3,7 @@ using System.Xml.Serialization;
 
 namespace TheProjectGame.Contracts.Messages.Structures
 {
-    public abstract class GameMessage
+    public abstract class GameMessage : IMessage
     {
         [XmlAttribute("playerGuid")]
         public string PlayerGuid { get; set; }

@@ -1,35 +1,27 @@
-﻿using Autofac;
-using Autofac.Features.Variance;
-using TheProjectGame.Messaging;
+﻿using System.Reflection;
+using Autofac;
+using TheProjectGame.Client;
 using TheProjectGame.Network;
-using TheProjectGame.Settings;
 
 namespace TheProjectGame.CommunicationServer
 {
-    class Program
+    class Program : GameProgram<ServerNetworkModule<ServerEventHandler>>
     {
+        protected override Assembly[] messageHandlersAssemblies => new Assembly[]
+        {
+            typeof(Program).Assembly
+        };
+
         static void Main(string[] args)
         {
-            var container = ConfigureContainer();
-
-            container.Resolve<INetworkHandler>().Run();
+            new Program().Start();
         }
 
-        private static IContainer ConfigureContainer()
+        protected override IContainer ConfigureContainer(ContainerBuilder builder)
         {
-            ContainerBuilder builder = new ContainerBuilder();
+            builder.RegisterModule(new CommunicationServerModule());
 
-            builder.RegisterSource(new ContravariantRegistrationSource());
-
-            builder.RegisterModule(new SettingsModule());
-            builder.RegisterModule(new ServerNetworkModule(typeof(ServerEventHandler)));
-            builder.RegisterModule(new MessagingModule());
-
-            builder.RegisterOptions<Settings.Options.NetworkOptions>();
-
-            builder.RegisterAssemblyTypes(typeof(Program).Assembly).AsClosedTypesOf(typeof(IMessageHandler<>)).InstancePerLifetimeScope();
-
-            return builder.Build();
+            return base.ConfigureContainer(builder);
         }
     }
 }

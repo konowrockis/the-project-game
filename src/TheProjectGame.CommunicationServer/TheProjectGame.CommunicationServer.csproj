@@ -47,8 +47,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MessageHandlers\JoinGameMessageHandler.cs" />
+    <Compile Include="MessageHandlers\GameMessageHandler.cs" />
+    <Compile Include="MessageHandlers\RegisterGameMessageHandler.cs" />
+    <Compile Include="MessageHandlers\GetGamesMessageHandler.cs" />
+    <Compile Include="MessageHandlers\PlayerMessageHandler.cs" />
+    <Compile Include="Routing\CurrentClient.cs" />
+    <Compile Include="Routing\ClientsManager.cs" />
+    <Compile Include="Routing\GamesManager.cs" />
+    <Compile Include="Routing\IGamesManager.cs" />
+    <Compile Include="Routing\IGame.cs" />
+    <Compile Include="Routing\ICurrentClient.cs" />
+    <Compile Include="Routing\IClient.cs" />
+    <Compile Include="Routing\IClientsManager.cs" />
+    <Compile Include="Routing\ServerClient.cs" />
+    <Compile Include="CommunicationServerModule.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Routing\ServerGame.cs" />
     <Compile Include="ServerEventHandler.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -56,6 +72,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TheProjectGame.Client\TheProjectGame.Client.csproj">
+      <Project>{552A6FE0-6B18-4499-94D1-4ADBC1303168}</Project>
+      <Name>TheProjectGame.Client</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TheProjectGame.Contracts\TheProjectGame.Contracts.csproj">
       <Project>{F91C87F2-0417-4882-8312-C2F8CA3590CF}</Project>
       <Name>TheProjectGame.Contracts</Name>

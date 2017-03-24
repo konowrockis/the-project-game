@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TheProjectGame.Contracts.Messages.GameActions;
 using TheProjectGame.Messaging;
 using TheProjectGame.Network;
@@ -15,12 +11,14 @@ namespace TheProjectGame.Player
         private readonly IMessageReader messageReader;
         private readonly IMessageExecutor messageExecutor;
         private readonly IMessageProxyCreator proxyCreator;
+        private readonly IMessageWriter messageWriter;
 
-        public PlayerEventHandler(IMessageReader messageReader, IMessageProxyCreator proxyCreator, IMessageExecutor messageExecutor)
+        public PlayerEventHandler(IMessageReader messageReader, IMessageWriter messageWriter, IMessageProxyCreator proxyCreator, IMessageExecutor messageExecutor)
         {
             this.messageReader = messageReader;
             this.proxyCreator = proxyCreator;
             this.messageExecutor = messageExecutor;
+            this.messageWriter = messageWriter;
         }
 
         public void OnOpen(IConnection connection, Stream stream)
@@ -28,6 +26,8 @@ namespace TheProjectGame.Player
             Console.WriteLine("Connected");
 
             proxyCreator.SetStream(stream);
+
+            messageWriter.Write(new GetGames());
 
             while (true)
             {

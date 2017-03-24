@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using TheProjectGame.Contracts;
@@ -43,14 +44,7 @@ namespace TheProjectGame.Messaging
 
         public void Write(IMessage message, double delayMiliseconds)
         {
-            Task.Delay(TimeSpan.FromMilliseconds(delayMiliseconds)).ContinueWith((t) =>
-            {
-                try
-                {
-                    messageStream.Write(message);
-                }
-                catch { }
-            });
+            messageStream.Write(message, delayMiliseconds);
         }
     }
 }
