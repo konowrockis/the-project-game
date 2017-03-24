@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Threading.Tasks;
 using TheProjectGame.Contracts;
-using TheProjectGame.Contracts.Messages.GameActions;
 using TheProjectGame.Messaging;
 
 namespace TheProjectGame.CommunicationServer.Routing
@@ -13,27 +11,26 @@ namespace TheProjectGame.CommunicationServer.Routing
 
         public ulong? GameId { get; private set; }
         public string PlayerGuid { get; private set; }
-        public ulong? PlayerId { get; private set; }
+        public ulong PlayerId { get; private set; }
 
         public delegate ServerClient Factory(MessageStream messageStream);
 
-        public ServerClient(MessageStream messageStream, IMessageExecutor messageExecutor)
+        public ServerClient(MessageStream messageStream, IMessageExecutor messageExecutor, IClientsManager clientsManager)
         {
             this.messageStream = messageStream;
             this.messageExecutor = messageExecutor;
+            PlayerId = clientsManager.GetNewPlayerId();
         }
 
         public void DisconnectFromGame()
         {
             GameId = null;
             PlayerGuid = null;
-            PlayerId = null;
         }
 
         public void JoinGame(ulong gameId)
         {
             GameId = gameId;
-            PlayerId = 0; // TODO: get from game manager
             PlayerGuid = Guid.NewGuid().ToString();
         }
 

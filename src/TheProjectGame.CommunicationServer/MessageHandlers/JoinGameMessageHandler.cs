@@ -33,7 +33,7 @@ namespace TheProjectGame.CommunicationServer.MessageHandlers
             }
             else
             {
-                // TODO: asssign playerId
+                message.PlayerId = currentClient.PlayerId;
                 game.GameMaster.Write(message);
             }
         }

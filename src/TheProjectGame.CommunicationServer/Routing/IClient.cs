@@ -5,7 +5,7 @@ namespace TheProjectGame.CommunicationServer.Routing
     interface IClient
     {
         ulong? GameId { get; }
-        ulong? PlayerId { get; }
+        ulong PlayerId { get; }
         string PlayerGuid { get; }
 
         void JoinGame(ulong gameId);

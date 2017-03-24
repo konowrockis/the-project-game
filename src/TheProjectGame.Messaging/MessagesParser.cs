@@ -34,6 +34,7 @@ namespace TheProjectGame.Messaging
             addMessageSerializer<ConfirmJoiningGame>();
             addMessageSerializer<Game>();
             addMessageSerializer<GameFinished>();
+            addMessageSerializer<RejectGameRegistration>();
 
             addMessageSerializer<Discover>();
             addMessageSerializer<Move>();

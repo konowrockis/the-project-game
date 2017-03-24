@@ -1,8 +1,5 @@
-﻿using System.Linq;
-using TheProjectGame.CommunicationServer.Routing;
-using TheProjectGame.Contracts;
+﻿using TheProjectGame.CommunicationServer.Routing;
 using TheProjectGame.Contracts.Messages.GameActions;
-using TheProjectGame.Contracts.Messages.Structures;
 using TheProjectGame.Messaging;
 
 namespace TheProjectGame.CommunicationServer.MessageHandlers
@@ -21,6 +18,14 @@ namespace TheProjectGame.CommunicationServer.MessageHandlers
         public override void Handle(RegisterGame message)
         {
             var gameInfo = message.NewGameInfo;
+
+            currentClient.Write(new RejectGameRegistration()
+            {
+                GameName = gameInfo.Name
+            });
+            return;
+
+            // TODO: enable game registration when ready
 
             if (gamesManager.GetGameByName(gameInfo.Name) != null)
             {
