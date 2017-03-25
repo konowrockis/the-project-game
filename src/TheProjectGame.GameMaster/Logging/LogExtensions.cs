@@ -11,7 +11,7 @@ namespace TheProjectGame.GameMaster.Logging
     {
         public static void GameEvent(this ILogger logger, GameEvent gameEvent)
         {
-            logger.Verbose("{@GameEvent}",gameEvent);
+            logger.Verbose($"{{@{CsvMessageFormatter.KEY}}}",gameEvent);
         }
     }
 }

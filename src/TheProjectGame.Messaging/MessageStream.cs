@@ -4,6 +4,7 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
+using System.Xml.Schema;
 using TheProjectGame.Contracts;
 
 namespace TheProjectGame.Messaging
@@ -27,8 +28,7 @@ namespace TheProjectGame.Messaging
 
         public IMessage Read()
         {
-            var reader = XmlReader.Create(stream);
-
+            var reader = GetReader();
             while (reader.Read())
             {
                 if (reader.NodeType == XmlNodeType.Element)
@@ -57,6 +57,18 @@ namespace TheProjectGame.Messaging
                     Console.WriteLine(e.Message);
                 }
             });
+        }
+
+        private XmlReader GetReader()
+        {
+            XmlSchemaSet schemaSet = new XmlSchemaSet();
+            schemaSet.Add(XmlSchema.Read(File.OpenRead("TheProjectGameCommunication.xsd"), null));
+            XmlReaderSettings settings = new XmlReaderSettings
+            {
+                ValidationType = ValidationType.Schema,
+                Schemas = schemaSet
+            };
+            return XmlReader.Create(stream, settings);
         }
     }
 }
