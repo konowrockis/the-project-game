@@ -1,5 +1,7 @@
 ﻿using System.Reflection;
 using System.Threading;
+using Serilog;
+using Serilog.Events;
 using TheProjectGame.Client;
 
 namespace TheProjectGame.Player
@@ -17,7 +19,7 @@ namespace TheProjectGame.Player
 #if DEBUG
             Thread.Sleep(1000);
 #endif
-
+            
             new Program().Start();
         }
     }
