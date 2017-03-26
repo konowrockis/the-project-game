@@ -51,12 +51,14 @@
   <ItemGroup>
     <Compile Include="OptionsParser.cs" />
     <Compile Include="ConfigurationBuilderExtensions.cs" />
-    <Compile Include="IOptions.cs" />
+    <Compile Include="Options\CommunicationServerOptions.cs" />
     <Compile Include="Options\ConfigLocation.cs" />
+    <Compile Include="Options\GameMasterOptions.cs" />
     <Compile Include="Options\NetworkOptions.cs" />
     <Compile Include="Options\PlayerOptions.cs" />
     <Compile Include="Options\GameOptions.cs" />
-    <Compile Include="Options\DelaysOptions.cs" />
+    <Compile Include="Options\ActionCostsOptions.cs" />
+    <Compile Include="Options\Structures\GoalField.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SettingsModule.cs" />
   </ItemGroup>
