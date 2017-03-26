@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TheProjectGame.Contracts;
+﻿using TheProjectGame.Contracts;
 
 namespace TheProjectGame.Messaging
 {
-    class DefaultMessageExecutor : IMessageExecutor
+    public class DefaultMessageExecutor : IMessageExecutor
     {
         private readonly IMessageHandlerResolver messageHandlerResolver;
 
