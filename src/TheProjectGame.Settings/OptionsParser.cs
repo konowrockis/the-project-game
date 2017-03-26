@@ -1,18 +1,16 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Xml;
 using System.Xml.Serialization;
 using CommandLine;
 using TheProjectGame.Settings.Options;
 
 namespace TheProjectGame.Settings
 {
-    class OptionsParser
+    public class OptionsParser
     {
         private const string defaultConfigLocation = "config.xml";
 
-        private readonly Parser parser;
         private readonly string configLocation;
         private readonly string[] args;
 
@@ -20,7 +18,6 @@ namespace TheProjectGame.Settings
         {
             this.args = args;
 
-            parser = new Parser();
             configLocation = getConfigLocation();
         }
 
@@ -39,15 +36,33 @@ namespace TheProjectGame.Settings
                 Console.WriteLine("No suitable configuration file found.");
             }
 
-            parser.ParseArguments(args, value);
+            ParseRecursive(args, value);
 
             return value;
+        }
+
+        private void ParseRecursive(string[] args, object value)
+        {
+            Parser.Default.ParseArguments(args, value);
+
+            foreach (var property in value.GetType().GetProperties().Where(p => p.PropertyType.IsClass))
+            {
+                try
+                {
+                    var propertyValue = property.GetValue(value);
+
+                    ParseRecursive(args, propertyValue);
+
+                    property.SetValue(value, propertyValue);
+                }
+                catch { }
+            }
         }
 
         private string getConfigLocation()
         {
             ConfigLocation config = new ConfigLocation();
-            parser.ParseArguments(args, config);
+            Parser.Default.ParseArguments(args, config);
 
             return string.IsNullOrWhiteSpace(config.ConfigurationPath) ?
                 defaultConfigLocation :

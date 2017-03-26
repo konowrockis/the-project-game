@@ -15,8 +15,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheProjectGame.Network", "s
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{5F917850-F82F-4563-94BF-9807E85B6CCF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheProjectGame.Common.Tests", "test\TheProjectGame.Common.Tests\TheProjectGame.Common.Tests.csproj", "{B8C6182F-FD1F-430D-A34A-0EC58258A478}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheProjectGame.Settings", "src\TheProjectGame.Settings\TheProjectGame.Settings.csproj", "{0337F899-985C-4950-AFCE-C7B7CFA48311}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheProjectGame.Player", "src\TheProjectGame.Player\TheProjectGame.Player.csproj", "{1AF9BB34-4BC9-495E-91BC-28C08390988F}"
@@ -26,6 +24,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheProjectGame.Messaging", "src\TheProjectGame.Messaging\TheProjectGame.Messaging.csproj", "{EDA1F6BB-A74B-4678-B070-89B3FCCA10E0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheProjectGame.Messaging.Tests", "test\TheProjectGame.Messaging.Tests\TheProjectGame.Messaging.Tests.csproj", "{8C9064A6-AB90-463B-9D9C-A8D7D539070A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheProjectGame.Settings.Tests", "test\TheProjectGame.Settings.Tests\TheProjectGame.Settings.Tests.csproj", "{BF1504DD-68E0-463B-AAA0-81461DED5B86}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,10 +49,6 @@ Global
 		{859953A6-2013-4E67-909A-9D7DF5A2CADA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{859953A6-2013-4E67-909A-9D7DF5A2CADA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{859953A6-2013-4E67-909A-9D7DF5A2CADA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B8C6182F-FD1F-430D-A34A-0EC58258A478}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B8C6182F-FD1F-430D-A34A-0EC58258A478}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B8C6182F-FD1F-430D-A34A-0EC58258A478}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B8C6182F-FD1F-430D-A34A-0EC58258A478}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0337F899-985C-4950-AFCE-C7B7CFA48311}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0337F899-985C-4950-AFCE-C7B7CFA48311}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0337F899-985C-4950-AFCE-C7B7CFA48311}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -73,6 +69,10 @@ Global
 		{8C9064A6-AB90-463B-9D9C-A8D7D539070A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C9064A6-AB90-463B-9D9C-A8D7D539070A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C9064A6-AB90-463B-9D9C-A8D7D539070A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF1504DD-68E0-463B-AAA0-81461DED5B86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF1504DD-68E0-463B-AAA0-81461DED5B86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF1504DD-68E0-463B-AAA0-81461DED5B86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF1504DD-68E0-463B-AAA0-81461DED5B86}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -80,10 +80,10 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{F91C87F2-0417-4882-8312-C2F8CA3590CF} = {D37CCD43-553C-41ED-85E3-A94BC6FDBE68}
 		{859953A6-2013-4E67-909A-9D7DF5A2CADA} = {D37CCD43-553C-41ED-85E3-A94BC6FDBE68}
-		{B8C6182F-FD1F-430D-A34A-0EC58258A478} = {5F917850-F82F-4563-94BF-9807E85B6CCF}
 		{0337F899-985C-4950-AFCE-C7B7CFA48311} = {D37CCD43-553C-41ED-85E3-A94BC6FDBE68}
 		{552A6FE0-6B18-4499-94D1-4ADBC1303168} = {D37CCD43-553C-41ED-85E3-A94BC6FDBE68}
 		{EDA1F6BB-A74B-4678-B070-89B3FCCA10E0} = {D37CCD43-553C-41ED-85E3-A94BC6FDBE68}
 		{8C9064A6-AB90-463B-9D9C-A8D7D539070A} = {5F917850-F82F-4563-94BF-9807E85B6CCF}
+		{BF1504DD-68E0-463B-AAA0-81461DED5B86} = {5F917850-F82F-4563-94BF-9807E85B6CCF}
 	EndGlobalSection
 EndGlobal

@@ -11,7 +11,7 @@ namespace TheProjectGame.Settings.Options.Structures
         NonGoal
     }
 
-    public enum TeamColour
+    public enum TeamColor
     {
         [XmlEnum("red")]
         Red,
@@ -32,6 +32,6 @@ namespace TheProjectGame.Settings.Options.Structures
         public GoalFieldType Type { get; set; }
 
         [XmlAttribute("team")]
-        public TeamColour Team { get; set; }
+        public TeamColor Team { get; set; }
     }
 }

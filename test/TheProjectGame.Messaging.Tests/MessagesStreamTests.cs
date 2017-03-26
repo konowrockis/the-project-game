@@ -1,15 +1,11 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
-using System.Resources;
-using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TheProjectGame.Contracts;
 using TheProjectGame.Contracts.Enums;
 using TheProjectGame.Contracts.Messages.CommunicationActions;
 using TheProjectGame.Contracts.Messages.GameActions;
 using TheProjectGame.Contracts.Messages.PlayerActions;
-using TheProjectGame.Messaging;
 
 namespace TheProjectGame.Messaging.Tests
 {
@@ -322,7 +318,25 @@ namespace TheProjectGame.Messaging.Tests
             var message = stream.Read() as Data;
 
             Assert.IsNotNull(message);
-            // TODO: write asserts
+            Assert.AreEqual(2, message.TaskFields.Count);
+            Assert.AreEqual<uint>(1, message.TaskFields[0].X);
+            Assert.AreEqual<uint>(5, message.TaskFields[0].Y);
+            Assert.AreEqual(0, (new DateTime(2017, 2, 23, 17, 20, 11) - message.TaskFields[0].Timestamp).TotalSeconds);
+            Assert.AreEqual<uint>(5, message.TaskFields[0].DistanceToPiece);
+            Assert.AreEqual(2, message.GoalFields.Count);
+            Assert.AreEqual<uint>(0, message.GoalFields[0].X);
+            Assert.AreEqual<uint>(9, message.GoalFields[0].Y);
+            Assert.AreEqual(0, (new DateTime(2017, 2, 23, 17, 20, 17) - message.GoalFields[0].Timestamp).TotalSeconds);
+            Assert.AreEqual<uint>(5, message.TaskFields[0].DistanceToPiece);
+            Assert.AreEqual(TeamColour.Blue, message.GoalFields[0].Team);
+            Assert.AreEqual(GoalFieldType.Goal, message.GoalFields[1].Type);
+            Assert.AreEqual<ulong>(2, message.GoalFields[1].PlayerId);
+            Assert.IsTrue(message.GoalFields[1].PlayerIdSpecified);
+            Assert.AreEqual(2, message.Pieces.Count);
+            Assert.AreEqual<ulong>(1, message.Pieces[0].Id);
+            Assert.AreEqual(0, (new DateTime(2017, 2, 23, 17, 20, 09) - message.Pieces[0].Timestamp).TotalSeconds);
+            Assert.AreEqual(PieceType.Sham, message.Pieces[0].Type);
+            Assert.IsFalse(message.Pieces[0].PlayerIdSpecified);
         }
 
         private MessageStream getMessageStream(Stream stream)

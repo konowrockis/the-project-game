@@ -4,7 +4,7 @@ namespace TheProjectGame.Settings.Options
 {
     public class ConfigLocation
     {
-        [Option('c', "configuration")]
+        [Option('c', "conf")]
         public string ConfigurationPath { get; set; }
     }
 }
