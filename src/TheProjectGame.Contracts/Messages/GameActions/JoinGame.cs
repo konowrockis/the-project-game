@@ -1,6 +1,8 @@
-﻿using System.Xml.Serialization;
+﻿using System.Runtime.CompilerServices;
+using System.Xml.Serialization;
 using TheProjectGame.Contracts.Enums;
 
+[assembly: InternalsVisibleTo("TheProjectGame.CommunicationServer.Tests")]
 namespace TheProjectGame.Contracts.Messages.GameActions
 {
     [XmlRoot(Namespace = "http://theprojectgame.mini.pw.edu.pl/")]
