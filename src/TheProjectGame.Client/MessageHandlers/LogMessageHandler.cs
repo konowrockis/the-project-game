@@ -11,9 +11,7 @@ namespace TheProjectGame.Client.MessageHandlers
 
         public override void Handle(IMessage message)
         {
-            logger.Debug("Received message: " + message.GetType().ToString());
-            //Console.WriteLine("Received message: " + message.GetType().ToString());
-            // TODO: display message content when logging is working
+            logger.Debug("{@Message}",message);
         }
     }
 }

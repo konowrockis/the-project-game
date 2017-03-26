@@ -13,7 +13,7 @@ namespace TheProjectGame.GameMaster
 {
     class GameMasterEventHandler : IClientEventHandler
     {
-        private readonly ILogger logger = Log.ForContext<Program>();
+        private readonly ILogger logger = Log.ForContext<GameMasterEventHandler>();
 
         private readonly IMessageReader messageReader;
         private readonly IMessageExecutor messageExecutor;
@@ -48,7 +48,7 @@ namespace TheProjectGame.GameMaster
             while (true)
             {
                 var message = messageReader.Read();
-                logger.GameEvent(new GameEvent("test",1,1,GameEventType.Move,TeamColour.Blue, PlayerType.Leader));
+                //logger.GameEvent(new GameEvent("test",1,1,GameEventType.Move,TeamColour.Blue, PlayerType.Leader));
                 messageExecutor.Execute(message);
             }
         }

@@ -2,6 +2,7 @@
 using System.Net;
 using System.Threading;
 using Autofac;
+using Serilog;
 using TheProjectGame.Network.Internal.Contract;
 using TheProjectGame.Settings;
 using TheProjectGame.Settings.Options;
@@ -10,6 +11,8 @@ namespace TheProjectGame.Network.Internal.Server
 {
     internal class ServerHandler : INetworkHandler
     {
+        private readonly ILogger logger = Log.ForContext<ServerHandler>();
+
         private readonly IServerSocket server;
         private readonly int port;
         private readonly ClientHandler.Factory clientHandlerFactory;
@@ -23,16 +26,16 @@ namespace TheProjectGame.Network.Internal.Server
 
         public void Run()
         {
-            Console.WriteLine("Server started");
+            logger.Debug("Server started");
             try
             {
                 Work();
             }
             catch (Exception e)
             {
-                Console.WriteLine("Server error: {0}", e.Message);
+                logger.Debug("Server error: {0}", e.Message);
             }
-            Console.WriteLine("Server stopped");
+            logger.Debug("Server stopped");
         }
 
         private void Work()

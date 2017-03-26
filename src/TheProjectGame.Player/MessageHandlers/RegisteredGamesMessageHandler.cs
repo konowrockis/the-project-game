@@ -1,4 +1,6 @@
 ﻿using System;
+using Serilog;
+using Serilog.Core;
 using TheProjectGame.Contracts.Messages.GameActions;
 using TheProjectGame.Messaging;
 using TheProjectGame.Settings;
@@ -8,6 +10,7 @@ namespace TheProjectGame.Player.MessageHandlers
 {
     class RegisteredGamesMessageHandler : MessageHandler<RegisteredGames>
     {
+        private readonly ILogger logger = Log.ForContext<RegisteredGamesMessageHandler>();
         private readonly IMessageWriter messageWriter;
         private readonly PlayerOptions playerOptions;
 
@@ -31,7 +34,7 @@ namespace TheProjectGame.Player.MessageHandlers
                     PreferedRole = playerOptions.Role == "leader" ? Contracts.Enums.PlayerType.Leader : Contracts.Enums.PlayerType.Player,
                     PreferedTeam = playerOptions.TeamColor == "red" ? Contracts.Enums.TeamColour.Red : Contracts.Enums.TeamColour.Blue
                 };
-                Console.WriteLine("Joining game");
+                logger.Debug("Joining game");
 
                 // TODO: Add enums there!
                 messageWriter.Write(response);
