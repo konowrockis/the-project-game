@@ -18,7 +18,21 @@ namespace TheProjectGame.Network.Internal
                 return Read(buffer, offset, size);
             }
 
-            return read;
+            int move = 0;
+
+            for (int i = 0; i < read; i++)
+            {
+                if (buffer[i] == ETB)
+                {
+                    move++;
+                }
+                else if (move != 0)
+                {
+                    buffer[i - move] = buffer[i];
+                }
+            }
+
+            return read - move;
         }
 
         public override int ReadByte()
