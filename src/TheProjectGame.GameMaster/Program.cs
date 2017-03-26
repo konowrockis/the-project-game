@@ -1,9 +1,12 @@
 ﻿using System.Reflection;
 using System.Threading;
 using Autofac;
+using Serilog;
+using Serilog.Events;
 using TheProjectGame.Client;
 using TheProjectGame.Settings;
 using TheProjectGame.Settings.Options;
+using TheProjectGame.GameMaster.Logging;
 
 namespace TheProjectGame.GameMaster
 {
@@ -22,6 +25,12 @@ namespace TheProjectGame.GameMaster
 #endif
 
             new Program().Start();
+        }
+
+        protected override void ConfigureLogger(LoggerConfiguration configuration)
+        {
+            configuration.WriteTo.File(new CsvMessageFormatter(), "gm-log.csv",
+                restrictedToMinimumLevel: LogEventLevel.Verbose);
         }
 
         protected override IContainer ConfigureContainer(ContainerBuilder builder)

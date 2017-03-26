@@ -1,5 +1,7 @@
 ﻿using System.Reflection;
 using System.Threading;
+using Serilog;
+using Serilog.Events;
 using Autofac;
 using TheProjectGame.Client;
 using TheProjectGame.Settings;

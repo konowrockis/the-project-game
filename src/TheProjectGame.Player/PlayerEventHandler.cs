@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Serilog;
 using TheProjectGame.Contracts.Messages.GameActions;
 using TheProjectGame.Messaging;
 using TheProjectGame.Network;
@@ -8,6 +9,8 @@ namespace TheProjectGame.Player
 {
     class PlayerEventHandler : IClientEventHandler
     {
+        private readonly ILogger logger = Log.ForContext<PlayerEventHandler>();
+
         private readonly IMessageReader messageReader;
         private readonly IMessageExecutor messageExecutor;
         private readonly IMessageProxyCreator proxyCreator;
@@ -23,7 +26,7 @@ namespace TheProjectGame.Player
 
         public void OnOpen(IConnection connection, Stream stream)
         {
-            Console.WriteLine("Connected");
+            logger.Debug("Connected");
 
             proxyCreator.SetStream(stream);
 
@@ -39,12 +42,12 @@ namespace TheProjectGame.Player
 
         public void OnClose(IConnectionData data)
         {
-            Console.WriteLine("Disconnected");
+            logger.Debug("Disconnected");
         }
 
         public void OnError(IConnectionData data, Exception exception)
         {
-            Console.WriteLine("Error = {0}", exception);
+            logger.Debug("Error = {0}", exception);
         }
     }
 }

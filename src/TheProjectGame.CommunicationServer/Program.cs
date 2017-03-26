@@ -11,7 +11,7 @@ namespace TheProjectGame.CommunicationServer
     {
         protected override Assembly[] messageHandlersAssemblies => new Assembly[]
         {
-            typeof(Program).Assembly
+            typeof(Program).Assembly, typeof(GameProgram<>).Assembly
         };
 
         static void Main(string[] args)

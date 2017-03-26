@@ -1,4 +1,5 @@
 ﻿using System;
+using Serilog;
 using TheProjectGame.Contracts;
 using TheProjectGame.Messaging;
 
@@ -6,6 +7,8 @@ namespace TheProjectGame.CommunicationServer.Routing
 {
     class ServerClient : IClient
     {
+        private ILogger logger = Log.ForContext<ServerClient>();
+
         private readonly MessageStream messageStream;
         private readonly IMessageExecutor messageExecutor;
 
@@ -39,7 +42,6 @@ namespace TheProjectGame.CommunicationServer.Routing
             while (true)
             {
                 var message = messageStream.Read();
-
                 messageExecutor.Execute(message);
             }
         }

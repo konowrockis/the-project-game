@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{552A6FE0-6B18-4499-94D1-4ADBC1303168}</ProjectGuid>
+    <ProjectGuid>{2DA9C8BB-5219-4579-9832-30138BC01A6C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TheProjectGame.Client</RootNamespace>
-    <AssemblyName>TheProjectGame.Client</AssemblyName>
+    <RootNamespace>TheProjectGame.Configuration</RootNamespace>
+    <AssemblyName>TheProjectGame.Configuration</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,10 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autofac, Version=4.4.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Autofac.4.4.0\lib\net45\Autofac.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Serilog.2.4.0\lib\net45\Serilog.dll</HintPath>
       <Private>True</Private>
@@ -60,28 +56,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GameProgram.cs" />
-    <Compile Include="ClientProgram.cs" />
-    <Compile Include="MessageHandlers\LogMessageHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\TheProjectGame.Network\TheProjectGame.Network.csproj">
-      <Project>{859953A6-2013-4E67-909A-9D7DF5A2CADA}</Project>
-      <Name>TheProjectGame.Network</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TheProjectGame.Contracts\TheProjectGame.Contracts.csproj">
-      <Project>{F91C87F2-0417-4882-8312-C2F8CA3590CF}</Project>
-      <Name>TheProjectGame.Contracts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TheProjectGame.Messaging\TheProjectGame.Messaging.csproj">
-      <Project>{eda1f6bb-a74b-4678-b070-89b3fcca10e0}</Project>
-      <Name>TheProjectGame.Messaging</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TheProjectGame.Settings\TheProjectGame.Settings.csproj">
-      <Project>{0337F899-985C-4950-AFCE-C7B7CFA48311}</Project>
-      <Name>TheProjectGame.Settings</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
