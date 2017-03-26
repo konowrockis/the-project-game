@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace TheProjectGame.Messaging
 {
-    interface IMessageHandlerResolver
+    public interface IMessageHandlerResolver
     {
         IList<IMessageHandler> Resolve(Type messageType);
     }

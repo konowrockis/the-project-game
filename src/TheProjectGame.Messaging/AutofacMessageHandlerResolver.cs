@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Autofac;
-using TheProjectGame.Contracts;
 
 namespace TheProjectGame.Messaging
 {
-    class AutofacMessageHandlerResolver : IMessageHandlerResolver
+    public class AutofacMessageHandlerResolver : IMessageHandlerResolver
     {
         private static readonly Type EnumerableType = typeof(IEnumerable<>);
         private static readonly Type HandlerType = typeof(IMessageHandler<>);
@@ -25,7 +22,11 @@ namespace TheProjectGame.Messaging
             Type enumerableHandlerType = EnumerableType.MakeGenericType(handlerType);
 
             object handlers;
-            scope.TryResolve(enumerableHandlerType, out handlers);
+
+            if (!scope.TryResolve(enumerableHandlerType, out handlers))
+            {
+                return new List<IMessageHandler>();
+            }
 
             return ((IEnumerable<IMessageHandler>)handlers).ToList();
         }
