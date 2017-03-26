@@ -11,10 +11,10 @@ namespace TheProjectGame.Player.MessageHandlers
         private readonly IMessageWriter messageWriter;
         private readonly PlayerOptions playerOptions;
 
-        public RegisteredGamesMessageHandler(IMessageWriter messageWriter, IOptions<PlayerOptions> playerOptions)
+        public RegisteredGamesMessageHandler(IMessageWriter messageWriter, PlayerOptions playerOptions)
         {
             this.messageWriter = messageWriter;
-            this.playerOptions = playerOptions.Value;
+            this.playerOptions = playerOptions;
         }
 
         public override void Handle(RegisteredGames message)

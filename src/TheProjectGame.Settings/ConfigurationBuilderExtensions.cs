@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autofac;
+﻿using Autofac;
+using TheProjectGame.Settings.Options;
 
 namespace TheProjectGame.Settings
 {
     public static class ConfigurationBuilderExtensions
     {
         public static void RegisterOptions<TOptions>(this ContainerBuilder builder)
-            where TOptions : class, new()
+            where TOptions : NetworkOptions, new()
         {
             builder.Register(c => c.Resolve<OptionsParser>().GetOptions<TOptions>())
-                .As<IOptions<TOptions>>()
+                .As<TOptions>().As<NetworkOptions>()
                 .SingleInstance();
         }
     }

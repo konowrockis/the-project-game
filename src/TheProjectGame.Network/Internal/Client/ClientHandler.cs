@@ -23,7 +23,7 @@ namespace TheProjectGame.Network
 
         public delegate ClientHandler Factory(IClientSocket socket);
 
-        public ClientHandler(IClientSocket socket, IOptions<NetworkOptions> networkOptions, ILifetimeScope lifetimeScope)
+        public ClientHandler(IClientSocket socket, NetworkOptions networkOptions, ILifetimeScope lifetimeScope)
         {
             this.socket = socket;
             this.connection = new Connection(socket);
@@ -33,7 +33,7 @@ namespace TheProjectGame.Network
             {
                 if (!socket.Connected)
                 { 
-                    var endPoint = new IPEndPoint(IPAddress.Parse(networkOptions.Value.Address), networkOptions.Value.Port);
+                    var endPoint = new IPEndPoint(IPAddress.Parse(networkOptions.Address), networkOptions.Port);
                     socket.Connect(endPoint);
                 }
             };

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.9
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheProjectGame.GameMaster", "src\TheProjectGame.GameMaster\TheProjectGame.GameMaster.csproj", "{D94B8329-B008-4548-9285-CC34DFD7D53C}"
 EndProject
@@ -10,8 +10,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{D37CCD43-553C-41ED-85E3-A94BC6FDBE68}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheProjectGame.Contracts", "src\TheProjectGame.Contracts\TheProjectGame.Contracts.csproj", "{F91C87F2-0417-4882-8312-C2F8CA3590CF}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheProjectGame.Configuration", "src\TheProjectGame.Configuration\TheProjectGame.Configuration.csproj", "{2DA9C8BB-5219-4579-9832-30138BC01A6C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheProjectGame.Network", "src\TheProjectGame.Network\TheProjectGame.Network.csproj", "{859953A6-2013-4E67-909A-9D7DF5A2CADA}"
 EndProject
@@ -47,10 +45,6 @@ Global
 		{F91C87F2-0417-4882-8312-C2F8CA3590CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F91C87F2-0417-4882-8312-C2F8CA3590CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F91C87F2-0417-4882-8312-C2F8CA3590CF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2DA9C8BB-5219-4579-9832-30138BC01A6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2DA9C8BB-5219-4579-9832-30138BC01A6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2DA9C8BB-5219-4579-9832-30138BC01A6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2DA9C8BB-5219-4579-9832-30138BC01A6C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{859953A6-2013-4E67-909A-9D7DF5A2CADA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{859953A6-2013-4E67-909A-9D7DF5A2CADA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{859953A6-2013-4E67-909A-9D7DF5A2CADA}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -85,7 +79,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F91C87F2-0417-4882-8312-C2F8CA3590CF} = {D37CCD43-553C-41ED-85E3-A94BC6FDBE68}
-		{2DA9C8BB-5219-4579-9832-30138BC01A6C} = {D37CCD43-553C-41ED-85E3-A94BC6FDBE68}
 		{859953A6-2013-4E67-909A-9D7DF5A2CADA} = {D37CCD43-553C-41ED-85E3-A94BC6FDBE68}
 		{B8C6182F-FD1F-430D-A34A-0EC58258A478} = {5F917850-F82F-4563-94BF-9807E85B6CCF}
 		{0337F899-985C-4950-AFCE-C7B7CFA48311} = {D37CCD43-553C-41ED-85E3-A94BC6FDBE68}

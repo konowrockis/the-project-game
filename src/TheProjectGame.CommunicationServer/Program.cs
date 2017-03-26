@@ -2,6 +2,8 @@
 using Autofac;
 using TheProjectGame.Client;
 using TheProjectGame.Network;
+using TheProjectGame.Settings;
+using TheProjectGame.Settings.Options;
 
 namespace TheProjectGame.CommunicationServer
 {
@@ -20,6 +22,8 @@ namespace TheProjectGame.CommunicationServer
         protected override IContainer ConfigureContainer(ContainerBuilder builder)
         {
             builder.RegisterModule(new CommunicationServerModule());
+
+            builder.RegisterOptions<CommunicationServerOptions>();
 
             return base.ConfigureContainer(builder);
         }
