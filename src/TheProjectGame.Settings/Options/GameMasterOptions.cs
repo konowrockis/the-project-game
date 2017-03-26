@@ -1,4 +1,5 @@
 ﻿using System.Xml.Serialization;
+using CommandLine;
 
 namespace TheProjectGame.Settings.Options
 {
@@ -7,11 +8,12 @@ namespace TheProjectGame.Settings.Options
     {
         private const int DefaultRetryRegisterGameInterval = 5000;
 
-        public GameOptions GameDefinition { get; set; }
+        public GameOptions GameDefinition { get; set; } = new GameOptions();
 
-        public ActionCostsOptions ActionCosts { get; set; }
+        public ActionCostsOptions ActionCosts { get; set; } = new ActionCostsOptions();
 
-        [XmlAttribute("retryRegisterGameInterval")]
+        [XmlAttribute("RetryRegisterGameInterval")]
+        [Option(nameof(GameMasterOptions) + "." + nameof(RetryRegisterGameInterval))]
         public uint RetryRegisterGameInterval { get; set; } = DefaultRetryRegisterGameInterval;
     }
 }

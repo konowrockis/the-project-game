@@ -16,7 +16,7 @@ namespace TheProjectGame.Settings.Options
         private const uint DefaultNumberOfPlayersPerTeam = 4;
 
         [XmlElement(ElementName = "Goals")]
-        public List<GoalField> Goals { get; set; }
+        public List<GoalField> Goals { get; set; } = new List<GoalField>();
 
         [Option(nameof(GameOptions) + "." + nameof(ShamProbability))]
         public double ShamProbability { get; set; } = DefaultShamProbability;

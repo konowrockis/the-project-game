@@ -17,7 +17,8 @@ namespace TheProjectGame.Settings.Options
         [Option('r', "role")]
         public string Role { get; set; }
 
+        [XmlAttribute("RetryJoinGameInterval")]
         [Option(nameof(PlayerOptions) + "." + nameof(RetryJoinGameInterval))]
-        public int RetryJoinGameInterval { get; set; }
+        public uint RetryJoinGameInterval { get; set; } = DefaultRetryJoinGameInterval;
     }
 }

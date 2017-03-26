@@ -13,7 +13,7 @@ namespace TheProjectGame.Settings.Options
         [Option('a', "address")]
         public string Address { get; set; }
 
-        [XmlAttribute("keepAliveInterval")]
+        [XmlAttribute("KeepAliveInterval")]
         [Option(nameof(NetworkOptions) + "." + nameof(KeepAliveInterval))]
         public int KeepAliveInterval { get; set; } = DefaultKeepAliveInterval;
     }
