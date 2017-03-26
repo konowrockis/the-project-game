@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Threading;
-using Autofac;
 using TheProjectGame.Network.Internal.Contract;
-using TheProjectGame.Settings;
 using TheProjectGame.Settings.Options;
 
 namespace TheProjectGame.Network.Internal.Server
@@ -14,9 +12,9 @@ namespace TheProjectGame.Network.Internal.Server
         private readonly int port;
         private readonly ClientHandler.Factory clientHandlerFactory;
 
-        public ServerHandler(IServerSocket server, ClientHandler.Factory clientHandlerFactory, IOptions<NetworkOptions> networkOptions)
+        public ServerHandler(IServerSocket server, ClientHandler.Factory clientHandlerFactory, NetworkOptions networkOptions)
         {
-            this.port = networkOptions.Value.Port;
+            this.port = networkOptions.Port;
             this.server = server;
             this.clientHandlerFactory = clientHandlerFactory;
         }

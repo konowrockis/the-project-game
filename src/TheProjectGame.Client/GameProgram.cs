@@ -1,9 +1,6 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
 using Autofac;
 using Autofac.Features.Variance;
-using TheProjectGame.Contracts;
-using TheProjectGame.Contracts.Messages.GameActions;
 using TheProjectGame.Messaging;
 using TheProjectGame.Network;
 using TheProjectGame.Settings;
@@ -29,9 +26,6 @@ namespace TheProjectGame.Client
             builder.RegisterModule<SettingsModule>();
             builder.RegisterModule<TNetworkModule>();
             builder.RegisterModule<MessagingModule>();
-
-            builder.RegisterOptions<Settings.Options.NetworkOptions>();
-            builder.RegisterOptions<Settings.Options.PlayerOptions>();
 
             builder.RegisterAssemblyTypes(messageHandlersAssemblies).AsClosedTypesOf(typeof(IMessageHandler<>)).InstancePerLifetimeScope();
 

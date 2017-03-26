@@ -1,6 +1,9 @@
 ﻿using System.Reflection;
 using System.Threading;
+using Autofac;
 using TheProjectGame.Client;
+using TheProjectGame.Settings;
+using TheProjectGame.Settings.Options;
 
 namespace TheProjectGame.GameMaster
 {
@@ -19,6 +22,13 @@ namespace TheProjectGame.GameMaster
 #endif
 
             new Program().Start();
+        }
+
+        protected override IContainer ConfigureContainer(ContainerBuilder builder)
+        {
+            builder.RegisterOptions<GameMasterOptions>();
+
+            return base.ConfigureContainer(builder);
         }
     }
 }
