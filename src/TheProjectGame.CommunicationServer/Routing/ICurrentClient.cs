@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TheProjectGame.CommunicationServer.Routing
+﻿namespace TheProjectGame.CommunicationServer.Routing
 {
-    interface ICurrentClient
+    public interface ICurrentClient
     {
         IClient Value { get; set; }
     }

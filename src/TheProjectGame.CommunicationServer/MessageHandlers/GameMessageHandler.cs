@@ -3,7 +3,6 @@ using TheProjectGame.CommunicationServer.Routing;
 using TheProjectGame.Contracts.Messages.Structures;
 using TheProjectGame.Messaging;
 
-[assembly: InternalsVisibleTo("TheProjectGame.CommunicationServer.Tests")]
 namespace TheProjectGame.CommunicationServer.MessageHandlers
 {
     class GameMessageHandler : MessageHandler<GameMessage>

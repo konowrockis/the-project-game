@@ -14,7 +14,7 @@ namespace TheProjectGame.Client
     {
         protected abstract Assembly[] messageHandlersAssemblies { get; }
 
-        protected void Start()
+        public void Start()
         {
             var containerBulder = new ContainerBuilder();
             var container = ConfigureContainer(containerBulder);

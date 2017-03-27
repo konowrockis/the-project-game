@@ -2,7 +2,7 @@
 
 namespace TheProjectGame.Messaging
 {
-    public class DefaultMessageExecutor : IMessageExecutor
+    class DefaultMessageExecutor : IMessageExecutor
     {
         private readonly IMessageHandlerResolver messageHandlerResolver;
 

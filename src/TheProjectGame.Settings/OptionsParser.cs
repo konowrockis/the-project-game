@@ -7,11 +7,10 @@ using TheProjectGame.Settings.Options;
 
 namespace TheProjectGame.Settings
 {
-    public class OptionsParser
+    class OptionsParser
     {
         private const string defaultConfigLocation = "config.xml";
         private readonly ILogger logger = Log.ForContext<OptionsParser>();
-
 
         private readonly string configLocation;
         private readonly string[] args;

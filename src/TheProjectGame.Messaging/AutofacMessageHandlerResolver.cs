@@ -5,7 +5,7 @@ using Autofac;
 
 namespace TheProjectGame.Messaging
 {
-    public class AutofacMessageHandlerResolver : IMessageHandlerResolver
+    class AutofacMessageHandlerResolver : IMessageHandlerResolver
     {
         private static readonly Type EnumerableType = typeof(IEnumerable<>);
         private static readonly Type HandlerType = typeof(IMessageHandler<>);

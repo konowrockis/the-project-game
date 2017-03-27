@@ -2,7 +2,7 @@
 
 namespace TheProjectGame.CommunicationServer.Routing
 {
-    interface IGame
+    public interface IGame
     {
         ulong Id { get; }
         string Name { get; }

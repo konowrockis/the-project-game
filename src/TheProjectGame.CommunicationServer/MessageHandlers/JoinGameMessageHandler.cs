@@ -1,15 +1,9 @@
-﻿using System.Linq;
-using System.Runtime.CompilerServices;
-using TheProjectGame.CommunicationServer.Routing;
-using TheProjectGame.Contracts;
+﻿using TheProjectGame.CommunicationServer.Routing;
 using TheProjectGame.Contracts.Messages.GameActions;
-using TheProjectGame.Contracts.Messages.Structures;
 using TheProjectGame.Messaging;
 
-[assembly: InternalsVisibleTo("TheProjectGame.CommunicationServer.Tests")]
 namespace TheProjectGame.CommunicationServer.MessageHandlers
 {
-    
     class JoinGameMessageHandler : MessageHandler<JoinGame>
     {
         private readonly IClient currentClient;

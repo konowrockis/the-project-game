@@ -4,7 +4,6 @@ using TheProjectGame.Contracts.Messages.Structures;
 using TheProjectGame.GameMaster.Logging;
 using TheProjectGame.Messaging;
 
-[assembly: InternalsVisibleTo("TheProjectGame.GameMaster.Tests")]
 namespace TheProjectGame.GameMaster.MessageHandlers
 {
     class LogGameMessageMessageHanlder : MessageHandler<GameMessage>
