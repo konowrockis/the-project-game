@@ -8,6 +8,7 @@ using TheProjectGame.Contracts.Messages.GameActions;
 using TheProjectGame.Messaging;
 using TheProjectGame.Network;
 using TheProjectGame.Settings;
+using TheProjectGame.Settings.Options;
 
 namespace TheProjectGame.Client
 {
@@ -19,8 +20,8 @@ namespace TheProjectGame.Client
         {
             var containerBulder = new ContainerBuilder();
             var container = ConfigureContainer(containerBulder);
-            //container.Resolve<GameOptions>().Verbose
-            InitializeLogger(true);
+            GeneralOptions options = container.Resolve<GeneralOptions>();
+            InitializeLogger(options.Verbose);
             container.Resolve<INetworkHandler>().Run();
         }
 
@@ -42,7 +43,7 @@ namespace TheProjectGame.Client
             LoggerConfiguration configuration = new LoggerConfiguration()
                 .MinimumLevel.Verbose()
                 .WriteTo.LiterateConsole(restrictedToMinimumLevel:
-                    verbose ? LogEventLevel.Verbose : LogEventLevel.Information)
+                    verbose ? LogEventLevel.Verbose : LogEventLevel.Debug)
                 .WriteTo.RollingFile("log-{Date}.txt", restrictedToMinimumLevel: LogEventLevel.Verbose);
             ConfigureLogger(configuration);
             Log.Logger = configuration.CreateLogger();

@@ -21,7 +21,7 @@ namespace TheProjectGame.Settings
             configLocation = getConfigLocation();
         }
 
-        public T GetOptions<T>() where T : NetworkOptions, new()
+        public T GetOptions<T>() where T : GeneralOptions, new()
         {
             XmlSerializer serializer = new XmlSerializer(typeof(T));
 

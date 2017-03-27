@@ -4,7 +4,7 @@ using CommandLine;
 namespace TheProjectGame.Settings.Options
 {
     [XmlRoot(ElementName = "GameMasterSettings", Namespace = "https://se2.mini.pw.edu.pl/17-pl-19/17-pl-19/")]
-    public class GameMasterOptions : NetworkOptions
+    public class GameMasterOptions : GeneralOptions
     {
         private const int DefaultRetryRegisterGameInterval = 5000;
 

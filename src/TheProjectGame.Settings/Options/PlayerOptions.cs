@@ -4,7 +4,7 @@ using CommandLine;
 namespace TheProjectGame.Settings.Options
 {
     [XmlRoot(ElementName = "PlayerSettings", Namespace = "https://se2.mini.pw.edu.pl/17-pl-19/17-pl-19/")]
-    public class PlayerOptions : NetworkOptions
+    public class PlayerOptions : GeneralOptions
     {
         private const int DefaultRetryJoinGameInterval = 5000;
 
