@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using TheProjectGame.Contracts.Messages.GameActions;
 using TheProjectGame.Contracts.Messages.Structures;
 using TheProjectGame.Messaging;
 
+[assembly: InternalsVisibleTo("TheProjectGame.GameMaster.Tests")]
 namespace TheProjectGame.GameMaster.MessageHandlers
 {
     class RejectGameRegistrationMessageHandler : MessageHandler<RejectGameRegistration>
