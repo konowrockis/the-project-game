@@ -13,7 +13,7 @@ namespace TheProjectGame.IntegrationTests
     {
         private Process communicationServerProcess;
 
-        private const int port = 20000;
+        private int port = 20000;
         private const string communicationServerAddress = "127.0.0.1";
         private const string communicationServerLocation = @"..\..\..\..\src\TheProjectGame.CommunicationServer\bin\Debug";
         private const string communicationServerName = "TheProjectGame.CommunicationServer.exe";
@@ -30,6 +30,7 @@ namespace TheProjectGame.IntegrationTests
         }
 
         [TestMethod]
+        [Timeout(5000)]
         public void Connect_to_CommunicationServer()
         {
             IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(communicationServerAddress), port);
@@ -41,6 +42,7 @@ namespace TheProjectGame.IntegrationTests
         }
 
         [TestMethod]
+        [Timeout(5000)]
         public void Get_response_for_GetGames_message()
         {
             IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(communicationServerAddress), port);
@@ -56,6 +58,7 @@ namespace TheProjectGame.IntegrationTests
         }
 
         [TestMethod]
+        [Timeout(5000)]
         public void Reconnect_with_CommunicationServer()
         {
             IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(communicationServerAddress), port);
@@ -70,6 +73,7 @@ namespace TheProjectGame.IntegrationTests
         }
 
         [TestMethod]
+        [Timeout(20000)]
         public void Stress_test_CommunicationServer()
         {
             const int numberOfClients = 100;
