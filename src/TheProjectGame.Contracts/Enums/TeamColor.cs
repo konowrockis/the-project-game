@@ -2,7 +2,7 @@
 
 namespace TheProjectGame.Contracts.Enums
 {
-    public enum TeamColour
+    public enum TeamColor
     {
         [XmlEnum("red")]
         Red,

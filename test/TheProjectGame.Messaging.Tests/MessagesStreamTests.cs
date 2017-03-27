@@ -73,7 +73,7 @@ namespace TheProjectGame.Messaging.Tests
             Assert.IsNotNull(message);
             Assert.AreEqual("easyGame", message.GameName);
             Assert.AreEqual(PlayerType.Leader, message.PreferedRole);
-            Assert.AreEqual(TeamColour.Blue, message.PreferedTeam);
+            Assert.AreEqual(TeamColor.Blue, message.PreferedTeam);
         }
 
         [TestMethod]
@@ -88,7 +88,7 @@ namespace TheProjectGame.Messaging.Tests
             Assert.AreEqual<ulong>(2, message.PlayerId);
             Assert.AreEqual("c094cab7-da7b-457f-89e5-a5c51756035f", message.PrivateGuid);
             Assert.AreEqual<ulong>(2, message.PlayerDefinition.Id);
-            Assert.AreEqual(TeamColour.Blue, message.PlayerDefinition.Team);
+            Assert.AreEqual(TeamColor.Blue, message.PlayerDefinition.Team);
             Assert.AreEqual(PlayerType.Player, message.PlayerDefinition.Type);
         }
 
@@ -328,7 +328,7 @@ namespace TheProjectGame.Messaging.Tests
             Assert.AreEqual<uint>(9, message.GoalFields[0].Y);
             Assert.AreEqual(0, (new DateTime(2017, 2, 23, 17, 20, 17) - message.GoalFields[0].Timestamp).TotalSeconds);
             Assert.AreEqual<uint>(5, message.TaskFields[0].DistanceToPiece);
-            Assert.AreEqual(TeamColour.Blue, message.GoalFields[0].Team);
+            Assert.AreEqual(TeamColor.Blue, message.GoalFields[0].Team);
             Assert.AreEqual(GoalFieldType.Goal, message.GoalFields[1].Type);
             Assert.AreEqual<ulong>(2, message.GoalFields[1].PlayerId);
             Assert.IsTrue(message.GoalFields[1].PlayerIdSpecified);

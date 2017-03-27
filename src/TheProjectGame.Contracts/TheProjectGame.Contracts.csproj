@@ -69,7 +69,7 @@
     <Compile Include="Enums\PieceType.cs" />
     <Compile Include="Enums\GoalFieldType.cs" />
     <Compile Include="Enums\PlayerType.cs" />
-    <Compile Include="Enums\TeamColour.cs" />
+    <Compile Include="Enums\TeamColor.cs" />
     <Compile Include="Messages\Structures\Player.cs" />
     <Compile Include="Messages\Structures\GameInfo.cs" />
     <Compile Include="Messages\Structures\Location.cs" />

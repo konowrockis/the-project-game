@@ -26,7 +26,7 @@ namespace TheProjectGame.Player
 
         public void OnOpen(IConnection connection, Stream stream)
         {
-            logger.Debug("Connected");
+            logger.Debug("Connected to host at port {@Port}", connection.Port());
 
             proxyCreator.SetStream(stream);
 
@@ -42,12 +42,12 @@ namespace TheProjectGame.Player
 
         public void OnClose(IConnectionData data)
         {
-            logger.Debug("Disconnected");
+            logger.Debug("Disconnected from host");
         }
 
         public void OnError(IConnectionData data, Exception exception)
         {
-            logger.Debug("Error = {0}", exception);
+            logger.Fatal("Received fatal exception {@Exception}", exception);
         }
     }
 }

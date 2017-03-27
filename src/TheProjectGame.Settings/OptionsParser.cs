@@ -1,8 +1,8 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
 using CommandLine;
+using Serilog;
 using TheProjectGame.Settings.Options;
 
 namespace TheProjectGame.Settings
@@ -10,6 +10,8 @@ namespace TheProjectGame.Settings
     public class OptionsParser
     {
         private const string defaultConfigLocation = "config.xml";
+        private readonly ILogger logger = Log.ForContext<OptionsParser>();
+
 
         private readonly string configLocation;
         private readonly string[] args;
@@ -33,7 +35,7 @@ namespace TheProjectGame.Settings
             }
             else
             {
-                Console.WriteLine("No suitable configuration file found.");
+                logger.Verbose("Couldn't load configuration file {@ConfigurationFile}", configLocation);
             }
 
             ParseRecursive(args, value);

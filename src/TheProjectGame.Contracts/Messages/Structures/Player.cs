@@ -9,7 +9,7 @@ namespace TheProjectGame.Contracts.Messages.Structures
         public ulong Id { get; set; }
 
         [XmlAttribute("team")]
-        public TeamColour Team { get; set; }
+        public TeamColor Team { get; set; }
 
         [XmlAttribute("type")]
         public PlayerType Type { get; set; }

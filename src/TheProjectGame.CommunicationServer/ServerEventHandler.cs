@@ -32,7 +32,7 @@ namespace TheProjectGame.CommunicationServer
 
         public void OnOpen(IConnection connection, Stream stream)
         {
-            logger.Debug("New connection @{0}:{1}", connection.Address(), connection.Port());
+            logger.Debug("New connection {@Address}:{@Port}", connection.Address(), connection.Port());
 
             var messageStream = messageStreamFactory(stream);
             var client = serverClientFactory(messageStream);
@@ -46,14 +46,14 @@ namespace TheProjectGame.CommunicationServer
 
         public void OnClose(IConnectionData data)
         {
-            logger.Debug("Connection closed @{0}:{1}", data.Address(), data.Port());
+            logger.Debug("Connection closed {@Address}:{@Port}", data.Address(), data.Port());
 
             clientsManager.Remove(currentClient.Value);
         }
 
         public void OnError(IConnectionData data, Exception exception)
         {
-            logger.Debug("Client @{0}:{1} error {2}", data.Address(), data.Port(), exception);
+            logger.Error("Client {@Address}:{@Port} caused exception {@Exception}", data.Address(), data.Port(), exception);
 
             clientsManager.Remove(currentClient.Value);
         }

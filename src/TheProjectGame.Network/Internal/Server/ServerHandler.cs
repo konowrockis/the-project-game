@@ -32,7 +32,7 @@ namespace TheProjectGame.Network.Internal.Server
             }
             catch (Exception e)
             {
-                logger.Debug("Server error: {0}", e.Message);
+                logger.Fatal("Server fatal exception {@Exception}", e);
             }
             logger.Debug("Server stopped");
         }
