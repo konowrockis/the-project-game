@@ -339,11 +339,6 @@ namespace TheProjectGame.Messaging.Tests
             Assert.IsFalse(message.Pieces[0].PlayerIdSpecified);
         }
 
-        private MessageStream getMessageStream(Stream stream)
-        {
-            return new MessageStream(stream, new MessagesParser());
-        }
-
         private MessageStream getMessageStream(string messageName)
         {
             var messageContent = getMessageFromResource(messageName);
