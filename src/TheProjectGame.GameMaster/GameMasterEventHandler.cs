@@ -3,6 +3,7 @@ using System.IO;
 using Serilog;
 using TheProjectGame.Contracts.Messages.GameActions;
 using TheProjectGame.Contracts.Messages.Structures;
+using TheProjectGame.GameMaster.Logging;
 using TheProjectGame.Messaging;
 using TheProjectGame.Network;
 

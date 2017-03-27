@@ -15,7 +15,7 @@ namespace TheProjectGame.GameMaster.Logging
         public string PlayerGuid { get; private set; }
         public ulong PlayerId { get; private set; }
         public ulong GameId { get; private set; }
-        public DateTime TimeStamp { get; private set; }
+        public DateTime Timestamp { get; private set; }
         public GameEventType Type { get; private set; }
         public TeamColor Color { get; private set; }
         public PlayerType Role { get; private set; }
@@ -27,7 +27,7 @@ namespace TheProjectGame.GameMaster.Logging
                 PlayerGuid = message.PlayerGuid,
                 PlayerId = playerId,
                 GameId = message.GameId,
-                TimeStamp = DateTime.Now,
+                Timestamp = DateTime.Now,
                 Type = GetEventType(message),
                 Color = color,
                 Role = role
@@ -51,7 +51,7 @@ namespace TheProjectGame.GameMaster.Logging
                 PlayerGuid = playerGuid,
                 PlayerId = playerId,
                 GameId = gameId,
-                TimeStamp = DateTime.Now,
+                Timestamp = DateTime.Now,
                 Type = isVictory ? GameEventType.Victory : GameEventType.Defeat,
                 Color = color,
                 Role = role
