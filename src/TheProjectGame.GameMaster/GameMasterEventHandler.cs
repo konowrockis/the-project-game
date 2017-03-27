@@ -1,8 +1,6 @@
 ﻿using System;
 using System.IO;
-using System.Xml;
 using Serilog;
-using TheProjectGame.Contracts.Enums;
 using TheProjectGame.Contracts.Messages.GameActions;
 using TheProjectGame.Contracts.Messages.Structures;
 using TheProjectGame.GameMaster.Logging;
@@ -31,7 +29,7 @@ namespace TheProjectGame.GameMaster
 
         public void OnOpen(IConnection connection, Stream stream)
         {
-            logger.Debug("Connected");
+            logger.Debug("Connected to host at port {@Port}", connection.Port());
 
             proxyCreator.SetStream(stream);
 
@@ -48,19 +46,19 @@ namespace TheProjectGame.GameMaster
             while (true)
             {
                 var message = messageReader.Read();
-                //logger.GameEvent(new GameEvent("test",1,1,GameEventType.Move,TeamColour.Blue, PlayerType.Leader));
+
                 messageExecutor.Execute(message);
             }
         }
 
         public void OnClose(IConnectionData data)
         {
-            logger.Debug("Disconnected");
+            logger.Debug("Disconnected from host");
         }
 
         public void OnError(IConnectionData data, Exception exception)
         {
-            logger.Error("Error = {0}", exception);
+            logger.Fatal("Received fatal exception {@Exception}", exception);
         }
     }
 }

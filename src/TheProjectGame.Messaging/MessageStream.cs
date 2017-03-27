@@ -47,15 +47,8 @@ namespace TheProjectGame.Messaging
         {
             Task.Delay(TimeSpan.FromMilliseconds(delayMiliseconds)).ContinueWith((t) =>
             {
-                try
-                {
-                    messageParser.Write(stream, message);
-                    stream.WriteByte(ETB);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                }
+                messageParser.Write(stream, message);
+                stream.WriteByte(ETB);
             });
         }
 

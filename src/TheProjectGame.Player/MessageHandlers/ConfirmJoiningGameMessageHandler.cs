@@ -2,7 +2,6 @@
 using TheProjectGame.Contracts.Messages.GameActions;
 using TheProjectGame.Messaging;
 
-[assembly: InternalsVisibleTo("TheProjectGame.Player.Tests")]
 namespace TheProjectGame.Player.MessageHandlers
 {
     class ConfirmJoiningGameMessageHandler : MessageHandler<ConfirmJoiningGame>

@@ -47,7 +47,7 @@ namespace TheProjectGame.Player.Tests
             Assert.IsNotNull(response);
             Assert.IsTrue(response.GameName=="test");
             Assert.IsTrue(response.PreferedRole==PlayerType.Leader);
-            Assert.IsTrue(response.PreferedTeam == TeamColour.Blue);
+            Assert.IsTrue(response.PreferedTeam == TeamColor.Blue);
         }
     }
 }

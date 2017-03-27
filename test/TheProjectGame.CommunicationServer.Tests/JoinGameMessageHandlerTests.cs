@@ -35,7 +35,7 @@ namespace TheProjectGame.CommunicationServer.Tests
             {
                 GameName = "test",
                 PreferedRole = PlayerType.Player,
-                PreferedTeam = TeamColour.Blue,
+                PreferedTeam = TeamColor.Blue,
                 PlayerIdSpecified = false
             };
 
@@ -86,7 +86,7 @@ namespace TheProjectGame.CommunicationServer.Tests
             {
                 GameName = "test",
                 PreferedRole = PlayerType.Player,
-                PreferedTeam = TeamColour.Blue,
+                PreferedTeam = TeamColor.Blue,
                 PlayerIdSpecified = false
             };
             handler.Handle(joinGame);

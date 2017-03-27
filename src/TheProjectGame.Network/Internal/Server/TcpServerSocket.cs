@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
 using TheProjectGame.Network.Internal.Client;
 using TheProjectGame.Network.Internal.Contract;
 
 namespace TheProjectGame.Network.Internal.Server
 {
-    internal class TcpServerSocket : IServerSocket
+    internal class TcpServerSocket : IServerSocket, IDisposable
     {
         private const int BACKLOG = 10;
 
@@ -30,5 +26,9 @@ namespace TheProjectGame.Network.Internal.Server
             socket.Listen(BACKLOG);
         }
 
+        public void Dispose()
+        {
+            socket.Dispose();
+        }
     }
 }

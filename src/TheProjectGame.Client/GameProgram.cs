@@ -3,8 +3,6 @@ using Autofac;
 using Autofac.Features.Variance;
 using Serilog;
 using Serilog.Events;
-using TheProjectGame.Contracts;
-using TheProjectGame.Contracts.Messages.GameActions;
 using TheProjectGame.Messaging;
 using TheProjectGame.Network;
 using TheProjectGame.Settings;
@@ -12,16 +10,18 @@ using TheProjectGame.Settings.Options;
 
 namespace TheProjectGame.Client
 {
-    public abstract class GameProgram<TNetworkModule> where TNetworkModule: NetworkModule, new()
+    public abstract class GameProgram<TNetworkModule> where TNetworkModule : NetworkModule, new()
     {
         protected abstract Assembly[] messageHandlersAssemblies { get; }
 
-        protected void Start()
+        public void Start()
         {
             var containerBulder = new ContainerBuilder();
             var container = ConfigureContainer(containerBulder);
+
             GeneralOptions options = container.Resolve<GeneralOptions>();
             InitializeLogger(options.Verbose);
+
             container.Resolve<INetworkHandler>().Run();
         }
 
@@ -38,13 +38,14 @@ namespace TheProjectGame.Client
             return builder.Build();
         }
 
-        protected void InitializeLogger(bool verbose=false)
+        protected void InitializeLogger(bool verbose = false)
         {
             LoggerConfiguration configuration = new LoggerConfiguration()
                 .MinimumLevel.Verbose()
                 .WriteTo.LiterateConsole(restrictedToMinimumLevel:
                     verbose ? LogEventLevel.Verbose : LogEventLevel.Debug)
-                .WriteTo.RollingFile("log-{Date}.txt", restrictedToMinimumLevel: LogEventLevel.Verbose);
+                .WriteTo.RollingFile(@"Logs\log-{Date}.log", restrictedToMinimumLevel: LogEventLevel.Verbose);
+
             ConfigureLogger(configuration);
             Log.Logger = configuration.CreateLogger();
         }

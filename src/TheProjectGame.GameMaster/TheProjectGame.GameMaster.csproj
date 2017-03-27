@@ -66,6 +66,7 @@
     <Compile Include="Logging\CsvMessageFormatter.cs" />
     <Compile Include="Logging\GameEvent.cs" />
     <Compile Include="Logging\LogExtensions.cs" />
+    <Compile Include="MessageHandlers\LogGameMessageMessageHandler.cs" />
     <Compile Include="MessageHandlers\RejectGameRegistrationMessageHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

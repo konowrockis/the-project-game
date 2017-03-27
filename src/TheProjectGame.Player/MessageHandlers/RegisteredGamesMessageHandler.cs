@@ -1,9 +1,7 @@
 ﻿using System;
 using Serilog;
-using Serilog.Core;
 using TheProjectGame.Contracts.Messages.GameActions;
 using TheProjectGame.Messaging;
-using TheProjectGame.Settings;
 using TheProjectGame.Settings.Options;
 
 namespace TheProjectGame.Player.MessageHandlers
@@ -32,7 +30,7 @@ namespace TheProjectGame.Player.MessageHandlers
                 {
                     GameName = games[gameId].Name,
                     PreferedRole = playerOptions.Role == "leader" ? Contracts.Enums.PlayerType.Leader : Contracts.Enums.PlayerType.Player,
-                    PreferedTeam = playerOptions.TeamColor == "red" ? Contracts.Enums.TeamColour.Red : Contracts.Enums.TeamColour.Blue
+                    PreferedTeam = playerOptions.TeamColor == "red" ? Contracts.Enums.TeamColor.Red : Contracts.Enums.TeamColor.Blue
                 };
                 logger.Debug("Joining game");
 

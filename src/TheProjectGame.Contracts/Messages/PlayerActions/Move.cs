@@ -2,7 +2,7 @@
 using TheProjectGame.Contracts.Enums;
 using TheProjectGame.Contracts.Messages.Structures;
 
-namespace TheProjectGame.Contracts.Messages.GameActions
+namespace TheProjectGame.Contracts.Messages.PlayerActions
 {
     [XmlRoot(Namespace = "http://theprojectgame.mini.pw.edu.pl/")]
     public class Move : GameMessage, IMessage

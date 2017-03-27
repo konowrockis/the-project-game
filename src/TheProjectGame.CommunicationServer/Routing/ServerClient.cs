@@ -7,8 +7,6 @@ namespace TheProjectGame.CommunicationServer.Routing
 {
     class ServerClient : IClient
     {
-        private ILogger logger = Log.ForContext<ServerClient>();
-
         private readonly MessageStream messageStream;
         private readonly IMessageExecutor messageExecutor;
 
