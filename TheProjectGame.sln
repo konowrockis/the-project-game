@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26228.9
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheProjectGame.GameMaster", "src\TheProjectGame.GameMaster\TheProjectGame.GameMaster.csproj", "{D94B8329-B008-4548-9285-CC34DFD7D53C}"
 EndProject
@@ -26,6 +26,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheProjectGame.Messaging.Tests", "test\TheProjectGame.Messaging.Tests\TheProjectGame.Messaging.Tests.csproj", "{8C9064A6-AB90-463B-9D9C-A8D7D539070A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheProjectGame.Settings.Tests", "test\TheProjectGame.Settings.Tests\TheProjectGame.Settings.Tests.csproj", "{BF1504DD-68E0-463B-AAA0-81461DED5B86}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheProjectGame.CommunicationServer.Tests", "test\TheProjectGame.CommunicationServer.Tests\TheProjectGame.CommunicationServer.Tests.csproj", "{C2B864E7-F3A8-47F8-A3D8-A86711EB233E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheProjectGame.Player.Tests", "test\TheProjectGame.Player.Tests\TheProjectGame.Player.Tests.csproj", "{84D5AD8E-6EB2-44DE-94A7-054FCF65AE08}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheProjectGame.GameMaster.Tests", "test\TheProjectGame.GameMaster.Tests\TheProjectGame.GameMaster.Tests.csproj", "{9049BC38-DA68-4507-9CA5-07905E08A3F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -73,6 +79,18 @@ Global
 		{BF1504DD-68E0-463B-AAA0-81461DED5B86}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF1504DD-68E0-463B-AAA0-81461DED5B86}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF1504DD-68E0-463B-AAA0-81461DED5B86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2B864E7-F3A8-47F8-A3D8-A86711EB233E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2B864E7-F3A8-47F8-A3D8-A86711EB233E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2B864E7-F3A8-47F8-A3D8-A86711EB233E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2B864E7-F3A8-47F8-A3D8-A86711EB233E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84D5AD8E-6EB2-44DE-94A7-054FCF65AE08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84D5AD8E-6EB2-44DE-94A7-054FCF65AE08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84D5AD8E-6EB2-44DE-94A7-054FCF65AE08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84D5AD8E-6EB2-44DE-94A7-054FCF65AE08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9049BC38-DA68-4507-9CA5-07905E08A3F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9049BC38-DA68-4507-9CA5-07905E08A3F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9049BC38-DA68-4507-9CA5-07905E08A3F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9049BC38-DA68-4507-9CA5-07905E08A3F0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -85,5 +103,8 @@ Global
 		{EDA1F6BB-A74B-4678-B070-89B3FCCA10E0} = {D37CCD43-553C-41ED-85E3-A94BC6FDBE68}
 		{8C9064A6-AB90-463B-9D9C-A8D7D539070A} = {5F917850-F82F-4563-94BF-9807E85B6CCF}
 		{BF1504DD-68E0-463B-AAA0-81461DED5B86} = {5F917850-F82F-4563-94BF-9807E85B6CCF}
+		{C2B864E7-F3A8-47F8-A3D8-A86711EB233E} = {5F917850-F82F-4563-94BF-9807E85B6CCF}
+		{84D5AD8E-6EB2-44DE-94A7-054FCF65AE08} = {5F917850-F82F-4563-94BF-9807E85B6CCF}
+		{9049BC38-DA68-4507-9CA5-07905E08A3F0} = {5F917850-F82F-4563-94BF-9807E85B6CCF}
 	EndGlobalSection
 EndGlobal
