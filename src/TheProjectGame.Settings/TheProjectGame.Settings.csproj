@@ -54,7 +54,7 @@
     <Compile Include="Options\CommunicationServerOptions.cs" />
     <Compile Include="Options\ConfigLocation.cs" />
     <Compile Include="Options\GameMasterOptions.cs" />
-    <Compile Include="Options\NetworkOptions.cs" />
+    <Compile Include="Options\GeneralOptions.cs" />
     <Compile Include="Options\PlayerOptions.cs" />
     <Compile Include="Options\GameOptions.cs" />
     <Compile Include="Options\ActionCostsOptions.cs" />

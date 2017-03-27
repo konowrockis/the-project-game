@@ -3,7 +3,7 @@ using CommandLine;
 
 namespace TheProjectGame.Settings.Options
 {
-    public class NetworkOptions
+    public class GeneralOptions
     {
         private const int DefaultKeepAliveInterval = 30000;
 
@@ -14,7 +14,11 @@ namespace TheProjectGame.Settings.Options
         public string Address { get; set; }
 
         [XmlAttribute("KeepAliveInterval")]
-        [Option(nameof(NetworkOptions) + "." + nameof(KeepAliveInterval))]
+        [Option(nameof(GeneralOptions) + "." + nameof(KeepAliveInterval))]
         public int KeepAliveInterval { get; set; } = DefaultKeepAliveInterval;
+
+        [Option('v', "verbose")]
+        public bool Verbose { get; set; }
+
     }
 }

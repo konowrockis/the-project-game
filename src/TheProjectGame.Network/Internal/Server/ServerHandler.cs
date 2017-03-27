@@ -16,7 +16,7 @@ namespace TheProjectGame.Network.Internal.Server
         private readonly int port;
         private readonly ClientHandler.Factory clientHandlerFactory;
 
-        public ServerHandler(IServerSocket server, ClientHandler.Factory clientHandlerFactory, NetworkOptions networkOptions)
+        public ServerHandler(IServerSocket server, ClientHandler.Factory clientHandlerFactory, GeneralOptions networkOptions)
         {
             this.port = networkOptions.Port;
             this.server = server;

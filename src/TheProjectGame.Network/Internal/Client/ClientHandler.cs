@@ -23,7 +23,7 @@ namespace TheProjectGame.Network
 
         public delegate ClientHandler Factory(IClientSocket socket);
 
-        public ClientHandler(IClientSocket socket, NetworkOptions networkOptions, ILifetimeScope lifetimeScope)
+        public ClientHandler(IClientSocket socket, GeneralOptions networkOptions, ILifetimeScope lifetimeScope)
         {
             this.socket = socket;
             this.connection = new Connection(socket);

@@ -11,7 +11,7 @@ namespace TheProjectGame.Client.MessageHandlers
 
         public override void Handle(IMessage message)
         {
-            logger.Debug("{@Message}",message);
+            logger.Verbose("{@Message}",message);
         }
     }
 }

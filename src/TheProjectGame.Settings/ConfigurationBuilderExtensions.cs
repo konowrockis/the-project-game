@@ -6,10 +6,10 @@ namespace TheProjectGame.Settings
     public static class ConfigurationBuilderExtensions
     {
         public static void RegisterOptions<TOptions>(this ContainerBuilder builder)
-            where TOptions : NetworkOptions, new()
+            where TOptions : GeneralOptions, new()
         {
             builder.Register(c => c.Resolve<OptionsParser>().GetOptions<TOptions>())
-                .As<TOptions>().As<NetworkOptions>()
+                .As<TOptions>().As<GeneralOptions>()
                 .SingleInstance();
         }
     }
