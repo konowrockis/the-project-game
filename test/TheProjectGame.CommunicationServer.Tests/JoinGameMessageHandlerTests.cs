@@ -17,20 +17,11 @@ namespace TheProjectGame.CommunicationServer.Tests
     [TestClass]
     public class JoinGameMessageHandlerTests
     {
-        
-
-        [TestInitialize]
-        public void TestInitialize()
-        {
-            
-        }
-
-
+       
         [TestMethod]
-        public void NonExistentGameName()
+        public void Send_RejectJoiningGame_message_when_invalid_name()
         {
             IClient client = Substitute.For<IClient>();
-
             JoinGame joinGame = new JoinGame
             {
                 GameName = "test",
@@ -38,17 +29,12 @@ namespace TheProjectGame.CommunicationServer.Tests
                 PreferedTeam = TeamColor.Blue,
                 PlayerIdSpecified = false
             };
-
             bool wrote = false;
-
             IGamesManager gamesManager = Substitute.For<IGamesManager>();
             gamesManager.GetGameByName(Arg.Any<string>()).ReturnsNull();
-            
             client.When(c=>c.Write(Arg.Any<RejectJoiningGame>())).Do(c=>wrote=true);
-
             ICurrentClient currentClient = Substitute.For<ICurrentClient>();
             currentClient.Value.Returns(c=>client);
-
             JoinGameMessageHandler handler = new JoinGameMessageHandler(currentClient,gamesManager);
 
             handler.Handle(joinGame);
@@ -57,31 +43,23 @@ namespace TheProjectGame.CommunicationServer.Tests
         }
 
         [TestMethod]
-        public void ValidGameName()
+        public void Pass_JoinGame_message_to_GameMaster_with_valid_playerId()
         {
             ulong playerId = 1u;
-
             IClient client = Substitute.For<IClient>();
             IGamesManager gamesManager = Substitute.For<IGamesManager>();
-
             IGame game = Substitute.For<IGame>();
             game.GameMaster.Returns(client);
-
             client.PlayerId.Returns(playerId);
-
             gamesManager.GetGameByName(Arg.Any<string>()).Returns(game);
-
             bool passed = false;
-
             client.When(c=>c.Write(Arg.Any<JoinGame>())).Do(c =>
             {
                 passed = c.Arg<JoinGame>().PlayerId == playerId;
             });
-
             ICurrentClient currentClient = Substitute.For<ICurrentClient>();
             currentClient.Value.Returns(c => client);
             JoinGameMessageHandler handler = new JoinGameMessageHandler(currentClient, gamesManager);
-
             JoinGame joinGame = new JoinGame
             {
                 GameName = "test",
@@ -89,6 +67,7 @@ namespace TheProjectGame.CommunicationServer.Tests
                 PreferedTeam = TeamColor.Blue,
                 PlayerIdSpecified = false
             };
+
             handler.Handle(joinGame);
 
             Assert.IsTrue(passed);

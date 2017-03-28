@@ -15,11 +15,12 @@ namespace TheProjectGame.Player.Tests
     public class RejectJoiningGameMessageHandlerTests
     {
         [TestMethod]
-        public void ResponseTest()
+        public void Write_GetGames_message_after_receiving_RejectJoiningGame()
         {
             IMessageWriter writer = Substitute.For<IMessageWriter>();
             GetGames response = null;
-            writer.When(w=>w.Write(Arg.Any<GetGames>())).Do(c=>response=c.Arg<GetGames>());
+            writer.When(w => w.Write(Arg.Any<GetGames>())).Do(c => response = c.Arg<GetGames>());
+
             new RejectJoiningGameMessageHandler(writer).Handle(new RejectJoiningGame());
 
             Assert.IsNotNull(response);

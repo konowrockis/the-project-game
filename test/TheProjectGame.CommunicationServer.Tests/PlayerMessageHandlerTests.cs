@@ -16,15 +16,13 @@ namespace TheProjectGame.CommunicationServer.Tests
     {
 
         [TestMethod]
-        public void PlayerMessageTest()
+        public void Pass_message_to_another_player_when_valid_playerId_in_PlayerMessage()
         {
             bool passed = false;
             IClient player = Substitute.For<IClient>();
-            player.When(c=>player.Write(Arg.Any<PlayerMessage>())).Do(callback=>passed=true);
-
+            player.When(c => player.Write(Arg.Any<PlayerMessage>())).Do(callback => passed = true);
             IClientsManager manager = Substitute.For<IClientsManager>();
             manager.GetPlayerById(Arg.Any<ulong>()).Returns(player);
-
             PlayerMessage message = new PlayerMessage()
             {
                 PlayerId = 1u

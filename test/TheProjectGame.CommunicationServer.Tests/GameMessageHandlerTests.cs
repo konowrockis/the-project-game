@@ -17,27 +17,20 @@ namespace TheProjectGame.CommunicationServer.Tests
     public class GameMessageHandlerTests
     {
         [TestMethod]
-        public void ValidPlayerGuidAndGameTest()
+        public void Pass_GameMessage_to_GameMaster()
         {
             string playerGuid = "guid";
             ulong gameId = 1u;
-
             IClient client = Substitute.For<IClient>();
             client.PlayerGuid.Returns(playerGuid);
-
             IGame game = Substitute.For<IGame>();
             game.GameMaster.Returns(client);
-
             IGamesManager gamesManager = Substitute.For<IGamesManager>();
             gamesManager.GetGameById(Arg.Any<ulong>()).Returns(game);
-
             GameMessage response = null;
-
             client.When(c => c.Write(Arg.Any<GameMessage>())).Do(c => response = c.Arg<GameMessage>());
-
             ICurrentClient currentClient = Substitute.For<ICurrentClient>();
             currentClient.Value.Returns(c => client);
-
             GameMessage message = new PickUpPiece();
             message.PlayerGuid = playerGuid;
             message.GameId = gameId;
@@ -49,37 +42,26 @@ namespace TheProjectGame.CommunicationServer.Tests
         }
 
         [TestMethod]
-        public void DifferentPlayerGuidTest()
+        public void Do_nothing_on_invalid_player_guid_in_GameMessage()
         {
             string playerGuid = "guid";
             ulong gameId = 1u;
-
-
             IClient client = Substitute.For<IClient>();
             client.PlayerGuid.Returns(playerGuid);
-            
-
             IGame game = Substitute.For<IGame>();
-            
-
             IGamesManager gamesManager = Substitute.For<IGamesManager>();
             gamesManager.GetGamesList().Returns(new List<IGame>() { game });
             gamesManager.GetGameById(gameId).Returns(game);
-
-
             GameMessage response = null;
-
             client.When(c => c.Write(Arg.Any<GameMessage>())).Do(c => response = c.Arg<GameMessage>());
-
             ICurrentClient currentClient = Substitute.For<ICurrentClient>();
             currentClient.Value.Returns(c => client);
-
             GameMessage message = new PickUpPiece();
             message.PlayerGuid = playerGuid;
             message.GameId = gameId;
-
+            
             new GameMessageHandler(gamesManager,currentClient).Handle(message);
-
+            
             Assert.IsNull(response);
         }
 
