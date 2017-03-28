@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Exposed\INetworkHandler.cs" />
     <Compile Include="Internal\ByteStream.cs" />
+    <Compile Include="Internal\Exceptions\InvalidAddressException.cs" />
     <Compile Include="Internal\Exceptions\SocketClosedException.cs" />
     <Compile Include="Internal\Server\ServerHandler.cs" />
     <Compile Include="NetworkModule.cs" />
