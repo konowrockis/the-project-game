@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Text;
 using Autofac;
@@ -32,8 +33,12 @@ namespace TheProjectGame.Network
             setup = () =>
             {
                 if (!socket.Connected)
-                { 
-                    var endPoint = new IPEndPoint(IPAddress.Parse(networkOptions.Address), networkOptions.Port);
+                {
+                    IPHostEntry entry = Dns.GetHostEntry(networkOptions.Address);
+                    IPAddress[] addresses = entry.AddressList;
+                    IPAddress addr = addresses.FirstOrDefault(a => a.AddressFamily == AddressFamily.InterNetwork);
+                    if (addr == null) throw new InvalidAddressException();
+                    var endPoint = new IPEndPoint(addr, networkOptions.Port);
                     socket.Connect(endPoint);
                 }
             };
