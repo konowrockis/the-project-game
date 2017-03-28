@@ -2,6 +2,7 @@
 using System.IO;
 using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NSubstitute;
 using TheProjectGame.Contracts.Enums;
 using TheProjectGame.Contracts.Messages.CommunicationActions;
 using TheProjectGame.Contracts.Messages.GameActions;
@@ -342,7 +343,11 @@ namespace TheProjectGame.Messaging.Tests
         private MessageStream getMessageStream(string messageName)
         {
             var messageContent = getMessageFromResource(messageName);
-            return new MessageStream(messageContent, new MessagesParser());
+
+            var messageSource = Substitute.For<ISchemaSource>();
+            messageSource.GetSchema().Returns(getSchemaStream());
+
+            return new MessageStream(messageContent, new MessagesParser(), messageSource);
         }
 
         private Stream getMessageFromResource(string message)
@@ -357,6 +362,13 @@ namespace TheProjectGame.Messaging.Tests
             ms.Position = 0;
 
             return ms;
+        }
+
+        private Stream getSchemaStream()
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+
+            return assembly.GetManifestResourceStream("TheProjectGame.Messaging.Tests.TheProjectGameCommunication.xsd");
         }
     }
 }

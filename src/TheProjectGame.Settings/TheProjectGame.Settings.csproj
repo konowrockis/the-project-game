@@ -52,8 +52,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IOptionsSource.cs" />
     <Compile Include="OptionsParser.cs" />
     <Compile Include="ConfigurationBuilderExtensions.cs" />
+    <Compile Include="OptionsSource.cs" />
     <Compile Include="Options\CommunicationServerOptions.cs" />
     <Compile Include="Options\ConfigLocation.cs" />
     <Compile Include="Options\GameMasterOptions.cs" />

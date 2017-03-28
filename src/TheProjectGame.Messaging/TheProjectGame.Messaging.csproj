@@ -49,12 +49,14 @@
     <Compile Include="IMessageExecutor.cs" />
     <Compile Include="IMessageHandler.cs" />
     <Compile Include="IMessageHandlerResolver.cs" />
+    <Compile Include="ISchemaSource.cs" />
     <Compile Include="MessageProxy.cs" />
     <Compile Include="MessageStream.cs" />
     <Compile Include="IMessageParser.cs" />
     <Compile Include="MessagesParser.cs" />
     <Compile Include="MessagingModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SchemaSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TheProjectGame.Contracts\TheProjectGame.Contracts.csproj">

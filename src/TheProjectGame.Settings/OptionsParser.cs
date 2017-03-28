@@ -9,17 +9,15 @@ namespace TheProjectGame.Settings
 {
     class OptionsParser
     {
-        private const string defaultConfigLocation = "config.xml";
         private readonly ILogger logger = Log.ForContext<OptionsParser>();
 
-        private readonly string configLocation;
         private readonly string[] args;
+        private readonly IOptionsSource optionsSource;
 
-        public OptionsParser(string[] args)
+        public OptionsParser(string[] args, IOptionsSource optionsSource)
         {
             this.args = args;
-
-            configLocation = getConfigLocation();
+            this.optionsSource = optionsSource;
         }
 
         public T GetOptions<T>() where T : GeneralOptions, new()
@@ -27,14 +25,13 @@ namespace TheProjectGame.Settings
             XmlSerializer serializer = new XmlSerializer(typeof(T));
 
             T value = new T();
+            var configurationSource = optionsSource.GetConfiguration();
 
-            if (File.Exists(configLocation) && configLocation.EndsWith(".xml"))
+            if (configurationSource != null)
             {
-                value = serializer.Deserialize(File.OpenRead(configLocation)) as T;
-            }
-            else
-            {
-                logger.Verbose("Couldn't load configuration file {@ConfigurationFile}", configLocation);
+                value = serializer.Deserialize(configurationSource) as T;
+
+                configurationSource.Dispose();
             }
 
             ParseRecursive(args, value);
@@ -60,14 +57,6 @@ namespace TheProjectGame.Settings
             }
         }
 
-        private string getConfigLocation()
-        {
-            ConfigLocation config = new ConfigLocation();
-            Parser.Default.ParseArguments(args, config);
-
-            return string.IsNullOrWhiteSpace(config.ConfigurationPath) ?
-                defaultConfigLocation :
-                config.ConfigurationPath;
-        }
+        
     }
 }
