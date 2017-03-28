@@ -16,19 +16,23 @@ namespace TheProjectGame.Messaging
         private readonly Stream stream;
         private readonly XmlDocument document;
         private readonly IMessageParser messageParser;
+        private readonly XmlReaderSettings readerSettings;
 
         public delegate MessageStream Factory(Stream stream);
 
-        public MessageStream(Stream stream, IMessageParser messageParser)
+        public MessageStream(Stream stream, IMessageParser messageParser, ISchemaSource schemaSource)
         {
             this.stream = stream;
             this.messageParser = messageParser;
-            this.document = new XmlDocument();
+
+            readerSettings = GetXmlReaderSettings(schemaSource);
+            document = new XmlDocument();
         }
 
         public IMessage Read()
         {
-            var reader = GetReader();
+            var reader = XmlReader.Create(stream, readerSettings);
+
             while (reader.Read())
             {
                 if (reader.NodeType == XmlNodeType.Element)
@@ -38,7 +42,6 @@ namespace TheProjectGame.Messaging
                     return message;
                 }
             }
-
 
             return null;
         }
@@ -52,16 +55,19 @@ namespace TheProjectGame.Messaging
             });
         }
 
-        private XmlReader GetReader()
+        private XmlReaderSettings GetXmlReaderSettings(ISchemaSource schemaSource)
         {
             XmlSchemaSet schemaSet = new XmlSchemaSet();
-            schemaSet.Add(XmlSchema.Read(File.OpenRead("TheProjectGameCommunication.xsd"), null));
-            XmlReaderSettings settings = new XmlReaderSettings
+            using (var schema = schemaSource.GetSchema())
+            {
+                schemaSet.Add(XmlSchema.Read(schema, null));
+            }
+
+            return new XmlReaderSettings
             {
                 ValidationType = ValidationType.Schema,
                 Schemas = schemaSet
             };
-            return XmlReader.Create(stream, settings);
         }
     }
 }
