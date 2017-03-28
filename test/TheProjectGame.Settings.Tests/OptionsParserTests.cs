@@ -1,6 +1,9 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NSubstitute;
 using TheProjectGame.Settings.Options;
 using TheProjectGame.Settings.Options.Structures;
 
@@ -76,7 +79,7 @@ namespace TheProjectGame.Settings.Tests
         [TestMethod]
         public void Parsing_player_configuration_reads_values_properly()
         {
-            var parser = GetOptionsParser(@"Configurations\PlayerConfiguration.xml");
+            var parser = GetOptionsParser(@"PlayerConfiguration.xml");
 
             var options = parser.GetOptions<PlayerOptions>();
 
@@ -87,7 +90,7 @@ namespace TheProjectGame.Settings.Tests
         [TestMethod]
         public void Parsing_game_master_configuration_reads_values_properly()
         {
-            var parser = GetOptionsParser(@"Configurations\GameMasterConfiguration.xml");
+            var parser = GetOptionsParser(@"GameMasterConfiguration.xml");
 
             var options = parser.GetOptions<GameMasterOptions>();
 
@@ -98,7 +101,7 @@ namespace TheProjectGame.Settings.Tests
         [TestMethod]
         public void Parsing_communication_server_configuration_reads_values_properly()
         {
-            var parser = GetOptionsParser(@"Configurations\CommunicationServerConfiguration.xml");
+            var parser = GetOptionsParser(@"CommunicationServerConfiguration.xml");
 
             var options = parser.GetOptions<CommunicationServerOptions>();
 
@@ -108,7 +111,7 @@ namespace TheProjectGame.Settings.Tests
         [TestMethod]
         public void Parsing_game_configuration_reads_values_properly()
         {
-            var parser = GetOptionsParser(@"Configurations\GameMasterConfiguration.xml");
+            var parser = GetOptionsParser(@"GameMasterConfiguration.xml");
 
             var options = parser.GetOptions<GameMasterOptions>().GameDefinition;
 
@@ -130,7 +133,7 @@ namespace TheProjectGame.Settings.Tests
         [TestMethod]
         public void Parsing_action_costs_configuration_reads_values_properly()
         {
-            var parser = GetOptionsParser(@"Configurations\GameMasterConfiguration.xml");
+            var parser = GetOptionsParser(@"GameMasterConfiguration.xml");
 
             var options = parser.GetOptions<GameMasterOptions>().ActionCosts;
 
@@ -156,7 +159,7 @@ namespace TheProjectGame.Settings.Tests
         [TestMethod]
         public void Overriding_options_with_command_line_works_properly()
         {
-            var parser = GetOptionsParser(@"Configurations\GameMasterConfiguration.xml",
+            var parser = GetOptionsParser(@"GameMasterConfiguration.xml",
                 "--GameMasterOptions.RetryRegisterGameInterval", "1111",
                 "--ActionCostsOptions.MoveDelay", "2222",
                 "--GameOptions.InitialNumberOfPieces", "3333");
@@ -171,8 +174,25 @@ namespace TheProjectGame.Settings.Tests
         private OptionsParser GetOptionsParser(string configLocation, params string[] additionalParams)
         {
             var parameters = new string[] { "abc.exe", "--conf", configLocation };
+            parameters = parameters.Union(additionalParams).ToArray();
 
-            return new OptionsParser(parameters.Union(additionalParams).ToArray());
+            var optionsSource = Substitute.For<IOptionsSource>();
+            optionsSource.GetConfiguration().Returns(getMessageFromResource(configLocation));
+
+            return new OptionsParser(parameters, optionsSource);
+        }
+
+        private Stream getMessageFromResource(string configLocation)
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+            try
+            {
+                return assembly.GetManifestResourceStream("TheProjectGame.Settings.Tests.Configurations." + configLocation);
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 }
