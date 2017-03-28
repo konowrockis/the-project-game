@@ -15,13 +15,15 @@ namespace TheProjectGame.GameMaster.Tests
     public class RejectGameRegistrationMessageHandlerTests
     {
         [TestMethod]
-        public void ResendRegisterGameMessage()
+        public void Resend_RegisterGame_message_after_receiving_RejectGameRegistration_message()
         {
             IMessageWriter writer = Substitute.For<IMessageWriter>();
             RegisterGame response = null;
-            writer.When(w=>w.Write(Arg.Any<RegisterGame>(),Arg.Any<double>())).Do(c=>response=c.Arg<RegisterGame>());
+            writer.When(w => w.Write(Arg.Any<RegisterGame>(), Arg.Any<double>()))
+                .Do(c => response = c.Arg<RegisterGame>());
 
             new RejectGameRegistrationMessageHandler(writer).Handle(new RejectGameRegistration());
+
             Assert.IsNotNull(response);
         }
     }

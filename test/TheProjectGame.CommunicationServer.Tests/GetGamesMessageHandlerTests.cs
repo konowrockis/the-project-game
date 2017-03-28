@@ -17,20 +17,16 @@ namespace TheProjectGame.CommunicationServer.Tests
     {
 
         [TestMethod]
-        public void GetRegisteredGamesTest()
+        public void Get_registered_games_list_with_one_element()
         {
             string gameName = "testName";
             IClient client = Substitute.For<IClient>();
             RegisteredGames response = null;
-
             IGame game = Substitute.For<IGame>();
             game.Name.Returns(gameName);
-
             IGamesManager gamesManager = Substitute.For<IGamesManager>();
             gamesManager.GetGamesList().Returns(new List<IGame>() {game});
-
             client.When(c => c.Write(Arg.Any<RegisteredGames>())).Do(c => response = c.Arg<RegisteredGames>());
-
             ICurrentClient currentClient = Substitute.For<ICurrentClient>();
             currentClient.Value.Returns(c => client);
 
@@ -44,16 +40,13 @@ namespace TheProjectGame.CommunicationServer.Tests
 
 
         [TestMethod]
-        public void NoGamesRegisteredTest()
+        public void Get_empty_registered_game_list()
         {
             IClient client = Substitute.For<IClient>();
             RegisteredGames response = null;
-
             IGamesManager gamesManager = Substitute.For<IGamesManager>();
             gamesManager.GetGamesList().Returns(new List<IGame>());
-
             client.When(c => c.Write(Arg.Any<RegisteredGames>())).Do(c => response = c.Arg<RegisteredGames>());
-
             ICurrentClient currentClient = Substitute.For<ICurrentClient>();
             currentClient.Value.Returns(c => client);
 

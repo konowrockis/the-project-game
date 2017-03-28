@@ -17,26 +17,20 @@ namespace TheProjectGame.CommunicationServer.Tests
     {
 
         [TestMethod]
-        public void RejectRegisterGameTest()
+        public void Rejest_any_RegisterGame_message()
         {
             RejectGameRegistration response = null;
-
             IClient client = Substitute.For<IClient>();
-            client.When(c => c.Write(Arg.Any<RejectGameRegistration>())).Do(callback => response = callback.Arg<RejectGameRegistration>());
-
-
+            client.When(c => c.Write(Arg.Any<RejectGameRegistration>()))
+                .Do(callback => response = callback.Arg<RejectGameRegistration>());
             ICurrentClient currentClient = Substitute.For<ICurrentClient>();
             currentClient.Value.Returns(c => client);
+            RegisterGame message = new RegisterGame {NewGameInfo = new GameInfo {Name = "name"}};
 
-            
-            RegisterGame message = new RegisterGame();
-            message.NewGameInfo = new GameInfo();
-            message.NewGameInfo.Name = "name";
-
-            new RegisterGameMessageHandler(currentClient,null).Handle(message);
+            new RegisterGameMessageHandler(currentClient, null).Handle(message);
 
             Assert.IsNotNull(response);
-            Assert.IsTrue(message.NewGameInfo.Name==response.GameName);
+            Assert.IsTrue(message.NewGameInfo.Name == response.GameName);
         }
 
     }
