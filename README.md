@@ -25,17 +25,42 @@ Tasks are organized with the help of **[Trello](https://trello.com)** service, w
 Changes in code are tracked with Git version control system. Elected branching model and commit naming convention is inspired by **[Gitflow Workflow](https://www.atlassian.com/git/tutorials/comparing-workflows#gitflow-workflow)** which is enforced **strictly**.
 Development branch is synchronized with TeamCity **continuous integration** server to prevent integration problems and to ensure that project passes test after every significant change is made. TeamCity server is hosted on Azure cloud computing service.
 
+## Submitted issues regarding initial version of the project documentation
+- [Direction of keep alive message](https://se2.mini.pw.edu.pl/17-results/17-results/issues/23)
+- [Subsequent messages before a reply from game master arrives](https://se2.mini.pw.edu.pl/17-results/17-results/issues/22)
+- [What happens when a node disconnects](https://se2.mini.pw.edu.pl/17-results/17-results/issues/1)
+
 ## Preliminary work schedule
 
 - **laboratory 2** (10.03) - delivering intial project documentation. 
 - **laboratory 3** (17.03) - delivering final project documentation. Planning the first sprint (Communication). Main goal of this sprint is to create initial projet setup, create coninuous integration environment and prepare working base of communication server where most of the funcionalites are still mocked.
-- **laboratory 4** (24.03) - working prototype of communication, implemented messages models, working communication server, Player and GameMaster mocked mostly. Planning the second (Game) sprint, review and retrospect of the first sprint.
-- **laboratory 5** (31.03) - planning the third sprint (Game), review and retrospect of the second sprint.
-- **laboratory 6** (07.04) - planning the fourth sprint (Game), review and retrospect of the third sprint.
-- **laboratory 7** (12.04) - working prototype of a whole game, implemented game rules, ability to play sample game, Communication Server can serve multiple games. Client's, Communication Server's and Game's configurations are kept and read from configuration files. Planning the fifth sprint (Cooperation), review and retrospect of the fourth sprint.
-- **laboratory 8** (21.04) - planning the sixth sprint (Cooperation), review and retrospect of the fifth sprint.
-- **laboratory 9** (28.04) - planning the seventh sprint (Cooperation), review and retrospect of the sixth sprint.
-- **laboratory 10** (5.05) - planning the eighth sprint (Cooperation), review and retrospect of the seventh sprint.
-- **laboratory 11** (12.05) - module responsible for basic artificial intelligence. Planning the ninth sprint (Cooperation), review and retrospect of the eighth sprint.
-- **laboratory 12** (19.05) - improvement of compatibility with other groups solutions. Planning the final sprint, review and retrospect of the ninth sprint.
-- **laboratory 13** (26.05) - championships. Review and retrospect of the final sprint.
+- **laboratory 4** (24.03) - setting up continuous integration (TeamCity).
+- **laboratory 5** (31.03) - working prototype of communication, implemented messages models, working communication server, Player and GameMaster mocked mostly. Planning the second (Game) sprint, review and retrospect of the first sprint.
+- **laboratory 6** (07.04) - planning the third sprint (Game), review and retrospect of the second sprint.
+- **laboratory 7** (12.04) - planning the fourth sprint (Game), review and retrospect of the third sprint.
+- **laboratory 8** (21.04) - testing phase of game rules implementation, ability to play simple games simultaneously. Planning the fifth sprint (Game), review and retrospect of the fourth sprint. 
+- **laboratory 9** (28.04) - working prototype of a whole game, implemented game rules, Communication Server can serve multiple games. Client's, Communication Server's and Game's configurations are kept and read from configuration files. Planning the sixth sprint (Cooperation), review and retrospect of the fifth sprint.
+- **laboratory 10** (05.05) - planning the seventh sprint (Cooperation), review and retrospect of the sixth sprint.
+- **laboratory 11** (12.05) - testing cooperation phase, modules responsible for loading artifical intelligence. Planning the eight sprint (Cooperation), review and retrospect of the seventh sprint.
+- **laboratory 12** (26.05) - module responsible for basic artificial intelligence. Improvement of compatibility with other groups solutions. Planning the final sprint (Cooperation), review and retrospect of the eighth sprint.
+- **laboratory 13** (02.06) - championships. Review and retrospect of the final sprint.
+
+## Progress
+
+* Tasks completed during the first sprint:
+    * TeamCity configuration
+    * Artifacts generation on TeamCity
+    * Inversion of Control using Autofac
+    * TCP/IP infrastructure
+    * Messages templates
+    * Configuration loading infrastructure
+    * Logging infrastructure
+    * Verbose mode
+    * Messages routing
+    * XSD schema validation
+    * Clients handling
+    * Unit tests - Options parser
+    * Unit tests - Message handler resolver
+    * Unit tests - Message handlers
+    * Unit tests - Message parser
+    * Integration tests
