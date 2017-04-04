@@ -4,7 +4,6 @@ using TheProjectGame.Contracts.Messages.Structures;
 
 namespace TheProjectGame.Contracts.Messages.PlayerActions
 {
-    [XmlRoot(Namespace = "http://theprojectgame.mini.pw.edu.pl/")]
     public class Data : PlayerMessage, IMessage
     {
         public List<TaskField> TaskFields { get; set; }

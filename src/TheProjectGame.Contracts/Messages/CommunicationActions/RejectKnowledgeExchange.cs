@@ -2,7 +2,6 @@
 
 namespace TheProjectGame.Contracts.Messages.CommunicationActions
 {
-    [XmlRoot(Namespace = "http://theprojectgame.mini.pw.edu.pl/")]
     public class RejectKnowledgeExchange : BetweenPlayersMessage, IMessage
     {
         [XmlAttribute("Permanent")]

@@ -3,7 +3,6 @@ using TheProjectGame.Contracts.Enums;
 
 namespace TheProjectGame.Contracts.Messages.GameActions
 {
-    [XmlRoot(Namespace = "http://theprojectgame.mini.pw.edu.pl/")]
     public class JoinGame : IMessage
     {
         [XmlAttribute("gameName")]

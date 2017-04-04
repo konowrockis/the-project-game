@@ -66,7 +66,11 @@ namespace TheProjectGame.Messaging
             return new XmlReaderSettings
             {
                 ValidationType = ValidationType.Schema,
-                Schemas = schemaSet
+                Schemas = schemaSet,
+                
+                IgnoreComments = true,
+                IgnoreWhitespace = true,
+                IgnoreProcessingInstructions = true
             };
         }
     }
