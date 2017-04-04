@@ -9,8 +9,10 @@ using TheProjectGame.Contracts.Messages.PlayerActions;
 
 namespace TheProjectGame.Messaging
 {
-    public class MessagesParser : IMessageParser
+    class MessagesParser : IMessageParser
     {
+        private const string DefaultNamespace = "http://theprojectgame.mini.pw.edu.pl/";
+
         private readonly Dictionary<string, XmlSerializer> messageSerializers;
 
         public MessagesParser()
@@ -49,8 +51,7 @@ namespace TheProjectGame.Messaging
         private void addMessageSerializer<T>() where T: IMessage
         {
             var t = typeof(T);
-
-            messageSerializers[t.Name] = new XmlSerializer(t);
+            messageSerializers[t.Name] = new XmlSerializer(t, DefaultNamespace);
         }
 
         public IMessage Parse(string messageName, XmlReader reader)

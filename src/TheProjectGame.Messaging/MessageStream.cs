@@ -1,7 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Net.Sockets;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Schema;
@@ -66,7 +64,11 @@ namespace TheProjectGame.Messaging
             return new XmlReaderSettings
             {
                 ValidationType = ValidationType.Schema,
-                Schemas = schemaSet
+                Schemas = schemaSet,
+                
+                IgnoreComments = true,
+                IgnoreWhitespace = true,
+                IgnoreProcessingInstructions = true
             };
         }
     }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using TheProjectGame.Contracts.Messages.GameActions;
 using TheProjectGame.GameMaster.MessageHandlers;
@@ -18,13 +13,12 @@ namespace TheProjectGame.GameMaster.Tests
         public void Resend_RegisterGame_message_after_receiving_RejectGameRegistration_message()
         {
             IMessageWriter writer = Substitute.For<IMessageWriter>();
-            RegisterGame response = null;
-            writer.When(w => w.Write(Arg.Any<RegisterGame>(), Arg.Any<double>()))
-                .Do(c => response = c.Arg<RegisterGame>());
+            var handler = new RejectGameRegistrationMessageHandler(writer);
+            var message = new RejectGameRegistration();
 
-            new RejectGameRegistrationMessageHandler(writer).Handle(new RejectGameRegistration());
+            handler.Handle(message);
 
-            Assert.IsNotNull(response);
+            writer.Received().Write(Arg.Any<RegisterGame>(), 100);
         }
     }
 }

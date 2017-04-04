@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
+using NSubstitute.ReturnsExtensions;
 using TheProjectGame.CommunicationServer.MessageHandlers;
 using TheProjectGame.CommunicationServer.Routing;
-using TheProjectGame.Contracts.Messages.GameActions;
 using TheProjectGame.Contracts.Messages.PlayerActions;
 using TheProjectGame.Contracts.Messages.Structures;
 
@@ -16,54 +11,80 @@ namespace TheProjectGame.CommunicationServer.Tests
     [TestClass]
     public class GameMessageHandlerTests
     {
+        private const ulong gameId = 1;
+        private const ulong nonExistentGameId = gameId + 1;
+        private const string validPlayerGuid = nameof(validPlayerGuid);
+        private const string invalidPlayerGuid = nameof(invalidPlayerGuid);
+
         [TestMethod]
-        public void Pass_GameMessage_to_GameMaster()
+        public void Pass_GameMessage_to_GameMaster_when_everything_is_valid()
         {
-            string playerGuid = "guid";
-            ulong gameId = 1u;
-            IClient client = Substitute.For<IClient>();
-            client.PlayerGuid.Returns(playerGuid);
-            IGame game = Substitute.For<IGame>();
-            game.GameMaster.Returns(client);
-            IGamesManager gamesManager = Substitute.For<IGamesManager>();
-            gamesManager.GetGameById(Arg.Any<ulong>()).Returns(game);
-            GameMessage response = null;
-            client.When(c => c.Write(Arg.Any<GameMessage>())).Do(c => response = c.Arg<GameMessage>());
-            ICurrentClient currentClient = Substitute.For<ICurrentClient>();
-            currentClient.Value.Returns(c => client);
-            GameMessage message = new PickUpPiece();
-            message.PlayerGuid = playerGuid;
-            message.GameId = gameId;
+            var sut = GetMessageHandler();
+            var message = GetMessage(validPlayerGuid);
 
-            new GameMessageHandler(gamesManager, currentClient).Handle(message);
+            sut.MessageHandler.Handle(message);
 
-            Assert.IsNotNull(response);
-            Assert.IsTrue(message==response);
+            sut.GameMaster.Received().Write(message);
         }
 
         [TestMethod]
-        public void Do_nothing_on_invalid_player_guid_in_GameMessage()
+        public void Do_nothing_on_invalid_player_guid()
         {
-            string playerGuid = "guid";
-            ulong gameId = 1u;
-            IClient client = Substitute.For<IClient>();
-            client.PlayerGuid.Returns(playerGuid);
-            IGame game = Substitute.For<IGame>();
-            IGamesManager gamesManager = Substitute.For<IGamesManager>();
-            gamesManager.GetGamesList().Returns(new List<IGame>() { game });
+            var sut = GetMessageHandler();
+            var message = GetMessage(invalidPlayerGuid);
+
+            sut.MessageHandler.Handle(message);
+
+            sut.GameMaster.DidNotReceiveWithAnyArgs();
+        }
+
+        [TestMethod]
+        public void Do_nothing_when_game_with_given_id_does_not_exist()
+        {
+            var sut = GetMessageHandler();
+            var message = GetMessage(validPlayerGuid, nonExistentGameId);
+
+            sut.MessageHandler.Handle(message);
+
+            sut.GameMaster.DidNotReceiveWithAnyArgs();
+        }
+
+        private SystemUnderTests GetMessageHandler()
+        {
+            var client = Substitute.For<IClient>();
+            var currentClient = Substitute.For<ICurrentClient>();
+            var gamesManager = Substitute.For<IGamesManager>();
+            var game = Substitute.For<IGame>();
+            var gameMaster = Substitute.For<IClient>();
+
+            client.PlayerGuid.Returns(validPlayerGuid);
+            currentClient.Value.Returns(client);
             gamesManager.GetGameById(gameId).Returns(game);
-            GameMessage response = null;
-            client.When(c => c.Write(Arg.Any<GameMessage>())).Do(c => response = c.Arg<GameMessage>());
-            ICurrentClient currentClient = Substitute.For<ICurrentClient>();
-            currentClient.Value.Returns(c => client);
-            GameMessage message = new PickUpPiece();
-            message.PlayerGuid = playerGuid;
-            message.GameId = gameId;
-            
-            new GameMessageHandler(gamesManager,currentClient).Handle(message);
-            
-            Assert.IsNull(response);
+            gamesManager.GetGameById(nonExistentGameId).ReturnsNull();
+            game.GameMaster.Returns(gameMaster);
+
+            return new SystemUnderTests()
+            {
+                MessageHandler = new GameMessageHandler(gamesManager, currentClient),
+                GameMaster = gameMaster,
+                Client = client
+            };
         }
 
+        private GameMessage GetMessage(string playerGuid, ulong gameId = gameId)
+        {
+            return new TestPiece()
+            {
+                PlayerGuid = playerGuid,
+                GameId = gameId
+            };
+        }
+
+        private class SystemUnderTests
+        {
+            public GameMessageHandler MessageHandler { get; set; }
+            public IClient GameMaster { get; set; }
+            public IClient Client { get; set; }
+        }
     }
 }

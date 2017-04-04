@@ -1,6 +1,5 @@
 ﻿using Autofac;
-using TheProjectGame.Network.Internal.Client;
-using TheProjectGame.Network.Internal.Contract;
+using TheProjectGame.Network.Client;
 
 namespace TheProjectGame.Network
 {

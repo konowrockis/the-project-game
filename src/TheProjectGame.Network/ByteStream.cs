@@ -1,8 +1,8 @@
 ﻿using System.Net.Sockets;
 
-namespace TheProjectGame.Network.Internal
+namespace TheProjectGame.Network
 {
-    public class ByteStream : NetworkStream
+    class ByteStream : NetworkStream
     {
         private const byte ETB = 0x17;
 

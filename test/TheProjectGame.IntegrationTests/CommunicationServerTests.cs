@@ -9,6 +9,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace TheProjectGame.IntegrationTests
 {
     [TestClass]
+    [TestCategory("Integration")]
     public class CommunicationServerTests
     {
         private Process communicationServerProcess;

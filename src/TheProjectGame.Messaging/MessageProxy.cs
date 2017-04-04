@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 using TheProjectGame.Contracts;
 
 namespace TheProjectGame.Messaging
@@ -24,7 +18,7 @@ namespace TheProjectGame.Messaging
         void SetStream(Stream messageStream);
     }
 
-    public class MessageProxy : IMessageReader, IMessageWriter, IMessageProxyCreator
+    class MessageProxy : IMessageReader, IMessageWriter, IMessageProxyCreator
     {
         private readonly MessageStream.Factory messageStreamFactory;
 

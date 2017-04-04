@@ -3,7 +3,6 @@ using TheProjectGame.Contracts.Messages.Structures;
 
 namespace TheProjectGame.Contracts.Messages.GameActions
 {
-    [XmlRoot(Namespace = "http://theprojectgame.mini.pw.edu.pl/")]
     public class ConfirmJoiningGame : PlayerMessage, IMessage
     {
         public Player PlayerDefinition { get; set; }

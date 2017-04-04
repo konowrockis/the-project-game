@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using TheProjectGame.Contracts.Messages.GameActions;
 using TheProjectGame.Messaging;
@@ -15,17 +10,15 @@ namespace TheProjectGame.Player.Tests
     public class RejectJoiningGameMessageHandlerTests
     {
         [TestMethod]
-        public void Write_GetGames_message_after_receiving_RejectJoiningGame()
+        public void Send_GetGames_message_after_receiving_RejectJoiningGame()
         {
             IMessageWriter writer = Substitute.For<IMessageWriter>();
-            GetGames response = null;
-            writer.When(w => w.Write(Arg.Any<GetGames>())).Do(c => response = c.Arg<GetGames>());
+            var handler = new RejectJoiningGameMessageHandler(writer);
+            var message = new RejectJoiningGame();
 
-            new RejectJoiningGameMessageHandler(writer).Handle(new RejectJoiningGame());
+            handler.Handle(message);
 
-            Assert.IsNotNull(response);
+            writer.Received().Write(Arg.Any<GetGames>());
         }
-        
     }
-
 }
