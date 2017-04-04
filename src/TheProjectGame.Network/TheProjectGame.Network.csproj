@@ -48,24 +48,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Exposed\INetworkHandler.cs" />
-    <Compile Include="Internal\ByteStream.cs" />
-    <Compile Include="Internal\Exceptions\InvalidAddressException.cs" />
-    <Compile Include="Internal\Exceptions\SocketClosedException.cs" />
-    <Compile Include="Internal\Server\ServerHandler.cs" />
+    <Compile Include="INetworkHandler.cs" />
+    <Compile Include="ByteStream.cs" />
+    <Compile Include="Exceptions\InvalidAddressException.cs" />
+    <Compile Include="Exceptions\SocketClosedException.cs" />
+    <Compile Include="Server\ServerHandler.cs" />
     <Compile Include="NetworkModule.cs" />
     <Compile Include="ServerNetworkModule.cs" />
     <Compile Include="ClientNetworkModule.cs" />
-    <Compile Include="Internal\Client\TcpClientSocket.cs" />
-    <Compile Include="Internal\Connection.cs" />
-    <Compile Include="Exposed\IConnectionData.cs" />
-    <Compile Include="Internal\Contract\IClientSocket.cs" />
-    <Compile Include="Internal\Contract\IServerSocket.cs" />
-    <Compile Include="Internal\VoidConnectionData.cs" />
-    <Compile Include="Internal\Server\TcpServerSocket.cs" />
-    <Compile Include="Internal\Client\ClientHandler.cs" />
-    <Compile Include="Exposed\IConnection.cs" />
-    <Compile Include="Exposed\IClientEventHandler.cs" />
+    <Compile Include="Client\TcpClientSocket.cs" />
+    <Compile Include="Client\Connection.cs" />
+    <Compile Include="IConnectionData.cs" />
+    <Compile Include="Client\IClientSocket.cs" />
+    <Compile Include="Server\IServerSocket.cs" />
+    <Compile Include="Client\VoidConnectionData.cs" />
+    <Compile Include="Server\TcpServerSocket.cs" />
+    <Compile Include="Client\ClientHandler.cs" />
+    <Compile Include="IConnection.cs" />
+    <Compile Include="IClientEventHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

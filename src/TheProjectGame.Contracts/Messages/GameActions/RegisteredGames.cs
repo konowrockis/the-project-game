@@ -7,7 +7,7 @@ namespace TheProjectGame.Contracts.Messages.GameActions
 {
     public class RegisteredGames : IMessage
     {
-        [XmlArray("GameInfo")]
+        [XmlElement("GameInfo")]
         public List<GameInfo> GameInfo { get; set; }
     }
 }

@@ -26,7 +26,7 @@ namespace TheProjectGame.Player
 
         public void OnOpen(IConnection connection, Stream stream)
         {
-            logger.Debug("Connected to host at port {@Port}", connection.Port());
+            logger.Debug("Connected to host at port {@Port}", connection.Port);
 
             proxyCreator.SetStream(stream);
 

@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Net;
 using System.Threading;
-using Autofac;
 using Serilog;
-using TheProjectGame.Network.Internal.Contract;
+using TheProjectGame.Network.Client;
 using TheProjectGame.Settings.Options;
 
-namespace TheProjectGame.Network.Internal.Server
+namespace TheProjectGame.Network.Server
 {
     internal class ServerHandler : INetworkHandler
     {

@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
-using TheProjectGame.Network.Internal.Client;
-using TheProjectGame.Network.Internal.Contract;
+using TheProjectGame.Network.Client;
 
-namespace TheProjectGame.Network.Internal.Server
+namespace TheProjectGame.Network.Server
 {
     internal class TcpServerSocket : IServerSocket, IDisposable
     {
-        private const int BACKLOG = 10;
+        private const int BacklogSize = 10;
 
         private Socket socket;
 
@@ -23,7 +22,7 @@ namespace TheProjectGame.Network.Internal.Server
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             
             socket.Bind(localEndPoint);
-            socket.Listen(BACKLOG);
+            socket.Listen(BacklogSize);
         }
 
         public void Dispose()

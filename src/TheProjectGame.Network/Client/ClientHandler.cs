@@ -2,17 +2,14 @@
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Net.NetworkInformation;
 using System.Net.Sockets;
-using System.Text;
 using Autofac;
+using TheProjectGame.Network.Exceptions;
 using TheProjectGame.Network.Internal;
-using TheProjectGame.Network.Internal.Contract;
 using TheProjectGame.Network.Internal.Exceptions;
-using TheProjectGame.Settings;
 using TheProjectGame.Settings.Options;
 
-namespace TheProjectGame.Network
+namespace TheProjectGame.Network.Client
 {
     internal class ClientHandler : INetworkHandler
     {
