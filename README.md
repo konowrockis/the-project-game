@@ -45,6 +45,22 @@ Development branch is synchronized with TeamCity **continuous integration** serv
 - **laboratory 12** (26.05) - module responsible for basic artificial intelligence. Improvement of compatibility with other groups solutions. Planning the final sprint (Cooperation), review and retrospect of the eighth sprint.
 - **laboratory 13** (02.06) - championships. Review and retrospect of the final sprint.
 
+## Application links
+
+These are versions of the applications built and published by our Continuous Integration server. In order to download these you need to log in as guest user.
+
+### Development
+
+- [Player](http://mini-dev.westeurope.cloudapp.azure.com:8080/repository/download/TheProjectGame_Development/latest.lastSuccessful/Player.zip)
+- [Game Master](http://mini-dev.westeurope.cloudapp.azure.com:8080/repository/download/TheProjectGame_Development/latest.lastSuccessful/GameMaster.zip)
+- [Communication Server](http://mini-dev.westeurope.cloudapp.azure.com:8080/repository/download/TheProjectGame_Development/latest.lastSuccessful/CommunicationServer.zip)
+
+### Release
+
+- [Player](http://mini-dev.westeurope.cloudapp.azure.com:8080/repository/download/TheProjectGame_Master/latest.lastSuccessful/Player.zip)
+- [Game Master](http://mini-dev.westeurope.cloudapp.azure.com:8080/repository/download/TheProjectGame_Master/latest.lastSuccessful/GameMaster.zip)
+- [Communication Server](http://mini-dev.westeurope.cloudapp.azure.com:8080/repository/download/TheProjectGame_Master/latest.lastSuccessful/CommunicationServer.zip)
+
 ## Progress
 
 * Tasks completed during the first sprint:
