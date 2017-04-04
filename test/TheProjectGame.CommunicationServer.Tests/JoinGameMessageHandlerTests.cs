@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
 using TheProjectGame.CommunicationServer.MessageHandlers;
 using TheProjectGame.CommunicationServer.Routing;
-using TheProjectGame.Contracts;
-using TheProjectGame.Contracts.Enums;
 using TheProjectGame.Contracts.Messages.GameActions;
 
 namespace TheProjectGame.CommunicationServer.Tests
@@ -17,61 +10,71 @@ namespace TheProjectGame.CommunicationServer.Tests
     [TestClass]
     public class JoinGameMessageHandlerTests
     {
-       
+        private const ulong playerId = 1;
+        private const string existingGameName = nameof(existingGameName);
+        private const string nonExistingGameName = nameof(nonExistingGameName);
+
         [TestMethod]
         public void Send_RejectJoiningGame_message_when_invalid_name()
         {
-            IClient client = Substitute.For<IClient>();
-            JoinGame joinGame = new JoinGame
-            {
-                GameName = "test",
-                PreferedRole = PlayerType.Player,
-                PreferedTeam = TeamColor.Blue,
-                PlayerIdSpecified = false
-            };
-            bool wrote = false;
-            IGamesManager gamesManager = Substitute.For<IGamesManager>();
-            gamesManager.GetGameByName(Arg.Any<string>()).ReturnsNull();
-            client.When(c=>c.Write(Arg.Any<RejectJoiningGame>())).Do(c=>wrote=true);
-            ICurrentClient currentClient = Substitute.For<ICurrentClient>();
-            currentClient.Value.Returns(c=>client);
-            JoinGameMessageHandler handler = new JoinGameMessageHandler(currentClient,gamesManager);
+            var sut = GetMessageHandler();
+            var message = GetMessage(nonExistingGameName);
 
-            handler.Handle(joinGame);
+            sut.MessageHandler.Handle(message);
 
-            Assert.IsTrue(wrote);
+            sut.Client.Received().Write(Arg.Is<RejectJoiningGame>(r => 
+                r.GameName == nonExistingGameName
+            ));
         }
 
         [TestMethod]
         public void Pass_JoinGame_message_to_GameMaster_with_valid_playerId()
         {
-            ulong playerId = 1u;
-            IClient client = Substitute.For<IClient>();
-            IGamesManager gamesManager = Substitute.For<IGamesManager>();
-            IGame game = Substitute.For<IGame>();
-            game.GameMaster.Returns(client);
-            client.PlayerId.Returns(playerId);
-            gamesManager.GetGameByName(Arg.Any<string>()).Returns(game);
-            bool passed = false;
-            client.When(c=>c.Write(Arg.Any<JoinGame>())).Do(c =>
-            {
-                passed = c.Arg<JoinGame>().PlayerId == playerId;
-            });
-            ICurrentClient currentClient = Substitute.For<ICurrentClient>();
-            currentClient.Value.Returns(c => client);
-            JoinGameMessageHandler handler = new JoinGameMessageHandler(currentClient, gamesManager);
-            JoinGame joinGame = new JoinGame
-            {
-                GameName = "test",
-                PreferedRole = PlayerType.Player,
-                PreferedTeam = TeamColor.Blue,
-                PlayerIdSpecified = false
-            };
+            var sut = GetMessageHandler();
+            var message = GetMessage(existingGameName);
 
-            handler.Handle(joinGame);
+            sut.MessageHandler.Handle(message);
 
-            Assert.IsTrue(passed);
+            sut.GameMaster.Received().Write(Arg.Is<JoinGame>(j => 
+                j.PlayerId == playerId && j.GameName == existingGameName
+            ));
         }
 
+        private SystemUnderTests GetMessageHandler()
+        {
+            var client = Substitute.For<IClient>();
+            var currentClient = Substitute.For<ICurrentClient>();
+            var gamesManager = Substitute.For<IGamesManager>();
+            var game = Substitute.For<IGame>();
+            var gameMaster = Substitute.For<IClient>();
+
+            client.PlayerId.Returns(playerId);
+            currentClient.Value.Returns(client);
+            gamesManager.GetGameByName(existingGameName).Returns(game);
+            gamesManager.GetGameByName(nonExistingGameName).ReturnsNull();
+            game.GameMaster.Returns(gameMaster);
+            
+            return new SystemUnderTests()
+            {
+                MessageHandler = new JoinGameMessageHandler(currentClient, gamesManager),
+                GameMaster = gameMaster,
+                Client = client
+            };
+        }
+
+        private JoinGame GetMessage(string gameName)
+        {
+            return new JoinGame()
+            {
+                GameName = gameName
+            };
+        }
+
+        private class SystemUnderTests
+        {
+            public JoinGameMessageHandler MessageHandler { get; set; }
+            public IClient GameMaster { get; set; }
+            public IClient Client { get; set; }
+        }
     }
 }

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -9,6 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace TheProjectGame.IntegrationTests
 {
     [TestClass]
+    [TestCategory("Integration")]
     public class GameMasterTests
     {
         private int portBase = 40000;
