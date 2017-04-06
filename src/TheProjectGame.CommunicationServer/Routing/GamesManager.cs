@@ -32,7 +32,8 @@ namespace TheProjectGame.CommunicationServer.Routing
 
         public void Remove(IGame game)
         {
-            games.TryRemove(game.Id, out IGame outGame);
+            IGame outGame;
+            games.TryRemove(game.Id, out outGame);
         }
 
         public IGame GetGameByName(string name)
@@ -42,7 +43,8 @@ namespace TheProjectGame.CommunicationServer.Routing
 
         public IGame GetGameById(ulong id)
         {
-            if (games.TryGetValue(id, out IGame outGame))
+            IGame outGame;
+            if (games.TryGetValue(id, out outGame))
             {
                 return outGame;
             }
