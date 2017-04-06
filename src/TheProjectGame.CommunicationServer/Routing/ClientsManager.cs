@@ -1,39 +1,45 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TheProjectGame.Messaging;
+﻿using System.Collections.Concurrent;
 
 namespace TheProjectGame.CommunicationServer.Routing
 {
     class ClientsManager : IClientsManager
     {
-        private readonly List<IClient> clients; // TODO: make this thread safe maybe?
+        private readonly ConcurrentDictionary<ulong, IClient> clients;
         private ulong newPlayerId;
+
+        private object newPlayerIdLockObject = new object();
 
         public ClientsManager()
         {
-            clients = new List<IClient>();
+            clients = new ConcurrentDictionary<ulong, IClient>();
             newPlayerId = 1;
         }
 
         public void Add(IClient client)
         {
-            clients.Add(client);
+            clients.TryAdd(client.PlayerId, client);
         }
 
-        public ulong GetNewPlayerId() => newPlayerId++;
+        public ulong GetNewPlayerId()
+        {
+            lock (newPlayerIdLockObject)
+            {
+                return newPlayerId++;
+            }
+        }
 
         public IClient GetPlayerById(ulong id)
         {
-            return clients.FirstOrDefault(p => p.PlayerId == id);
+            if (clients.TryGetValue(id, out IClient outClient))
+            {
+                return outClient;
+            }
+            return null;
         }
 
         public void Remove(IClient client)
         {
-            clients.Remove(client);
+            clients.TryRemove(client.PlayerId, out IClient outClient);
         }
     }
 }
