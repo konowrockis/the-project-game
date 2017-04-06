@@ -30,7 +30,9 @@ namespace TheProjectGame.CommunicationServer.Routing
 
         public IClient GetPlayerById(ulong id)
         {
-            if (clients.TryGetValue(id, out IClient outClient))
+            IClient outClient;
+
+            if (clients.TryGetValue(id, out outClient))
             {
                 return outClient;
             }
@@ -39,7 +41,8 @@ namespace TheProjectGame.CommunicationServer.Routing
 
         public void Remove(IClient client)
         {
-            clients.TryRemove(client.PlayerId, out IClient outClient);
+            IClient outClient;
+            clients.TryRemove(client.PlayerId, out outClient);
         }
     }
 }
