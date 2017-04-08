@@ -57,7 +57,6 @@ namespace TheProjectGame.CommunicationServer.Tests
             var game = Substitute.For<IGame>();
             var gameMaster = Substitute.For<IClient>();
 
-            client.PlayerGuid.Returns(validPlayerGuid);
             currentClient.Value.Returns(client);
             gamesManager.GetGameById(gameId).Returns(game);
             gamesManager.GetGameById(nonExistentGameId).ReturnsNull();

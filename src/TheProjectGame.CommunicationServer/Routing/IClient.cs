@@ -6,7 +6,6 @@ namespace TheProjectGame.CommunicationServer.Routing
     {
         ulong? GameId { get; }
         ulong PlayerId { get; }
-        string PlayerGuid { get; }
 
         void JoinGame(ulong gameId);
         void DisconnectFromGame();

@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using TheProjectGame.CommunicationServer.Routing;
+﻿using TheProjectGame.CommunicationServer.Routing;
 using TheProjectGame.Contracts.Messages.Structures;
 using TheProjectGame.Messaging;
 
@@ -18,14 +17,11 @@ namespace TheProjectGame.CommunicationServer.MessageHandlers
 
         public override void Handle(GameMessage message)
         {
-            if (currentClient.PlayerGuid == message.PlayerGuid)
-            {
-                var game = gamesManager.GetGameById(message.GameId);
+            var game = gamesManager.GetGameById(message.GameId);
 
-                if (game != null)
-                {
-                    game.GameMaster.Write(message);
-                }
+            if (game != null)
+            {
+                game.GameMaster.Write(message);
             }
         }
     }

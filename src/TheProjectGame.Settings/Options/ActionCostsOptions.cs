@@ -1,5 +1,4 @@
-﻿using System.Xml.Serialization;
-using CommandLine;
+﻿using CommandLine;
 
 namespace TheProjectGame.Settings.Options
 {

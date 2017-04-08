@@ -11,7 +11,6 @@ namespace TheProjectGame.CommunicationServer.Routing
         private readonly IMessageExecutor messageExecutor;
 
         public ulong? GameId { get; private set; }
-        public string PlayerGuid { get; private set; }
         public ulong PlayerId { get; private set; }
 
         public delegate ServerClient Factory(MessageStream messageStream);
@@ -26,13 +25,11 @@ namespace TheProjectGame.CommunicationServer.Routing
         public void DisconnectFromGame()
         {
             GameId = null;
-            PlayerGuid = null;
         }
 
         public void JoinGame(ulong gameId)
         {
             GameId = gameId;
-            PlayerGuid = Guid.NewGuid().ToString();
         }
 
         public void Start()

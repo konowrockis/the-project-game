@@ -6,6 +6,7 @@ using TheProjectGame.Contracts.Messages.Structures;
 using TheProjectGame.GameMaster.Logging;
 using TheProjectGame.Messaging;
 using TheProjectGame.Network;
+using TheProjectGame.Settings.Options;
 
 namespace TheProjectGame.GameMaster
 {
@@ -17,14 +18,16 @@ namespace TheProjectGame.GameMaster
         private readonly IMessageExecutor messageExecutor;
         private readonly IMessageProxyCreator proxyCreator;
         private readonly IMessageWriter messageWriter;
+        private readonly GameMasterOptions options;
 
         public GameMasterEventHandler(IMessageReader messageReader, IMessageWriter messageWriter, 
-            IMessageProxyCreator proxyCreator, IMessageExecutor messageExecutor)
+            IMessageProxyCreator proxyCreator, IMessageExecutor messageExecutor, GameMasterOptions options)
         {
             this.messageReader = messageReader;
             this.proxyCreator = proxyCreator;
             this.messageExecutor = messageExecutor;
             this.messageWriter = messageWriter;
+            this.options = options;
         }
 
         public void OnOpen(IConnection connection, Stream stream)
@@ -37,9 +40,9 @@ namespace TheProjectGame.GameMaster
             {
                 NewGameInfo = new GameInfo()
                 {
-                    Name = Guid.NewGuid().ToString(),
-                    BlueTeamPlayers = 10,
-                    RedTeamPlayers = 10
+                    Name = options.GameDefinition.GameName,
+                    BlueTeamPlayers = options.GameDefinition.NumberOfPlayersPerTeam,
+                    RedTeamPlayers = options.GameDefinition.NumberOfPlayersPerTeam
                 }
             });
 

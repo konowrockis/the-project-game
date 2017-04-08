@@ -31,6 +31,7 @@ namespace TheProjectGame.CommunicationServer.MessageHandlers
             else
             {
                 message.PlayerId = currentClient.PlayerId;
+                message.PlayerIdSpecified = true;
                 game.GameMaster.Write(message);
             }
         }

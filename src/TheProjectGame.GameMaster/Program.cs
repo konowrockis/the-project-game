@@ -7,6 +7,7 @@ using TheProjectGame.Client;
 using TheProjectGame.Settings;
 using TheProjectGame.Settings.Options;
 using TheProjectGame.GameMaster.Logging;
+using TheProjectGame.GameMaster.Games;
 
 namespace TheProjectGame.GameMaster
 {
@@ -36,6 +37,8 @@ namespace TheProjectGame.GameMaster
         protected override IContainer ConfigureContainer(ContainerBuilder builder)
         {
             builder.RegisterOptions<GameMasterOptions>();
+
+            builder.RegisterType<CurrentGame>().As<ICurrentGame>().As<IGameCreator>().SingleInstance();
 
             return base.ConfigureContainer(builder);
         }

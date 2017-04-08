@@ -19,14 +19,6 @@ namespace TheProjectGame.CommunicationServer.MessageHandlers
         {
             var gameInfo = message.NewGameInfo;
 
-            currentClient.Write(new RejectGameRegistration()
-            {
-                GameName = gameInfo.Name
-            });
-            return;
-
-            // TODO: enable game registration when ready
-
             if (gamesManager.GetGameByName(gameInfo.Name) != null)
             {
                 var response = new RejectGameRegistration()
