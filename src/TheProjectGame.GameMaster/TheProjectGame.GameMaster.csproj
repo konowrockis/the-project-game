@@ -64,6 +64,7 @@
   <ItemGroup>
     <Compile Include="GameMasterEventHandler.cs" />
     <Compile Include="Games\CurrentGame.cs" />
+    <Compile Include="Games\PlayersMap.cs" />
     <Compile Include="Logging\CsvMessageFormatter.cs" />
     <Compile Include="Logging\GameEvent.cs" />
     <Compile Include="Logging\LogExtensions.cs" />
