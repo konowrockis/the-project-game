@@ -70,6 +70,10 @@
       <Project>{eda1f6bb-a74b-4678-b070-89b3fcca10e0}</Project>
       <Name>TheProjectGame.Messaging</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\TheProjectGame.Settings\TheProjectGame.Settings.csproj">
+      <Project>{0337F899-985C-4950-AFCE-C7B7CFA48311}</Project>
+      <Name>TheProjectGame.Settings</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
