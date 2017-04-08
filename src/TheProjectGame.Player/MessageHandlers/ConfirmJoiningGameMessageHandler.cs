@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using TheProjectGame.Contracts.Messages.GameActions;
+﻿using TheProjectGame.Contracts.Messages.GameActions;
 using TheProjectGame.Messaging;
 
 namespace TheProjectGame.Player.MessageHandlers
@@ -15,7 +14,7 @@ namespace TheProjectGame.Player.MessageHandlers
 
         public override void Handle(ConfirmJoiningGame message)
         {
-
+            // Patience is the virtue
         }
     }
 }
