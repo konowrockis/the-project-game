@@ -41,9 +41,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoardPiece.cs" />
+    <Compile Include="Builders\DataBuilder.cs" />
     <Compile Include="GamePlayer.cs" />
     <Compile Include="Board.cs" />
     <Compile Include="GameState.cs" />
+    <Compile Include="Position.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tile.cs" />
   </ItemGroup>

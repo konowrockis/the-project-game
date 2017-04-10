@@ -111,7 +111,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers
         {
             if (game.Players.Count >= gameOptions.NumberOfPlayersPerTeam * 2)
             {
-                game.Board.Init(game.Players);
+                game.Board.Init(game.Players,gameOptions.InitialNumberOfPieces);
 
                 var gameResponse = new Contracts.Messages.GameActions.Game()
                 {
@@ -132,11 +132,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers
                 foreach (var currentPlayer in game.Players)
                 {
                     gameResponse.PlayerId = currentPlayer.Id;
-                    gameResponse.PlayerLocation = new Location()
-                    {
-                        X = currentPlayer.X,
-                        Y = currentPlayer.Y
-                    };
+                    gameResponse.PlayerLocation = currentPlayer.Position.ToLocation();
 
                     messageWriter.Write(gameResponse);
                 }

@@ -9,5 +9,15 @@ namespace TheProjectGame.Contracts.Messages.Structures
 
         [XmlAttribute("y")]
         public uint Y { get; set; }
+
+        public Location(uint x, uint y)
+        {
+            X = x;
+            Y = y;
+        }
+
+        public Location()
+        {
+        }
     }
 }

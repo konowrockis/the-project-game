@@ -4,7 +4,7 @@ using TheProjectGame.Game;
 
 namespace TheProjectGame.GameMaster.Games
 {
-    class PlayersMap
+    public class PlayersMap
     {
         private Dictionary<string, GamePlayer> players;
 

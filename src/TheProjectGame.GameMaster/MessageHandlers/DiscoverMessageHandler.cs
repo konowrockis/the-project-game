@@ -36,7 +36,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers
             List<TaskTile> tasks = new List<TaskTile>();
             List<BoardPiece> pieces = new List<BoardPiece>();
 
-            foreach (var tile in board.GetNeighbourhood((int)player.X, (int)player.Y))
+            foreach (var tile in board.GetNeighbourhood(player.Position.X, player.Position.Y))
             {
                 if (tile is TaskTile)
                 {
@@ -82,11 +82,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers
                 }).ToList(),
                 GameFinished = false,
                 PlayerId = player.Id,
-                PlayerLocation = new Location()
-                {
-                    X = player.X,
-                    Y = player.Y
-                },
+                PlayerLocation = player.Position.ToLocation(),
                 Pieces = pieces.Select(p => new Piece()
                 {
                     Id = p.Id,
