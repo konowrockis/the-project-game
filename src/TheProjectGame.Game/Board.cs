@@ -172,6 +172,31 @@ namespace TheProjectGame.Game
             }
             return goalFields;
         }
+        public bool IsInGoalArea(Position position)
+        {
+            return position.Y < GoalAreaHeight || position.Y >= (BoardHeight - GoalAreaHeight);
+        }
+
+        public bool CheckWinConditions(TeamColor team)
+        {
+            uint startHeight = team == TeamColor.Blue ? 0 : BoardHeight - GoalAreaHeight;
+            List<GoalTile> goalFields = new List<GoalTile>();
+            for (int x = 0; x < BoardWidth; x++)
+            {
+                for (int y = 0; y < GoalAreaHeight; y++)
+                {
+                    goalFields.Add(Fields[x,startHeight+y] as GoalTile);
+                }
+            }
+
+            var goals = goalFields.Where(field => field.Type == GoalFieldType.Goal).ToList();
+            var discovered = goals.Where(goal => goal.Discovered).ToList();
+            if (discovered.Count == goals.Count) return true;
+            return false;
+        }
+
+    }
+}
 
         private List<TaskTile> GetTaskTiles()
         {
