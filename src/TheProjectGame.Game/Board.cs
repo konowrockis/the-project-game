@@ -68,7 +68,7 @@ namespace TheProjectGame.Game
 
         public bool IsValid(int x, int y)
         {
-            return x>0 & x < BoardWidth && y>0 && y < BoardHeight;
+            return x>=0 & x < BoardWidth && y>=0 && y < BoardHeight;
         }
 
         public bool IsValid(Position position)

@@ -26,38 +26,85 @@ namespace TheProjectGame.GameMaster.Tests
         public void Send_proper_response_to_valid_move_message()
         {
             var systemUnderTests = TestSetup();
-            GamePlayer player = CreatePlayer(1, 0, 0);
-            Location destination = new Location(0, 1);
+            var board = systemUnderTests.GameState.Board;
+            GamePlayer player = CreatePlayer(1, 0, 0, board);
+            string guid = systemUnderTests.PlayersMap.AddPlayer(player);
+            var message = CreateMessage(MoveType.Down, GameId, guid);
+            Predicate<Data> assertValidResponse = data =>
+                data.GameFinished == false
+                && (data.Pieces == null || data.Pieces.Count == 0)
+                && data.PlayerId == player.Id
+                && data.PlayerLocation.X == 0
+                && data.PlayerLocation.Y == 1
+                && (data.TaskFields == null || data.TaskFields.Count == 0)
+                && data.GoalFields != null
+                && data.GoalFields.Count == 1
+                && data.GoalFields.First().PlayerId == player.Id
+                && data.GoalFields.First().X == 0
+                && data.GoalFields.First().Y == 1;
+
+            systemUnderTests.Handler.Handle(message);
+
+            Assert.IsTrue(systemUnderTests.GameState.Board.Fields[0,0].Player==null);
+            Assert.IsTrue(systemUnderTests.GameState.Board.Fields[0, 1].Player == player);
+            systemUnderTests.Writer.Received().Write(Arg.Is<Data>(data=>assertValidResponse(data)),Arg.Is<double>(delay=>delay.Equals(MoveDelay)));
+        }
+
+        [TestMethod]
+        public void Send_proper_response_to_invalid_move_message()
+        {
+            var systemUnderTests = TestSetup();
+            var board = systemUnderTests.GameState.Board;
+            GamePlayer player = CreatePlayer(1, 0, 0, board);
+
+            string guid = systemUnderTests.PlayersMap.AddPlayer(player);
+            var message = CreateMessage(MoveType.Up, GameId, guid);
+
+            systemUnderTests.Handler.Handle(message);
+
+            Predicate<Data> assertValidResponse = data =>
+                data.GameFinished == false
+                && (data.Pieces == null || data.Pieces.Count == 0)
+                && data.PlayerId == player.Id
+                && data.PlayerLocation.X == 0
+                && data.PlayerLocation.Y == 0
+                && (data.TaskFields == null || data.TaskFields.Count == 0)
+                && (data.GoalFields == null || data.GoalFields.Count == 0);
+
+            Assert.IsTrue(systemUnderTests.GameState.Board.Fields[0, 0].Player == player);
+            systemUnderTests.Writer.Received().Write(Arg.Is<Data>(data => assertValidResponse(data)), Arg.Is<double>(delay => delay.Equals(MoveDelay)));
+        }
+
+        [TestMethod]
+        public void Send_proper_response_to_move_message_when_position_occupied_no_pieces()
+        {
+            var systemUnderTests = TestSetup();
+            var board = systemUnderTests.GameState.Board;
+            GamePlayer player = CreatePlayer(1, 0, 0, board);
+            GamePlayer enemy = CreatePlayer(2, 0, 1, board);
+
             string guid = systemUnderTests.PlayersMap.AddPlayer(player);
             var message = CreateMessage(MoveType.Down, GameId, guid);
 
-
             systemUnderTests.Handler.Handle(message);
-            /*
-            Data expected = new Data.Builder().GameFinished(false).PlayerId(player.Id).PlayerLocation(destination).GoalFields(new GoalField()
-            {
-                PlayerId = player.Id,
-                PlayerIdSpecified = true,
-                Team = player.Team,
-                Type = GoalFieldType.Unknown,
-                X=0,
-                Y=1
-            }).Build();
-            Data response = null;
-            double delay = 0;
-            systemUnderTests.Writer.When(w=>w.Write(Arg.Any<Data>(),Arg.Any<double>())).Do(call =>
-            {
-                response = call.Arg<Data>();
-                delay = call.Arg<double>();
-                expected.GoalFields.First().Timestamp = response.GoalFields.First().Timestamp;
-            });
 
-            
-           
-            Assert.IsTrue(delay.Equals(MoveDelay));
-            Assert.IsTrue(expected.Equals(response));*/
+            Predicate<Data> assertValidResponse = data =>
+                data.GameFinished == false
+                && (data.Pieces == null || data.Pieces.Count == 0)
+                && data.PlayerId == player.Id
+                && data.PlayerLocation.X == 0
+                && data.PlayerLocation.Y == 0
+                && (data.TaskFields == null || data.TaskFields.Count == 0)
+                && data.GoalFields != null
+                && data.GoalFields.Count == 1
+                && data.GoalFields.First().PlayerId == enemy.Id
+                && data.GoalFields.First().X == 0
+                && data.GoalFields.First().Y == 1;
+
+            Assert.IsTrue(systemUnderTests.GameState.Board.Fields[0, 0].Player == player);
+            Assert.IsTrue(systemUnderTests.GameState.Board.Fields[0, 1].Player == enemy);
+            systemUnderTests.Writer.Received().Write(Arg.Is<Data>(data => assertValidResponse(data)), Arg.Is<double>(delay => delay.Equals(MoveDelay)));
         }
-
 
         private Move CreateMessage(MoveType direction, ulong gameId, string playerGuid)
         {
@@ -78,12 +125,14 @@ namespace TheProjectGame.GameMaster.Tests
             return new SystemUnderTests(handler,writer,state,playersMap);
         }
 
-        private GamePlayer CreatePlayer(ulong id, uint x, uint y)
+        private GamePlayer CreatePlayer(ulong id, uint x, uint y, Board board)
         {
-            return new GamePlayer(id)
+            var player = new GamePlayer(id)
             {
                 Position = new Position(x,y)
             };
+            board.MovePlayer(player, player.Position);
+            return player;
         }
 
         private class SystemUnderTests

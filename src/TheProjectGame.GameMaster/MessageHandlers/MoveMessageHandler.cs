@@ -65,8 +65,8 @@ namespace TheProjectGame.GameMaster.MessageHandlers
                            .Fields(board, board.Fields[destination.X, destination.Y]);
                     break;
             }
-
-            messageWriter.Write(builder.Build(), actionCosts.MoveDelay);
+            var response = builder.Build();
+            messageWriter.Write(response, actionCosts.MoveDelay);
         }
 
         private MoveStatus CheckMove(Position destination, Board board)
