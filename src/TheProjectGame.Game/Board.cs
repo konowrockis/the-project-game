@@ -87,7 +87,6 @@ namespace TheProjectGame.Game
 
         public void MovePlayer(GamePlayer player, Position destination)
         {
-            // todo: move piece with player - what to do when on GoalFields
             Position pos = player.Position;
             Fields[pos.X,pos.Y].Player = null;
             player.Position = destination;

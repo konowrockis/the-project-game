@@ -53,9 +53,11 @@ namespace TheProjectGame.Game.Builders
 
             taskFields.ForEach(fieldData =>
             {
-                if (fieldData.Item2 == null) return;
-                fieldData.Item1.DistanceToPiece = (uint)fieldData.Item2.Item2;
-                pieces.Add(fieldData.Item2.Item1.ToPiece());
+                fieldData.Item1.DistanceToPiece = fieldData.Item2 == null? uint.MaxValue : (uint)fieldData.Item2.Item2;
+                if (fieldData.Item1.DistanceToPiece == 0)
+                {
+                    pieces.Add(fieldData.Item2.Item1.ToPiece());
+                }
             });
 
             data.GoalFields = goalFields;
