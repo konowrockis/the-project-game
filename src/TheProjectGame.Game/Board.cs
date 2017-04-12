@@ -6,7 +6,7 @@ using TheProjectGame.Contracts.Messages.Structures;
 
 namespace TheProjectGame.Game
 {
-    public class Board
+    public class Board : IBoard
     {
         public uint BoardWidth { get; }
         public uint BoardHeight { get; }
@@ -26,6 +26,11 @@ namespace TheProjectGame.Game
                 _pieceId++;
                 return val;
             }
+        }
+
+        public Board()
+        {
+            
         }
 
         public Board(uint width, uint taskAreaHeight, uint goalAreaHeight, double shamProbability)
@@ -173,12 +178,42 @@ namespace TheProjectGame.Game
             return goalFields;
         }
 
+        public bool CheckWinConditions(TeamColor team)
+        {
+            uint startHeight = team == TeamColor.Blue ? 0 : BoardHeight - GoalAreaHeight;
+            List<GoalTile> goalFields = new List<GoalTile>();
+            for (int x = 0; x < BoardWidth; x++)
+            {
+                for (int y = 0; y < GoalAreaHeight; y++)
+                {
+                    goalFields.Add(Fields[x,startHeight+y] as GoalTile);
+                }
+            }
+
+            var goals = goalFields.Where(field => field.Type == GoalFieldType.Goal).ToList();
+            var discovered = goals.Where(goal => goal.Discovered).ToList();
+            if (discovered.Count == goals.Count) return true;
+            return false;
+        }
+
+        public bool DropPiece(BoardPiece piece, Position position)
+        {
+            var tile = Fields[position.X, position.Y];
+            if (!(tile is TaskTile)) return false;
+            TaskTile taskTile = tile as TaskTile;
+            if (taskTile.Piece != null) return false;
+            taskTile.Piece = piece;
+            piece.Position = new Position(position.X,position.Y);
+            piece.SetPlayer(null);
+            return true;
+        }
+
         private List<TaskTile> GetTaskTiles()
         {
             List<TaskTile> taskTiles = new List<TaskTile>();
             for (int x = 0; x < BoardWidth; x++)
             {
-                for (int y = (int) GoalAreaHeight; y < BoardHeight - GoalAreaHeight; y++)
+                for (int y = (int)GoalAreaHeight; y < BoardHeight - GoalAreaHeight; y++)
                 {
                     taskTiles.Add(Fields[x, y] as TaskTile);
                 }
@@ -191,7 +226,7 @@ namespace TheProjectGame.Game
             var taskTiles = GetTaskTiles();
             foreach (var tile in taskTiles)
             {
-                var position = new Position(tile.X,tile.Y);
+                var position = new Position(tile.X, tile.Y);
                 var closestPiece = FindClosestPiece(position);
                 if (closestPiece == null)
                 {
@@ -210,5 +245,7 @@ namespace TheProjectGame.Game
                 goalTile.Timestamp = Time.Now;
             }
         }
+
+
     }
 }

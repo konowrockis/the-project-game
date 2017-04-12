@@ -33,6 +33,7 @@ namespace TheProjectGame.Game
     {
         public TeamColor Team { get; }
         public GoalFieldType Type { get; set; }
+        public bool Discovered { get; set; }
 
         public GoalTile(TeamColor team, uint x, uint y) : base(x, y)
         {

@@ -4,11 +4,11 @@ using TheProjectGame.Contracts.Enums;
 
 namespace TheProjectGame.Game
 {
-    public class GameState
+    public class GameState : IGameState
     {
         public ulong Id { get; }
         public IList<GamePlayer> Players { get; }
-        public Board Board { get; }
+        public IBoard Board { get; }
 
         public IEnumerable<GamePlayer> TeamPlayers(TeamColor color) => Players.Where(p => p.Team == color);
 
@@ -17,6 +17,11 @@ namespace TheProjectGame.Game
             Id = id;
             Players = new List<GamePlayer>();
             Board = new Board(width, taskAreaHeight, goalAreaHeight, shamProbability);
+        }
+
+        public GameState()
+        {
+            
         }
     }
 }

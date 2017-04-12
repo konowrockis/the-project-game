@@ -16,6 +16,11 @@ namespace TheProjectGame.Game
             Position = new Position(0,0);
         }
 
+        public GamePlayer()
+        {
+            
+        }
+
         public void InitTeam(TeamColor team, PlayerType role)
         {
             Team = team;
