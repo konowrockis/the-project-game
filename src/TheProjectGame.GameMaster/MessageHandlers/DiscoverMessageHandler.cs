@@ -4,9 +4,11 @@ using System.Linq;
 using TheProjectGame.Contracts.Messages.PlayerActions;
 using TheProjectGame.Contracts.Messages.Structures;
 using TheProjectGame.Game;
+using TheProjectGame.Game.Builders;
 using TheProjectGame.GameMaster.Games;
 using TheProjectGame.Messaging;
 using TheProjectGame.Settings.Options;
+using static TheProjectGame.Game.Builders.ObjectMapper;
 
 namespace TheProjectGame.GameMaster.MessageHandlers
 {
@@ -82,7 +84,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers
                 }).ToList(),
                 GameFinished = false,
                 PlayerId = player.Id,
-                PlayerLocation = player.Position.ToLocation(),
+                PlayerLocation = Map(player.Position),
                 Pieces = pieces.Select(p => new Piece()
                 {
                     Id = p.Id,

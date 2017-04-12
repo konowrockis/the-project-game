@@ -3,9 +3,11 @@ using TheProjectGame.Contracts.Enums;
 using TheProjectGame.Contracts.Messages.GameActions;
 using TheProjectGame.Contracts.Messages.Structures;
 using TheProjectGame.Game;
+using TheProjectGame.Game.Builders;
 using TheProjectGame.GameMaster.Games;
 using TheProjectGame.Messaging;
 using TheProjectGame.Settings.Options;
+using static TheProjectGame.Game.Builders.ObjectMapper;
 
 namespace TheProjectGame.GameMaster.MessageHandlers
 {
@@ -111,7 +113,8 @@ namespace TheProjectGame.GameMaster.MessageHandlers
         {
             if (game.Players.Count >= gameOptions.NumberOfPlayersPerTeam * 2)
             {
-                game.Board.Init(game.Players,gameOptions.InitialNumberOfPieces);
+                // TODO: add proper Goal count
+                game.Board.Init(game.Players,gameOptions.InitialNumberOfPieces,1);
 
                 var gameResponse = new Contracts.Messages.GameActions.Game()
                 {
@@ -132,7 +135,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers
                 foreach (var currentPlayer in game.Players)
                 {
                     gameResponse.PlayerId = currentPlayer.Id;
-                    gameResponse.PlayerLocation = currentPlayer.Position.ToLocation();
+                    gameResponse.PlayerLocation = Map(currentPlayer.Position);
 
                     messageWriter.Write(gameResponse);
                 }

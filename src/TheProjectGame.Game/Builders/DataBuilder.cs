@@ -42,26 +42,14 @@ namespace TheProjectGame.Game.Builders
             var taskTiles = tileList.OfType<TaskTile>().ToList();
             var gameTiles = tileList.OfType<GoalTile>().ToList();
 
-            var goalFields = gameTiles.Select(tile => tile.ToField() as GoalField).ToList();
-            var taskFields =
-                taskTiles.Select(
-                    tile =>
-                        new Tuple<TaskField, Tuple<BoardPiece, int>>(tile.ToField() as TaskField,
-                            board.FindClosestPiece(new Position(tile.X, tile.Y)))).ToList();
+            var goalFields = gameTiles.Select(ObjectMapper.Map).ToList();
+            var taskFields = taskTiles.Select(ObjectMapper.Map).ToList();
 
-            var pieces = new List<Piece>();
-
-            taskFields.ForEach(fieldData =>
-            {
-                fieldData.Item1.DistanceToPiece = fieldData.Item2 == null? uint.MaxValue : (uint)fieldData.Item2.Item2;
-                if (fieldData.Item1.DistanceToPiece == 0)
-                {
-                    pieces.Add(fieldData.Item2.Item1.ToPiece());
-                }
-            });
+            var pieces =
+                taskTiles.Where(tile => tile.Piece != null).Select(tile => tile.Piece).Select(ObjectMapper.Map).ToList();
 
             data.GoalFields = goalFields;
-            data.TaskFields = taskFields.Select(fieldData => fieldData.Item1).ToList();
+            data.TaskFields = taskFields;
             data.Pieces = pieces;
             return this;
         }

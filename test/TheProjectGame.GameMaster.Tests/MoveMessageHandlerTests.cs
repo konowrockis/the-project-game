@@ -119,7 +119,7 @@ namespace TheProjectGame.GameMaster.Tests
         private SystemUnderTests TestSetup()
         {
             IMessageWriter writer = Substitute.For<IMessageWriter>();
-            GameState state = new GameState(GameId, 10, 10, 10);
+            GameState state = new GameState(GameId, 10, 10, 10,0);
             var playersMap = new PlayersMap();
             MoveMessageHandler handler = new MoveMessageHandler(writer, new ActionCostsOptions(),state,playersMap);
             return new SystemUnderTests(handler,writer,state,playersMap);

@@ -14,6 +14,7 @@ using TheProjectGame.GameMaster.Games;
 using TheProjectGame.GameMaster.Logging;
 using TheProjectGame.Messaging;
 using TheProjectGame.Settings.Options;
+using static TheProjectGame.Game.Builders.ObjectMapper;
 
 namespace TheProjectGame.GameMaster.MessageHandlers
 {
@@ -54,14 +55,14 @@ namespace TheProjectGame.GameMaster.MessageHandlers
             {
                 case MoveStatus.Valid:
                     board.MovePlayer(player, destination);
-                    builder.PlayerLocation(destination.ToLocation())
+                    builder.PlayerLocation(Map(destination))
                            .Fields(board, board.Fields[destination.X, destination.Y]);
                     break;
                 case MoveStatus.Invalid:
-                    builder.PlayerLocation(position.ToLocation());                    
+                    builder.PlayerLocation(Map(position));                    
                     break;
                 case MoveStatus.Occupied:
-                    builder.PlayerLocation(position.ToLocation())
+                    builder.PlayerLocation(Map(position))
                            .Fields(board, board.Fields[destination.X, destination.Y]);
                     break;
             }

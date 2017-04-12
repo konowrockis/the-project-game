@@ -16,41 +16,17 @@ namespace TheProjectGame.Game
             X = x;
             Y = y;
         }
-
-        public abstract Field ToField();
+        
     }
 
     public class TaskTile : Tile
     {
         public BoardPiece Piece { get; set; }
-        public uint DistanceToPiece { get; set; }
+        public int DistanceToPiece { get; set; }
 
         public TaskTile(uint x, uint y) : base(x, y)
         { }
-
-        public override Field ToField()
-        {
-            TaskField taskField = new TaskField()
-            {
-                PlayerIdSpecified = Player != null,
-                DistanceToPiece = DistanceToPiece,
-                PieceIdSpecified = Piece != null,
-                Timestamp = DateTime.Now,
-                X = X,
-                Y = Y
-            };
-
-            if (taskField.PieceIdSpecified)
-            {
-                taskField.PieceId = Piece.Id;
-            }
-            if (taskField.PlayerIdSpecified)
-            {
-                taskField.PlayerId = Player.Id;
-            }
-
-            return taskField;
-        }
+        
     }
 
     public class GoalTile : Tile
@@ -63,23 +39,5 @@ namespace TheProjectGame.Game
             Team = team;
         }
 
-        public override Field ToField()
-        {
-            GoalField goalField = new GoalField()
-            {
-                PlayerIdSpecified = Player != null,
-                Timestamp = DateTime.Now,
-                X = X,
-                Y = Y,
-                Team = Team,
-                Type = Type
-            };
-            if (goalField.PlayerIdSpecified)
-            {
-                goalField.PlayerId = Player.Id;
-            }
-
-            return goalField;
-        }
     }
 }

@@ -136,13 +136,13 @@ namespace TheProjectGame.Messaging.Tests
             Assert.AreEqual<uint>(1, message.TaskFields[0].X);
             Assert.AreEqual<uint>(4, message.TaskFields[0].Y);
             Assert.AreEqual(0, (new DateTime(2017, 2, 23, 17, 20, 11) - message.TaskFields[0].Timestamp).TotalSeconds);
-            Assert.AreEqual<uint>(1, message.TaskFields[0].DistanceToPiece);
+            Assert.AreEqual<int>(1, message.TaskFields[0].DistanceToPiece);
             Assert.IsFalse(message.TaskFields[0].PieceIdSpecified);
             Assert.IsFalse(message.TaskFields[0].PlayerIdSpecified);
             Assert.AreEqual<uint>(1, message.TaskFields[1].X);
             Assert.AreEqual<uint>(5, message.TaskFields[1].Y);
             Assert.AreEqual(0, (new DateTime(2017, 2, 23, 17, 20, 11) - message.TaskFields[1].Timestamp).TotalSeconds);
-            Assert.AreEqual<uint>(0, message.TaskFields[1].DistanceToPiece);
+            Assert.AreEqual<int>(0, message.TaskFields[1].DistanceToPiece);
             Assert.IsTrue(message.TaskFields[1].PieceIdSpecified);
             Assert.IsTrue(message.TaskFields[1].PlayerIdSpecified);
             Assert.AreEqual<ulong>(2, message.TaskFields[1].PieceId);
@@ -179,7 +179,7 @@ namespace TheProjectGame.Messaging.Tests
             Assert.AreEqual<uint>(1, message.TaskFields[0].X);
             Assert.AreEqual<uint>(5, message.TaskFields[0].Y);
             Assert.AreEqual(0, (new DateTime(2017, 2, 23, 17, 20, 11) - message.TaskFields[0].Timestamp).TotalSeconds);
-            Assert.AreEqual<uint>(5, message.TaskFields[0].DistanceToPiece);
+            Assert.AreEqual<int>(5, message.TaskFields[0].DistanceToPiece);
             Assert.IsFalse(message.TaskFields[0].PieceIdSpecified);
             Assert.IsFalse(message.TaskFields[0].PlayerIdSpecified);
             Assert.AreEqual<uint>(1, message.PlayerLocation.X);
@@ -202,7 +202,7 @@ namespace TheProjectGame.Messaging.Tests
             Assert.AreEqual<uint>(1, message.TaskFields[0].X);
             Assert.AreEqual<uint>(5, message.TaskFields[0].Y);
             Assert.AreEqual(0, (new DateTime(2017, 2, 23, 17, 20, 11) - message.TaskFields[0].Timestamp).TotalSeconds);
-            Assert.AreEqual<uint>(0, message.TaskFields[0].DistanceToPiece);
+            Assert.AreEqual<int>(0, message.TaskFields[0].DistanceToPiece);
             Assert.IsTrue(message.TaskFields[0].PieceIdSpecified);
             Assert.IsTrue(message.TaskFields[0].PlayerIdSpecified);
             Assert.AreEqual<ulong>(2, message.TaskFields[0].PlayerId);
@@ -323,12 +323,12 @@ namespace TheProjectGame.Messaging.Tests
             Assert.AreEqual<uint>(1, message.TaskFields[0].X);
             Assert.AreEqual<uint>(5, message.TaskFields[0].Y);
             Assert.AreEqual(0, (new DateTime(2017, 2, 23, 17, 20, 11) - message.TaskFields[0].Timestamp).TotalSeconds);
-            Assert.AreEqual<uint>(5, message.TaskFields[0].DistanceToPiece);
+            Assert.AreEqual<int>(5, message.TaskFields[0].DistanceToPiece);
             Assert.AreEqual(2, message.GoalFields.Count);
             Assert.AreEqual<uint>(0, message.GoalFields[0].X);
             Assert.AreEqual<uint>(9, message.GoalFields[0].Y);
             Assert.AreEqual(0, (new DateTime(2017, 2, 23, 17, 20, 17) - message.GoalFields[0].Timestamp).TotalSeconds);
-            Assert.AreEqual<uint>(5, message.TaskFields[0].DistanceToPiece);
+            Assert.AreEqual<int>(5, message.TaskFields[0].DistanceToPiece);
             Assert.AreEqual(TeamColor.Blue, message.GoalFields[0].Team);
             Assert.AreEqual(GoalFieldType.Goal, message.GoalFields[1].Type);
             Assert.AreEqual<ulong>(2, message.GoalFields[1].PlayerId);

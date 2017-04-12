@@ -12,11 +12,11 @@ namespace TheProjectGame.Game
 
         public IEnumerable<GamePlayer> TeamPlayers(TeamColor color) => Players.Where(p => p.Team == color);
 
-        public GameState(ulong id, uint width, uint taskAreaHeight, uint goalAreaHeight)
+        public GameState(ulong id, uint width, uint taskAreaHeight, uint goalAreaHeight, double shamProbability)
         {
             Id = id;
             Players = new List<GamePlayer>();
-            Board = new Board(width, taskAreaHeight, goalAreaHeight);
+            Board = new Board(width, taskAreaHeight, goalAreaHeight, shamProbability);
         }
     }
 }

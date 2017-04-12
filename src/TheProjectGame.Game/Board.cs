@@ -15,12 +15,26 @@ namespace TheProjectGame.Game
         public Tile[,] Fields { get; }
         public List<BoardPiece> Pieces { get; private set; }
 
-        public Board(uint width, uint taskAreaHeight, uint goalAreaHeight)
+        private uint _pieceId = 1;
+        private double shamProbability;
+
+        private uint NextPieceId
+        {
+            get
+            {
+                uint val = _pieceId;
+                _pieceId++;
+                return val;
+            }
+        }
+
+        public Board(uint width, uint taskAreaHeight, uint goalAreaHeight, double shamProbability)
         {
             BoardWidth = width;
             TaskAreaHeight = taskAreaHeight;
             GoalAreaHeight = goalAreaHeight;
-            BoardHeight = taskAreaHeight + goalAreaHeight * 2;
+            BoardHeight = taskAreaHeight + goalAreaHeight*2;
+            this.shamProbability = shamProbability;
 
             Fields = new Tile[BoardWidth, BoardHeight];
 
@@ -40,9 +54,57 @@ namespace TheProjectGame.Game
             Pieces = new List<BoardPiece>();
         }
 
-        public void Init(IList<GamePlayer> players, uint pieceCount)
+        public void Init(IList<GamePlayer> players, uint pieceCount, uint goalCount)
         {
-            
+            Random random = new Random();
+            var blueGoalTiles = GetGoalTiles(TeamColor.Blue);
+            var redGoalTiles = GetGoalTiles(TeamColor.Red);
+            var goalTiles = new List<GoalTile>(blueGoalTiles);
+            goalTiles.AddRange(redGoalTiles);
+            var taskTiles = GetTaskTiles();
+
+            foreach (var taskTile in taskTiles)
+            {
+                taskTile.Piece = null;
+                taskTile.Player = null;
+            }
+            foreach (var goalTile in goalTiles)
+            {
+                goalTile.Player = null;
+                goalTile.Type = GoalFieldType.NonGoal;
+            }
+
+            for (int i = 0; i < goalCount; i++)
+            {
+                var redNonGoalTiles = redGoalTiles.Where(tile => tile.Type == GoalFieldType.NonGoal).ToList();
+                var blueNonGoalTiles = blueGoalTiles.Where(tile => tile.Type == GoalFieldType.NonGoal).ToList();
+                if (redGoalTiles.Count == 0 || blueGoalTiles.Count == 0) break;
+
+                redNonGoalTiles[random.Next(redNonGoalTiles.Count)].Type = GoalFieldType.Goal;
+                blueNonGoalTiles[random.Next(blueNonGoalTiles.Count)].Type = GoalFieldType.Goal;
+            }
+
+            foreach (var gamePlayer in players)
+            {
+                var tiles = gamePlayer.Team == TeamColor.Blue ? blueGoalTiles : redGoalTiles;
+                var freeTiles = tiles.Where(tile => tile.Player == null).ToList();
+                var selectedTile = freeTiles[random.Next(freeTiles.Count)];
+                selectedTile.Player = gamePlayer;
+                gamePlayer.Position = new Position(selectedTile.X, selectedTile.Y);
+            }
+
+            for (int i = 0; i < pieceCount; i++)
+            {
+                var tiles = taskTiles.Where(tile => tile.Piece == null).ToList();
+                if (tiles.Count == 0) return;
+                var selectedTile = tiles[random.Next(tiles.Count)];
+
+                BoardPiece piece = new BoardPiece(NextPieceId, null,
+                    random.NextDouble() <shamProbability ? PieceType.Sham : PieceType.Normal,
+                    new Position(selectedTile.X, selectedTile.Y));
+                selectedTile.Piece = piece;
+                Pieces.Add(piece);
+            }
         }
 
         public IEnumerable<Tile> GetNeighbourhood(int x, int y)
@@ -63,12 +125,12 @@ namespace TheProjectGame.Game
 
         public bool IsOccupied(int x, int y)
         {
-            return Fields[x,y].Player != null;
+            return Fields[x, y].Player != null;
         }
 
         public bool IsValid(int x, int y)
         {
-            return x>=0 & x < BoardWidth && y>=0 && y < BoardHeight;
+            return x >= 0 & x < BoardWidth && y >= 0 && y < BoardHeight;
         }
 
         public bool IsValid(Position position)
@@ -76,22 +138,77 @@ namespace TheProjectGame.Game
             return IsValid(position.X, position.Y);
         }
 
-        public Tuple<BoardPiece,int> FindClosestPiece(Position position)
+        public BoardPiece FindClosestPiece(Position position)
         {
             return Pieces
-                .Where(p=>p.Player==null)
-                .Select(p=>new Tuple<BoardPiece,int>(p, position.ManhattanDistance(p.Position)))
-                .OrderBy(p => p.Item2)
+                .Where(p => p.Player == null)
+                .OrderBy(p => position.ManhattanDistance(p.Position))
                 .FirstOrDefault();
         }
 
         public void MovePlayer(GamePlayer player, Position destination)
         {
             Position pos = player.Position;
-            Fields[pos.X,pos.Y].Player = null;
+            Fields[pos.X, pos.Y].Player = null;
             player.Position = destination;
             Fields[destination.X, destination.Y].Player = player;
         }
 
+        public bool IsInGoalArea(Position position)
+        {
+            return position.Y < GoalAreaHeight || position.Y >= (BoardHeight - GoalAreaHeight);
+        }
+
+        private List<GoalTile> GetGoalTiles(TeamColor team)
+        {
+            uint startHeight = team == TeamColor.Blue ? 0 : BoardHeight - GoalAreaHeight;
+            List<GoalTile> goalFields = new List<GoalTile>();
+            for (int x = 0; x < BoardWidth; x++)
+            {
+                for (int y = 0; y < GoalAreaHeight; y++)
+                {
+                    goalFields.Add(Fields[x, startHeight + y] as GoalTile);
+                }
+            }
+            return goalFields;
+        }
+
+        private List<TaskTile> GetTaskTiles()
+        {
+            List<TaskTile> taskTiles = new List<TaskTile>();
+            for (int x = 0; x < BoardWidth; x++)
+            {
+                for (int y = (int) GoalAreaHeight; y < BoardHeight - GoalAreaHeight; y++)
+                {
+                    taskTiles.Add(Fields[x, y] as TaskTile);
+                }
+            }
+            return taskTiles;
+        }
+
+        public void RefreshBoardState()
+        {
+            var taskTiles = GetTaskTiles();
+            foreach (var tile in taskTiles)
+            {
+                var position = new Position(tile.X,tile.Y);
+                var closestPiece = FindClosestPiece(position);
+                if (closestPiece == null)
+                {
+                    tile.DistanceToPiece = -1;
+                    continue;
+                }
+                tile.DistanceToPiece = closestPiece.Position.ManhattanDistance(position);
+                tile.Piece = tile.DistanceToPiece == 0 ? closestPiece : null;
+                tile.Timestamp = Time.Now;
+            }
+            var goalTiles = GetGoalTiles(TeamColor.Blue);
+            goalTiles.AddRange(GetGoalTiles(TeamColor.Red));
+
+            foreach (var goalTile in goalTiles)
+            {
+                goalTile.Timestamp = Time.Now;
+            }
+        }
     }
 }
