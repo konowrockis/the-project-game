@@ -43,18 +43,8 @@ namespace TheProjectGame.GameMaster.MessageHandlers
                 .PlayerId(player.Id);
 
             var piece = board.Pieces.FirstOrDefault(p => p.Player == player);
-            if (piece != null)
-            {
-                board.Pieces.Remove(piece);
-            }
 
-            if (piece == null || piece.Type == PieceType.Sham)
-            {
-                messageWriter.Write(builder.Build(), actionCosts.PlacingDelay);
-                return;
-            }
-
-            if (!board.IsInGoalArea(player.Position))
+            if (!board.IsInGoalArea(player.Position) && piece!=null)
             {
                 board.Pieces.Add(piece);
                 bool result = board.DropPiece(piece, player.Position);
@@ -62,7 +52,22 @@ namespace TheProjectGame.GameMaster.MessageHandlers
                 {
                     builder.Fields(board.Fields[player.Position.X, player.Position.Y]);
                 }
+                else
+                {
+                    builder.Pieces(piece);
+                }
                 board.RefreshBoardState();
+                messageWriter.Write(builder.Build(), actionCosts.PlacingDelay);
+                return;
+            }
+
+            if (piece != null)
+            {
+                board.Pieces.Remove(piece);
+            }
+
+            if (piece == null || piece.Type == PieceType.Sham)
+            {
                 messageWriter.Write(builder.Build(), actionCosts.PlacingDelay);
                 return;
             }
