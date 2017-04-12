@@ -172,10 +172,6 @@ namespace TheProjectGame.Game
             }
             return goalFields;
         }
-        public bool IsInGoalArea(Position position)
-        {
-            return position.Y < GoalAreaHeight || position.Y >= (BoardHeight - GoalAreaHeight);
-        }
 
         public bool CheckWinConditions(TeamColor team)
         {
@@ -195,15 +191,24 @@ namespace TheProjectGame.Game
             return false;
         }
 
-    }
-}
+        public bool DropPiece(BoardPiece piece, Position position)
+        {
+            var tile = Fields[position.X, position.Y];
+            if (!(tile is TaskTile)) return false;
+            TaskTile taskTile = tile as TaskTile;
+            if (taskTile.Piece != null) return false;
+            taskTile.Piece = piece;
+            piece.Position = new Position(position.X,position.Y);
+            piece.SetPlayer(null);
+            return true;
+        }
 
         private List<TaskTile> GetTaskTiles()
         {
             List<TaskTile> taskTiles = new List<TaskTile>();
             for (int x = 0; x < BoardWidth; x++)
             {
-                for (int y = (int) GoalAreaHeight; y < BoardHeight - GoalAreaHeight; y++)
+                for (int y = (int)GoalAreaHeight; y < BoardHeight - GoalAreaHeight; y++)
                 {
                     taskTiles.Add(Fields[x, y] as TaskTile);
                 }
@@ -216,7 +221,7 @@ namespace TheProjectGame.Game
             var taskTiles = GetTaskTiles();
             foreach (var tile in taskTiles)
             {
-                var position = new Position(tile.X,tile.Y);
+                var position = new Position(tile.X, tile.Y);
                 var closestPiece = FindClosestPiece(position);
                 if (closestPiece == null)
                 {
@@ -235,5 +240,7 @@ namespace TheProjectGame.Game
                 goalTile.Timestamp = Time.Now;
             }
         }
+
+
     }
 }

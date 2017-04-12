@@ -60,7 +60,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers
             builder.PlayerLocation(Map(player.Position));
             if (moveStatus != MoveStatus.Invalid)
             {
-                builder.Fields(board, board.Fields[destination.X, destination.Y]);
+                builder.Fields(board.Fields[destination.X, destination.Y]);
             }
 
             var response = builder.Build();

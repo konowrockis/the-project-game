@@ -18,5 +18,10 @@ namespace TheProjectGame.Game
             Type = type;
             Position = position;
         }
+
+        public void SetPlayer(GamePlayer player)
+        {
+            Player = player;
+        }
     }
 }

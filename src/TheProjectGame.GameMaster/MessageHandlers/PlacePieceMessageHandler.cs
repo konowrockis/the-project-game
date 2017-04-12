@@ -50,9 +50,22 @@ namespace TheProjectGame.GameMaster.MessageHandlers
                 board.Pieces.Remove(piece);
             }
 
-            if (piece == null || !board.IsInGoalArea(player.Position) || piece.Type == PieceType.Sham)
+            if (piece == null || piece.Type == PieceType.Sham)
             {
-                messageWriter.Write(message, actionCosts.PlacingDelay);
+                messageWriter.Write(builder.Build(), actionCosts.PlacingDelay);
+                return;
+            }
+
+            if (!board.IsInGoalArea(player.Position))
+            {
+                board.Pieces.Add(piece);
+                bool result = board.DropPiece(piece, player.Position);
+                if (result)
+                {
+                    builder.Fields(board.Fields[player.Position.X, player.Position.Y]);
+                }
+                board.RefreshBoardState();
+                messageWriter.Write(builder.Build(), actionCosts.PlacingDelay);
                 return;
             }
             
@@ -62,14 +75,17 @@ namespace TheProjectGame.GameMaster.MessageHandlers
                 goalTile.Discovered = true;
             }
 
-            var response = builder.Fields(board, goalTile).Build();
+            var response = builder.Fields(goalTile).Build();
             messageWriter.Write(response,actionCosts.PlacingDelay);
 
             if (board.CheckWinConditions(player.Team))
             {
-                logger.GameEvent(GameEvent.CreateVictory(message.PlayerGuid, game.Id, player.Id, player.Team, player.Role));
                 foreach (var gamePlayer in game.Players)
                 {
+                    logger.GameEvent(gamePlayer.Team == player.Team
+                        ? GameEvent.CreateVictory(message.PlayerGuid, game.Id, player.Id, player.Team, player.Role)
+                        : GameEvent.CreateDefeat(message.PlayerGuid, game.Id, player.Id, player.Team, player.Role));
+
                     messageWriter.Write(new Data()
                     {
                         GameFinished = true,
