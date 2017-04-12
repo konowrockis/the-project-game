@@ -6,7 +6,7 @@ using TheProjectGame.Contracts.Messages.Structures;
 
 namespace TheProjectGame.Game
 {
-    public class Board
+    public class Board : IBoard
     {
         public uint BoardWidth { get; }
         public uint BoardHeight { get; }
@@ -26,6 +26,11 @@ namespace TheProjectGame.Game
                 _pieceId++;
                 return val;
             }
+        }
+
+        public Board()
+        {
+            
         }
 
         public Board(uint width, uint taskAreaHeight, uint goalAreaHeight, double shamProbability)

@@ -24,16 +24,15 @@ namespace TheProjectGame.GameMaster.MessageHandlers
 
         private readonly IMessageWriter messageWriter;
         private readonly ActionCostsOptions actionCosts;
-        private readonly GameState game;
-        private readonly PlayersMap players;
+        private readonly IGameState game;
+        private readonly IPlayersMap players;
 
-        public MoveMessageHandler(IMessageWriter messageWriter, ActionCostsOptions actionCosts, GameState game,
-            PlayersMap players)
+        public MoveMessageHandler(IMessageWriter messageWriter, ActionCostsOptions actionCosts, ICurrentGame currentGame)
         {
             this.messageWriter = messageWriter;
             this.actionCosts = actionCosts;
-            this.game = game;
-            this.players = players;
+            this.game = currentGame.Game;
+            this.players = currentGame.Players;
         }
 
         public override void Handle(Move message)
@@ -41,9 +40,6 @@ namespace TheProjectGame.GameMaster.MessageHandlers
             var board = game.Board;
             var player = players.GetPlayer(message.PlayerGuid);
             var direction = message.Direction;
-
-            logger.GameEvent(GameEvent.CreateFromMessage(message, player));
-
             var position = player.Position;
             var destination = position.Move(direction);
             var moveStatus = CheckMove(destination, board);
@@ -67,7 +63,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers
             messageWriter.Write(response, actionCosts.MoveDelay);
         }
 
-        private MoveStatus CheckMove(Position destination, Board board)
+        private MoveStatus CheckMove(Position destination, IBoard board)
         {
             if (!board.IsValid(destination)) return MoveStatus.Invalid;
             if (board.IsOccupied(destination)) return MoveStatus.Occupied;

@@ -14,8 +14,8 @@ namespace TheProjectGame.GameMaster.MessageHandlers
     class JoinGameMessageHandler : MessageHandler<JoinGame>
     {
         private readonly IMessageWriter messageWriter;
-        private readonly GameState game;
-        private readonly PlayersMap players;
+        private readonly IGameState game;
+        private readonly IPlayersMap players;
         private readonly GameOptions gameOptions;
 
         public JoinGameMessageHandler(IMessageWriter messageWriter, ICurrentGame currentGame, GameMasterOptions gameOptions)

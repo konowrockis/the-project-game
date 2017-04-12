@@ -1,10 +1,17 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using TheProjectGame.Game;
 
 namespace TheProjectGame.GameMaster.Games
 {
-    public class PlayersMap
+    public interface IPlayersMap
+    {
+        string AddPlayer(GamePlayer player);
+        GamePlayer GetPlayer(string guid);
+    }
+
+    public class PlayersMap : IPlayersMap
     {
         private Dictionary<string, GamePlayer> players;
 

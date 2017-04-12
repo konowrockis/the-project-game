@@ -3,24 +3,24 @@ using TheProjectGame.GameMaster.MessageHandlers;
 
 namespace TheProjectGame.GameMaster.Games
 {
-    interface ICurrentGame
+    public interface ICurrentGame
     {
-        GameState Game { get; }
-        PlayersMap Players { get; }
+        IGameState Game { get; }
+        IPlayersMap Players { get; }
     }
 
     interface IGameCreator
     {
-        void SetCurrentGame(GameState game);
+        void SetCurrentGame(IGameState game);
     }
 
     class CurrentGame : ICurrentGame, IGameCreator
     {
-        public GameState Game { get; private set; }
+        public IGameState Game { get; private set; }
 
-        public PlayersMap Players { get; private set; }
+        public IPlayersMap Players { get; private set; }
 
-        public void SetCurrentGame(GameState game)
+        public void SetCurrentGame(IGameState game)
         {
             Game = game;
             Players = new PlayersMap();

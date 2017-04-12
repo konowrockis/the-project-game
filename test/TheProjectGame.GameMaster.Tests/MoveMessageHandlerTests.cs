@@ -119,13 +119,17 @@ namespace TheProjectGame.GameMaster.Tests
         private SystemUnderTests TestSetup()
         {
             IMessageWriter writer = Substitute.For<IMessageWriter>();
-            GameState state = new GameState(GameId, 10, 10, 10,0);
+            IGameState state = new GameState(GameId, 10, 10, 10,0);
             var playersMap = new PlayersMap();
-            MoveMessageHandler handler = new MoveMessageHandler(writer, new ActionCostsOptions(),state,playersMap);
+            ICurrentGame currentGame = Substitute.For<ICurrentGame>();
+            currentGame.Game.Returns(state);
+            currentGame.Players.Returns(playersMap);
+            
+            MoveMessageHandler handler = new MoveMessageHandler(writer, new ActionCostsOptions(),currentGame);
             return new SystemUnderTests(handler,writer,state,playersMap);
         }
 
-        private GamePlayer CreatePlayer(ulong id, uint x, uint y, Board board)
+        private GamePlayer CreatePlayer(ulong id, uint x, uint y, IBoard board)
         {
             var player = new GamePlayer(id)
             {
@@ -139,10 +143,10 @@ namespace TheProjectGame.GameMaster.Tests
         {
             public MoveMessageHandler Handler { get;  }
             public IMessageWriter Writer { get;  }
-            public GameState GameState { get; }
-            public PlayersMap PlayersMap { get; }
+            public IGameState GameState { get; }
+            public IPlayersMap PlayersMap { get; }
 
-            public SystemUnderTests(MoveMessageHandler handler, IMessageWriter writer, GameState gameState, PlayersMap playersMap)
+            public SystemUnderTests(MoveMessageHandler handler, IMessageWriter writer, IGameState gameState, IPlayersMap playersMap)
             {
                 Handler = handler;
                 Writer = writer;

@@ -16,15 +16,15 @@ namespace TheProjectGame.GameMaster.MessageHandlers
     {
         private readonly IMessageWriter messageWriter;
         private readonly ActionCostsOptions actionCosts;
-        private readonly GameState game;
-        private readonly PlayersMap players;
+        private readonly IGameState game;
+        private readonly IPlayersMap players;
 
-        public DiscoverMessageHandler(IMessageWriter messageWriter, ActionCostsOptions actionCosts, GameState game, PlayersMap players)
+        public DiscoverMessageHandler(IMessageWriter messageWriter, ActionCostsOptions actionCosts, ICurrentGame currentGame)
         {
             this.messageWriter = messageWriter;
             this.actionCosts = actionCosts;
-            this.game = game;
-            this.players = players;
+            this.game = currentGame.Game;
+            this.players = currentGame.Players;
         }
 
         public override void Handle(Discover message)

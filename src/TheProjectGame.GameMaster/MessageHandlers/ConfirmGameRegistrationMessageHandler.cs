@@ -21,7 +21,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers
 
         public override void Handle(ConfirmGameRegistration message)
         {
-            GameState game = new GameState(message.GameId, gameOptions.BoardWidth, 
+            IGameState game = new GameState(message.GameId, gameOptions.BoardWidth, 
                 gameOptions.TaskAreaLength, gameOptions.GoalAreaLength,gameOptions.ShamProbability);
 
             gameCreator.SetCurrentGame(game);
