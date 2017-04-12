@@ -18,21 +18,5 @@ namespace TheProjectGame.Game
             Type = type;
             Position = position;
         }
-
-        public Piece ToPiece()
-        {
-            var piece = new Piece()
-            {
-                Id = Id,
-                Timestamp = DateTime.Now,
-                Type = Type,
-            };
-            if (Player != null)
-            {
-                piece.PlayerIdSpecified = true;
-                piece.PlayerId = Player.Id;
-            }
-            return piece;
-        }
     }
 }

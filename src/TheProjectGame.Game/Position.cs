@@ -29,11 +29,6 @@ namespace TheProjectGame.Game
             return Math.Abs(X - position.X) + Math.Abs(Y - position.Y);
         }
 
-        public Location ToLocation()
-        {
-            return new Location((uint)X,(uint)Y);
-        }
-
         public Position Move(MoveType direction)
         {
             Position destination = null;

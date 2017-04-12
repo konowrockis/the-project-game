@@ -5,7 +5,7 @@ namespace TheProjectGame.Contracts.Messages.Structures
     public class TaskField : Field
     {
         [XmlAttribute("distanceToPiece")]
-        public uint DistanceToPiece { get; set; }
+        public int DistanceToPiece { get; set; }
 
         [XmlAttribute("pieceId")]
         public ulong PieceId { get; set; }
