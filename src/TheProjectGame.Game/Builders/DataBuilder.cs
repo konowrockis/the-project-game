@@ -59,6 +59,12 @@ namespace TheProjectGame.Game.Builders
             return this;
         }
 
+        public DataBuilder Pieces(params BoardPiece[] pieces)
+        {
+            data.Pieces = pieces.ToList().Select(ObjectMapper.Map).ToList();
+            return this;
+        }
+
         public Data Build()
         {
             return data;
