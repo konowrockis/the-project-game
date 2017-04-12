@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Security.Principal;
 using System.Xml.Serialization;
 using TheProjectGame.Contracts.Messages.Structures;
 
@@ -16,5 +18,6 @@ namespace TheProjectGame.Contracts.Messages.PlayerActions
 
         [XmlAttribute("gameFinished")]
         public bool GameFinished { get; set; }
+
     }
 }

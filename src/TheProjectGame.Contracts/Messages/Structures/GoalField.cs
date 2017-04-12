@@ -11,5 +11,9 @@ namespace TheProjectGame.Contracts.Messages.Structures
 
         [XmlAttribute("team")]
         public TeamColor Team { get; set; }
+
+        public GoalField()
+        {
+        }
     }
 }

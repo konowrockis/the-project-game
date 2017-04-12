@@ -6,15 +6,14 @@ namespace TheProjectGame.Game
     {
         public ulong Id { get; }
 
-        public uint X { get; private set; }
-        public uint Y { get; private set; }
-
+        public Position Position { get; set; }
         public TeamColor Team { get; private set; }
         public PlayerType Role { get; private set; }
 
         public GamePlayer(ulong id)
         {
             Id = id;
+            Position = new Position(0,0);
         }
 
         public void InitTeam(TeamColor team, PlayerType role)

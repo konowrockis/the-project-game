@@ -7,6 +7,7 @@ using TheProjectGame.Contracts.Enums;
 using TheProjectGame.Contracts.Messages.GameActions;
 using TheProjectGame.Contracts.Messages.PlayerActions;
 using TheProjectGame.Contracts.Messages.Structures;
+using TheProjectGame.Game;
 
 namespace TheProjectGame.GameMaster.Logging
 {
@@ -32,6 +33,11 @@ namespace TheProjectGame.GameMaster.Logging
                 Color = color,
                 Role = role
             };
+        }
+
+        public static GameEvent CreateFromMessage(GameMessage message, GamePlayer player)
+        {
+            return CreateFromMessage(message, player.Id, player.Team, player.Role);
         }
 
         public static GameEvent CreateVictory(string playerGuid, ulong gameId, ulong playerId, TeamColor color, PlayerType role)
