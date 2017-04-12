@@ -68,12 +68,12 @@
     <Compile Include="Logging\CsvMessageFormatter.cs" />
     <Compile Include="Logging\GameEvent.cs" />
     <Compile Include="Logging\LogExtensions.cs" />
-    <Compile Include="MessageHandlers\LogGameMessageMessageHandler.cs" />
-    <Compile Include="MessageHandlers\DiscoverMessageHandler.cs" />
+    <Compile Include="MessageHandlers\GameMessageHandlers\LogGameMessageMessageHandler.cs" />
+    <Compile Include="MessageHandlers\GameMessageHandlers\DiscoverMessageHandler.cs" />
     <Compile Include="MessageHandlers\JoinGameMessageHandler.cs" />
     <Compile Include="MessageHandlers\ConfirmGameRegistrationMessageHandler.cs" />
-    <Compile Include="MessageHandlers\MoveMessageHandler.cs" />
-    <Compile Include="MessageHandlers\PlacePieceMessageHandler.cs" />
+    <Compile Include="MessageHandlers\GameMessageHandlers\MoveMessageHandler.cs" />
+    <Compile Include="MessageHandlers\GameMessageHandlers\PlacePieceMessageHandler.cs" />
     <Compile Include="MessageHandlers\RejectGameRegistrationMessageHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
