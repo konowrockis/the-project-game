@@ -27,7 +27,8 @@ namespace TheProjectGame.GameMaster.MessageHandlers
         private readonly GameState game;
         private readonly PlayersMap players;
 
-        public MoveMessageHandler(IMessageWriter messageWriter, ActionCostsOptions actionCosts, GameState game, PlayersMap players)
+        public MoveMessageHandler(IMessageWriter messageWriter, ActionCostsOptions actionCosts, GameState game,
+            PlayersMap players)
         {
             this.messageWriter = messageWriter;
             this.actionCosts = actionCosts;
@@ -51,21 +52,17 @@ namespace TheProjectGame.GameMaster.MessageHandlers
                 .GameFinished(false)
                 .PlayerId(player.Id);
 
-            switch (moveStatus)
+            if (moveStatus == MoveStatus.Valid)
             {
-                case MoveStatus.Valid:
-                    board.MovePlayer(player, destination);
-                    builder.PlayerLocation(Map(destination))
-                           .Fields(board, board.Fields[destination.X, destination.Y]);
-                    break;
-                case MoveStatus.Invalid:
-                    builder.PlayerLocation(Map(position));                    
-                    break;
-                case MoveStatus.Occupied:
-                    builder.PlayerLocation(Map(position))
-                           .Fields(board, board.Fields[destination.X, destination.Y]);
-                    break;
+                board.MovePlayer(player, destination);
             }
+            board.RefreshBoardState();
+            builder.PlayerLocation(Map(player.Position));
+            if (moveStatus != MoveStatus.Invalid)
+            {
+                builder.Fields(board, board.Fields[destination.X, destination.Y]);
+            }
+
             var response = builder.Build();
             messageWriter.Write(response, actionCosts.MoveDelay);
         }
@@ -84,8 +81,4 @@ namespace TheProjectGame.GameMaster.MessageHandlers
             Invalid
         }
     }
-
-
-
-  
 }
