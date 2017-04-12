@@ -73,6 +73,7 @@
     <Compile Include="MessageHandlers\JoinGameMessageHandler.cs" />
     <Compile Include="MessageHandlers\ConfirmGameRegistrationMessageHandler.cs" />
     <Compile Include="MessageHandlers\MoveMessageHandler.cs" />
+    <Compile Include="MessageHandlers\PlacePieceMessageHandler.cs" />
     <Compile Include="MessageHandlers\RejectGameRegistrationMessageHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
