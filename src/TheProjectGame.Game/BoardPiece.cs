@@ -7,8 +7,8 @@ namespace TheProjectGame.Game
     public class BoardPiece
     {
         public ulong Id { get; private set; }
-        public GamePlayer Player { get; private set; }
-        public PieceType Type { get; private set; }
+        public GamePlayer Player { get; set; }
+        public PieceType Type { get; set; }
         public Position Position { get; set; }
 
         public BoardPiece(ulong id, GamePlayer player, PieceType type, Position position)

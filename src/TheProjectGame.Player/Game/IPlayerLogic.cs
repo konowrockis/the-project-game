@@ -1,9 +1,10 @@
-﻿using System.Runtime.Remoting.Messaging;
+﻿using TheProjectGame.Contracts;
+using TheProjectGame.Game;
 
 namespace TheProjectGame.Player.Game
 {
     interface IPlayerLogic
     {
-        IMessage GetNextMove();
+        IMessage GetNextMove(IBoard board, PlayerKnowledge knowledge);
     }
 }
