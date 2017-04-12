@@ -16,6 +16,7 @@ namespace TheProjectGame.Game
         public List<BoardPiece> Pieces { get; private set; }
 
         private uint _pieceId = 1;
+        private double shamProbability;
 
         private uint NextPieceId
         {
@@ -27,12 +28,13 @@ namespace TheProjectGame.Game
             }
         }
 
-        public Board(uint width, uint taskAreaHeight, uint goalAreaHeight)
+        public Board(uint width, uint taskAreaHeight, uint goalAreaHeight, double shamProbability)
         {
             BoardWidth = width;
             TaskAreaHeight = taskAreaHeight;
             GoalAreaHeight = goalAreaHeight;
             BoardHeight = taskAreaHeight + goalAreaHeight*2;
+            this.shamProbability = shamProbability;
 
             Fields = new Tile[BoardWidth, BoardHeight];
 
@@ -52,12 +54,35 @@ namespace TheProjectGame.Game
             Pieces = new List<BoardPiece>();
         }
 
-        public void Init(IList<GamePlayer> players, uint pieceCount)
+        public void Init(IList<GamePlayer> players, uint pieceCount, uint goalCount)
         {
             Random random = new Random();
             var blueGoalTiles = GetGoalTiles(TeamColor.Blue);
             var redGoalTiles = GetGoalTiles(TeamColor.Red);
+            var goalTiles = new List<GoalTile>(blueGoalTiles);
+            goalTiles.AddRange(redGoalTiles);
             var taskTiles = GetTaskTiles();
+
+            foreach (var taskTile in taskTiles)
+            {
+                taskTile.Piece = null;
+                taskTile.Player = null;
+            }
+            foreach (var goalTile in goalTiles)
+            {
+                goalTile.Player = null;
+                goalTile.Type = GoalFieldType.NonGoal;
+            }
+
+            for (int i = 0; i < goalCount; i++)
+            {
+                var redNonGoalTiles = redGoalTiles.Where(tile => tile.Type == GoalFieldType.NonGoal).ToList();
+                var blueNonGoalTiles = blueGoalTiles.Where(tile => tile.Type == GoalFieldType.NonGoal).ToList();
+                if (redGoalTiles.Count == 0 || blueGoalTiles.Count == 0) break;
+
+                redNonGoalTiles[random.Next(redNonGoalTiles.Count)].Type = GoalFieldType.Goal;
+                blueNonGoalTiles[random.Next(blueNonGoalTiles.Count)].Type = GoalFieldType.Goal;
+            }
 
             foreach (var gamePlayer in players)
             {
@@ -75,7 +100,7 @@ namespace TheProjectGame.Game
                 var selectedTile = tiles[random.Next(tiles.Count)];
 
                 BoardPiece piece = new BoardPiece(NextPieceId, null,
-                    random.Next(2) == 1 ? PieceType.Normal : PieceType.Sham,
+                    random.NextDouble() <shamProbability ? PieceType.Sham : PieceType.Normal,
                     new Position(selectedTile.X, selectedTile.Y));
                 selectedTile.Piece = piece;
                 Pieces.Add(piece);

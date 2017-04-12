@@ -113,7 +113,8 @@ namespace TheProjectGame.GameMaster.MessageHandlers
         {
             if (game.Players.Count >= gameOptions.NumberOfPlayersPerTeam * 2)
             {
-                game.Board.Init(game.Players,gameOptions.InitialNumberOfPieces);
+                // TODO: add proper Goal count
+                game.Board.Init(game.Players,gameOptions.InitialNumberOfPieces,1);
 
                 var gameResponse = new Contracts.Messages.GameActions.Game()
                 {
