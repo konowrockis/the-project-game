@@ -39,7 +39,7 @@ namespace TheProjectGame.GameMaster
             builder.RegisterOptions<GameMasterOptions>();
 
             builder.RegisterType<CurrentGame>().As<ICurrentGame>().As<IGameCreator>().SingleInstance();
-
+            builder.RegisterType<ActionCostsOptions>().AsSelf().SingleInstance();
             return base.ConfigureContainer(builder);
         }
     }

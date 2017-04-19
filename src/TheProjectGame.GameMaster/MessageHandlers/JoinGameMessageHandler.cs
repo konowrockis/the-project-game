@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Serilog;
 using TheProjectGame.Contracts.Enums;
 using TheProjectGame.Contracts.Messages.GameActions;
 using TheProjectGame.Contracts.Messages.Structures;
@@ -13,6 +14,9 @@ namespace TheProjectGame.GameMaster.MessageHandlers
 {
     class JoinGameMessageHandler : MessageHandler<JoinGame>
     {
+
+        private ILogger logger = Log.ForContext<JoinGameMessageHandler>();
+
         private readonly IMessageWriter messageWriter;
         private readonly IGameState game;
         private readonly IPlayersMap players;
@@ -132,12 +136,18 @@ namespace TheProjectGame.GameMaster.MessageHandlers
                     }).ToList(),
                 };
 
+                logger.Information("SENDING NEW GAME");
+
                 foreach (var currentPlayer in game.Players)
                 {
-                    gameResponse.PlayerId = currentPlayer.Id;
-                    gameResponse.PlayerLocation = Map(currentPlayer.Position);
+                    logger.Information("TO : "+currentPlayer.Id);
+                    var response = new Contracts.Messages.GameActions.Game();
+                    response.Board = gameResponse.Board;
+                    response.Players = gameResponse.Players;
+                    response.PlayerId = currentPlayer.Id;
+                    response.PlayerLocation = Map(currentPlayer.Position);
 
-                    messageWriter.Write(gameResponse);
+                    messageWriter.Write(response);
                 }
             }
         }

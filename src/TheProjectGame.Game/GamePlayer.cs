@@ -7,8 +7,8 @@ namespace TheProjectGame.Game
         public ulong Id { get; }
 
         public Position Position { get; set; }
-        public TeamColor Team { get; private set; }
-        public PlayerType Role { get; private set; }
+        public TeamColor Team { get; set; }
+        public PlayerType Role { get; set; }
 
         public GamePlayer(ulong id)
         {

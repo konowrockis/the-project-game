@@ -10,8 +10,8 @@ namespace TheProjectGame.Game
     public interface IGameState
     {
         ulong Id { get; }
-        IList<GamePlayer> Players { get; }
-        IBoard Board { get; }
+        List<GamePlayer> Players { get; set; }
+        IBoard Board { get; set; }
         IEnumerable<GamePlayer> TeamPlayers(TeamColor color);
     }
 }

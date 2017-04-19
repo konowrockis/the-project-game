@@ -79,6 +79,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Game\IPlayerLogic.cs" />
+    <Compile Include="Game\PlayerKnowledge.cs" />
+    <Compile Include="Game\SimplePlayerLogic.cs" />
+    <Compile Include="MessageHandlers\DataMessageHandler.cs" />
+    <Compile Include="MessageHandlers\GameMessageHandler.cs" />
     <Compile Include="MessageHandlers\RejectJoiningGameMessageHandler.cs" />
     <Compile Include="MessageHandlers\ConfirmJoiningGameMessageHandler.cs" />
     <Compile Include="MessageHandlers\RegisteredGamesMessageHandler.cs" />
@@ -98,6 +102,10 @@
     <ProjectReference Include="..\TheProjectGame.Contracts\TheProjectGame.Contracts.csproj">
       <Project>{F91C87F2-0417-4882-8312-C2F8CA3590CF}</Project>
       <Name>TheProjectGame.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TheProjectGame.Game\TheProjectGame.Game.csproj">
+      <Project>{7FE25049-8897-40DE-8B95-8CF4B7D8032E}</Project>
+      <Name>TheProjectGame.Game</Name>
     </ProjectReference>
     <ProjectReference Include="..\TheProjectGame.Messaging\TheProjectGame.Messaging.csproj">
       <Project>{EDA1F6BB-A74B-4678-B070-89B3FCCA10E0}</Project>

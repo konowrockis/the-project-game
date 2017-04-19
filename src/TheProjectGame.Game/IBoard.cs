@@ -26,5 +26,10 @@ namespace TheProjectGame.Game
         bool CheckWinConditions(TeamColor team);
         bool DropPiece(BoardPiece piece, Position position);
         void RefreshBoardState();
+
+        List<GoalTile> GetGoalTiles(TeamColor team);
+        List<TaskTile> GetTaskTiles();
+        void PlaceNewPiece();
+
     }
 }
