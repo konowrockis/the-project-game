@@ -48,7 +48,7 @@ namespace TheProjectGame.Game
                 for (uint y = 0; y < goalAreaHeight; y++)
                 {
                     Fields[x, y] = new GoalTile(TeamColor.Red, x, y);
-                    Fields[x, BoardHeight - y - 1] = new GoalTile(TeamColor.Blue, x, y);
+                    Fields[x, BoardHeight - y - 1] = new GoalTile(TeamColor.Blue, x, BoardHeight - y - 1);
                 }
 
                 for (uint y = goalAreaHeight; y < taskAreaHeight + goalAreaHeight; y++)
@@ -57,6 +57,21 @@ namespace TheProjectGame.Game
                 }
             }
             Pieces = new List<BoardPiece>();
+        }
+
+        public void PlaceNewPiece()
+        {
+            Random random = new Random();
+            var taskTiles = GetTaskTiles();
+            var tiles = taskTiles.Where(tile => tile.Piece == null).ToList();
+            if (tiles.Count == 0) return;
+            var selectedTile = tiles[random.Next(tiles.Count)];
+
+            BoardPiece piece = new BoardPiece(NextPieceId, null,
+                random.NextDouble() < shamProbability ? PieceType.Sham : PieceType.Normal,
+                new Position(selectedTile.X, selectedTile.Y));
+            selectedTile.Piece = piece;
+            Pieces.Add(piece);
         }
 
         public void Init(IList<GamePlayer> players, uint pieceCount, uint goalCount)
@@ -154,7 +169,10 @@ namespace TheProjectGame.Game
         public void MovePlayer(GamePlayer player, Position destination)
         {
             Position pos = player.Position;
-            Fields[pos.X, pos.Y].Player = null;
+            if (pos != null)
+            {
+                Fields[pos.X, pos.Y].Player = null;
+            }
             player.Position = destination;
             Fields[destination.X, destination.Y].Player = player;
         }
@@ -164,9 +182,9 @@ namespace TheProjectGame.Game
             return position.Y < GoalAreaHeight || position.Y >= (BoardHeight - GoalAreaHeight);
         }
 
-        private List<GoalTile> GetGoalTiles(TeamColor team)
+        public List<GoalTile> GetGoalTiles(TeamColor team)
         {
-            uint startHeight = team == TeamColor.Blue ? 0 : BoardHeight - GoalAreaHeight;
+            uint startHeight = team == TeamColor.Red ? 0 : BoardHeight - GoalAreaHeight;
             List<GoalTile> goalFields = new List<GoalTile>();
             for (int x = 0; x < BoardWidth; x++)
             {
@@ -180,7 +198,7 @@ namespace TheProjectGame.Game
 
         public bool CheckWinConditions(TeamColor team)
         {
-            uint startHeight = team == TeamColor.Blue ? 0 : BoardHeight - GoalAreaHeight;
+            uint startHeight = team == TeamColor.Red ? 0 : BoardHeight - GoalAreaHeight;
             List<GoalTile> goalFields = new List<GoalTile>();
             for (int x = 0; x < BoardWidth; x++)
             {
@@ -208,7 +226,7 @@ namespace TheProjectGame.Game
             return true;
         }
 
-        private List<TaskTile> GetTaskTiles()
+        public List<TaskTile> GetTaskTiles()
         {
             List<TaskTile> taskTiles = new List<TaskTile>();
             for (int x = 0; x < BoardWidth; x++)

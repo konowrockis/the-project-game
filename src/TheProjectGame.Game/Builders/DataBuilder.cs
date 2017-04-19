@@ -55,12 +55,20 @@ namespace TheProjectGame.Game.Builders
 
             data.GoalFields = goalFields;
             data.TaskFields = taskFields;
-            data.Pieces = pieces;
+            if (data.Pieces != null)
+            {
+                data.Pieces.AddRange(pieces);
+            }
+            else data.Pieces = pieces;
             return this;
         }
 
         public DataBuilder Pieces(params BoardPiece[] pieces)
         {
+            if (data.Pieces != null)
+            {
+                data.Pieces.AddRange(pieces.ToList().Select(ObjectMapper.Map).ToList());
+            } else
             data.Pieces = pieces.ToList().Select(ObjectMapper.Map).ToList();
             return this;
         }

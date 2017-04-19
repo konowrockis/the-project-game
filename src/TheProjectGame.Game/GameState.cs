@@ -7,8 +7,8 @@ namespace TheProjectGame.Game
     public class GameState : IGameState
     {
         public ulong Id { get; }
-        public IList<GamePlayer> Players { get; }
-        public IBoard Board { get; }
+        public List<GamePlayer> Players { get; set; }
+        public IBoard Board { get; set; }
 
         public IEnumerable<GamePlayer> TeamPlayers(TeamColor color) => Players.Where(p => p.Team == color);
 
@@ -19,9 +19,10 @@ namespace TheProjectGame.Game
             Board = new Board(width, taskAreaHeight, goalAreaHeight, shamProbability);
         }
 
-        public GameState()
+        public GameState(ulong id)
         {
-            
+            Id = id;
+            Players = new List<GamePlayer>();
         }
     }
 }

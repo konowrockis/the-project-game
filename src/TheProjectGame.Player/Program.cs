@@ -4,6 +4,7 @@ using Serilog;
 using Serilog.Events;
 using Autofac;
 using TheProjectGame.Client;
+using TheProjectGame.Player.Game;
 using TheProjectGame.Settings;
 using TheProjectGame.Settings.Options;
 
@@ -29,6 +30,8 @@ namespace TheProjectGame.Player
         protected override IContainer ConfigureContainer(ContainerBuilder builder)
         {
             builder.RegisterOptions<PlayerOptions>();
+            builder.RegisterType<PlayerKnowledge>().AsSelf().SingleInstance();
+            builder.RegisterType<SimplePlayerLogic>().As<IPlayerLogic>().SingleInstance();
 
             return base.ConfigureContainer(builder);
         }

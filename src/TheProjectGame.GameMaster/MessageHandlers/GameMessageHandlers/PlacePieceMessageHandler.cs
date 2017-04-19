@@ -64,6 +64,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers
             if (piece != null)
             {
                 board.Pieces.Remove(piece);
+                board.PlaceNewPiece();
             }
 
             if (piece == null || piece.Type == PieceType.Sham)
@@ -73,13 +74,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers
             }
             
             var goalTile = board.Fields[player.Position.X, player.Position.Y] as GoalTile;
-            if (goalTile.Type == GoalFieldType.Goal)
-            {
-                goalTile.Discovered = true;
-            }
-
-            var response = builder.Fields(goalTile).Build();
-            messageWriter.Write(response,actionCosts.PlacingDelay);
+            goalTile.Discovered = true;
 
             if (board.CheckWinConditions(player.Team))
             {
@@ -95,6 +90,11 @@ namespace TheProjectGame.GameMaster.MessageHandlers
                         PlayerId = gamePlayer.Id
                     });
                 }
+            }
+            else
+            {
+                var response = builder.Fields(goalTile).Build();
+                messageWriter.Write(response, actionCosts.PlacingDelay);
             }
         }
     }

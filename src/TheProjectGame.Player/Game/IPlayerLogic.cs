@@ -3,7 +3,7 @@ using TheProjectGame.Game;
 
 namespace TheProjectGame.Player.Game
 {
-    interface IPlayerLogic
+    public interface IPlayerLogic
     {
         IMessage GetNextMove(IBoard board, PlayerKnowledge knowledge);
     }

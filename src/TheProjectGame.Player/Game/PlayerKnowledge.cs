@@ -7,17 +7,16 @@ using TheProjectGame.Game;
 
 namespace TheProjectGame.Player.Game
 {
-    class PlayerKnowledge
+    public class PlayerKnowledge
     {
-        public GamePlayer Player { get; private set; }
-        public BoardPiece CarriedPiece { get; private set; }
-        public List<GamePlayer> Players { get; private set; }
+        public GamePlayer Player { get; set; }
+        public BoardPiece CarriedPiece { get; set; }
+        public string Guid { get; set; }
+        public IGameState GameState { get; set; }
 
-        public PlayerKnowledge(List<GamePlayer> players, GamePlayer player)
+        public PlayerKnowledge()
         {
-            Player = player;
-            CarriedPiece = null;
-            Players = players;
+
         }
     }
 }
