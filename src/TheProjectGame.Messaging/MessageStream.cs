@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Schema;
@@ -48,8 +50,7 @@ namespace TheProjectGame.Messaging
         {
             Task.Delay(TimeSpan.FromMilliseconds(delayMiliseconds)).ContinueWith((t) =>
             {
-                messageParser.Write(stream, message);
-                stream.WriteByte(ETB);
+                    messageParser.Write(stream, message);
             });
         }
 

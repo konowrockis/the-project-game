@@ -12,6 +12,7 @@ namespace TheProjectGame.Messaging
     class MessagesParser : IMessageParser
     {
         private const string DefaultNamespace = "http://theprojectgame.mini.pw.edu.pl/";
+        private const byte ETB = 0x17;
 
         private readonly Dictionary<string, XmlSerializer> messageSerializers;
 
@@ -59,11 +60,19 @@ namespace TheProjectGame.Messaging
             return messageSerializers[messageName].Deserialize(reader) as IMessage;
         }
 
+        public IMessage Parse(string messageName, Stream stream)
+        {
+            return messageSerializers[messageName].Deserialize(stream) as IMessage;
+        }
+
         public void Write(Stream stream, IMessage message)
         {
             var t = message.GetType();
-
-            messageSerializers[t.Name].Serialize(stream, message);
+            MemoryStream buffer = new MemoryStream();
+            messageSerializers[t.Name].Serialize(buffer, message);
+            buffer.WriteByte(ETB);
+            var bytes = buffer.ToArray();
+            stream.Write(bytes,0,bytes.Length);
         }
     }
 }

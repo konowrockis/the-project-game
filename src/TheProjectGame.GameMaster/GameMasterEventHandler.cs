@@ -36,15 +36,19 @@ namespace TheProjectGame.GameMaster
 
             proxyCreator.SetStream(stream);
 
-            messageWriter.Write(new RegisterGame()
-            {
-                NewGameInfo = new GameInfo()
+            //for (int i = 0; i < 10; i++)
+            //{
+                messageWriter.Write(new RegisterGame()
                 {
-                    Name = options.GameDefinition.GameName,
-                    BlueTeamPlayers = options.GameDefinition.NumberOfPlayersPerTeam,
-                    RedTeamPlayers = options.GameDefinition.NumberOfPlayersPerTeam
-                }
-            });
+                    NewGameInfo = new GameInfo()
+                    {
+                        Name = options.GameDefinition.GameName,
+                        BlueTeamPlayers = options.GameDefinition.NumberOfPlayersPerTeam,
+                        RedTeamPlayers = options.GameDefinition.NumberOfPlayersPerTeam
+                    }
+                });
+            //}
+            
 
             while (true)
             {

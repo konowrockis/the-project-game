@@ -1,44 +1,38 @@
-﻿using System.Net.Sockets;
+﻿using System.IO;
+using System.Net.Sockets;
 
 namespace TheProjectGame.Network
 {
     class ByteStream : NetworkStream
     {
         private const byte ETB = 0x17;
+        private MemoryStream messageBuffer = new MemoryStream();
 
         public ByteStream(Socket s) : base(s)
         { }
 
-        public override int Read(byte[] buffer, int offset, int size)
+        private void StreamMessage()
         {
-            int read = base.Read(buffer, offset, size);
-
-            if (read == 1 && buffer[0] == ETB)
+            messageBuffer.SetLength(0);
+            byte[] b = new byte[1];
+            while (base.Read(b, 0, 1) > 0)
             {
-                return Read(buffer, offset, size);
-            }
-
-            int move = 0;
-
-            for (int i = 0; i < read; i++)
-            {
-                if (buffer[i] == ETB)
+                if (b[0] != ETB)
                 {
-                    move++;
+                    messageBuffer.Write(b, 0, 1);
                 }
-                else if (move != 0)
+                else if (messageBuffer.Length != 0)
                 {
-                    buffer[i - move] = buffer[i];
+                    messageBuffer.Position = 0;
+                    return;
                 }
             }
-
-            return read - move;
         }
 
-        public override int ReadByte()
+        public override int Read(byte[] buffer, int offset, int size)
         {
-            int b = base.ReadByte();
-            return b == ETB ? ReadByte() : b;
+            StreamMessage();
+            return messageBuffer.Read(buffer, offset, size);
         }
     }
 }
