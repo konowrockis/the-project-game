@@ -63,7 +63,7 @@ These are versions of the applications built and published by our Continuous Int
 
 ## Progress
 
-* Tasks completed during the first sprint:
+* Tasks completed during the first sprint (as of 31.03):
     * TeamCity configuration
     * Artifacts generation on TeamCity
     * Inversion of Control using Autofac
@@ -80,3 +80,20 @@ These are versions of the applications built and published by our Continuous Int
     * Unit tests - Message handlers
     * Unit tests - Message parser
     * Integration tests
+
+* Tasks completed during the second sprint, which was extended (as of 12.04):
+    * Create and manage games
+    * Player logic interface
+    * Game object holding state of the current game
+    * Board initialization
+    * PlacePiece message handler
+    * Move message handler
+    * Discover message handler
+
+* Tasks completed during the third sprint (as of 21.04):
+    * Simple player logic implementation
+    * PickupPiece message handler
+    * CheckPiece message handler
+    * Data message handler
+    * Game message handler
+    * Ending game and proper gameplay
