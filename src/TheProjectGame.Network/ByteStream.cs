@@ -9,6 +9,7 @@ namespace TheProjectGame.Network
         public ByteStream(Socket s) : base(s)
         { }
 
+        /*
         public override int Read(byte[] buffer, int offset, int size)
         {
             int read = base.Read(buffer, offset, size);
@@ -39,6 +40,6 @@ namespace TheProjectGame.Network
         {
             int b = base.ReadByte();
             return b == ETB ? ReadByte() : b;
-        }
+        }*/
     }
 }

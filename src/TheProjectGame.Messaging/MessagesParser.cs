@@ -59,6 +59,11 @@ namespace TheProjectGame.Messaging
             return messageSerializers[messageName].Deserialize(reader) as IMessage;
         }
 
+        public IMessage Parse(string messageName, Stream stream)
+        {
+            return messageSerializers[messageName].Deserialize(stream) as IMessage;
+        }
+
         public void Write(Stream stream, IMessage message)
         {
             var t = message.GetType();
