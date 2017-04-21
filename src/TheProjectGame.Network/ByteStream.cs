@@ -13,6 +13,7 @@ namespace TheProjectGame.Network
 
         private void StreamMessage()
         {
+            if (messageBuffer.Position != messageBuffer.Length) return;
             messageBuffer.SetLength(0);
             byte[] b = new byte[1];
             while (base.Read(b, 0, 1) > 0)
