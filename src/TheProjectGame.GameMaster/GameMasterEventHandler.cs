@@ -35,21 +35,16 @@ namespace TheProjectGame.GameMaster
             logger.Debug("Connected to host at port {@Port}", connection.Port);
 
             proxyCreator.SetStream(stream);
-
-            //for (int i = 0; i < 10; i++)
-            //{
-                messageWriter.Write(new RegisterGame()
+            messageWriter.Write(new RegisterGame()
+            {
+                NewGameInfo = new GameInfo()
                 {
-                    NewGameInfo = new GameInfo()
-                    {
-                        Name = options.GameDefinition.GameName,
-                        BlueTeamPlayers = options.GameDefinition.NumberOfPlayersPerTeam,
-                        RedTeamPlayers = options.GameDefinition.NumberOfPlayersPerTeam
-                    }
-                });
-            //}
+                    Name = options.GameDefinition.GameName,
+                    BlueTeamPlayers = options.GameDefinition.NumberOfPlayersPerTeam,
+                    RedTeamPlayers = options.GameDefinition.NumberOfPlayersPerTeam
+                }
+            });
             
-
             while (true)
             {
                 var message = messageReader.Read();
