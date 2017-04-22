@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Autofac;
 
-namespace TheProjectGame.Messaging
+namespace TheProjectGame.Messaging.Autofac
 {
     class AutofacMessageHandlerResolver : IMessageHandlerResolver
     {

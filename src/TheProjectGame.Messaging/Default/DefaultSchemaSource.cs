@@ -1,8 +1,8 @@
 ﻿using System.IO;
 
-namespace TheProjectGame.Messaging
+namespace TheProjectGame.Messaging.Default
 {
-    class SchemaSource : ISchemaSource
+    class DefaultSchemaSource : ISchemaSource
     {
         private const string SchemaFileName = "TheProjectGameCommunication.xsd";
         public Stream GetSchema()
