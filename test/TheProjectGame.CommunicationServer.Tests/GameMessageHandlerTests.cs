@@ -16,58 +16,55 @@ namespace TheProjectGame.CommunicationServer.Tests
         private const string validPlayerGuid = nameof(validPlayerGuid);
         private const string invalidPlayerGuid = nameof(invalidPlayerGuid);
 
+        private IClient player;
+        private IClient gameMaster;
+        private GameMessageHandler messageHandler;
+
+        public GameMessageHandlerTests()
+        {
+            player = Substitute.For<IClient>();
+            gameMaster = Substitute.For<IClient>();
+
+            var currentClient = Substitute.For<ICurrentClient>();
+            var gamesManager = Substitute.For<IGamesManager>();
+            var game = Substitute.For<IGame>();
+
+            currentClient.Value.Returns(player);
+            gamesManager.GetGameById(gameId).Returns(game);
+            gamesManager.GetGameById(nonExistentGameId).ReturnsNull();
+            game.GameMaster.Returns(gameMaster);
+
+            messageHandler = new GameMessageHandler(gamesManager, currentClient);
+        }
+
         [TestMethod]
         public void Pass_GameMessage_to_GameMaster_when_everything_is_valid()
         {
-            var sut = GetMessageHandler();
             var message = GetMessage(validPlayerGuid);
 
-            sut.MessageHandler.Handle(message);
+            messageHandler.Handle(message);
 
-            sut.GameMaster.Received().Write(message);
+            gameMaster.Received().Write(message);
         }
 
         [TestMethod]
         public void Do_nothing_on_invalid_player_guid()
         {
-            var sut = GetMessageHandler();
             var message = GetMessage(invalidPlayerGuid);
 
-            sut.MessageHandler.Handle(message);
+            messageHandler.Handle(message);
 
-            sut.GameMaster.DidNotReceiveWithAnyArgs();
+            gameMaster.DidNotReceiveWithAnyArgs();
         }
 
         [TestMethod]
         public void Do_nothing_when_game_with_given_id_does_not_exist()
         {
-            var sut = GetMessageHandler();
             var message = GetMessage(validPlayerGuid, nonExistentGameId);
 
-            sut.MessageHandler.Handle(message);
+            messageHandler.Handle(message);
 
-            sut.GameMaster.DidNotReceiveWithAnyArgs();
-        }
-
-        private SystemUnderTests GetMessageHandler()
-        {
-            var client = Substitute.For<IClient>();
-            var currentClient = Substitute.For<ICurrentClient>();
-            var gamesManager = Substitute.For<IGamesManager>();
-            var game = Substitute.For<IGame>();
-            var gameMaster = Substitute.For<IClient>();
-
-            currentClient.Value.Returns(client);
-            gamesManager.GetGameById(gameId).Returns(game);
-            gamesManager.GetGameById(nonExistentGameId).ReturnsNull();
-            game.GameMaster.Returns(gameMaster);
-
-            return new SystemUnderTests()
-            {
-                MessageHandler = new GameMessageHandler(gamesManager, currentClient),
-                GameMaster = gameMaster,
-                Client = client
-            };
+            gameMaster.DidNotReceiveWithAnyArgs();
         }
 
         private GameMessage GetMessage(string playerGuid, ulong gameId = gameId)
@@ -77,13 +74,6 @@ namespace TheProjectGame.CommunicationServer.Tests
                 PlayerGuid = playerGuid,
                 GameId = gameId
             };
-        }
-
-        private class SystemUnderTests
-        {
-            public GameMessageHandler MessageHandler { get; set; }
-            public IClient GameMaster { get; set; }
-            public IClient Client { get; set; }
         }
     }
 }

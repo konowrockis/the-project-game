@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Autofac;
@@ -7,6 +6,7 @@ using Autofac.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using TheProjectGame.Contracts;
+using TheProjectGame.Messaging.Autofac;
 
 namespace TheProjectGame.Messaging.Tests
 {
