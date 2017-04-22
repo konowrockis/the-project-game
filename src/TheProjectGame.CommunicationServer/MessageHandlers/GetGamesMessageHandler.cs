@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using TheProjectGame.CommunicationServer.Routing;
-using TheProjectGame.Contracts;
 using TheProjectGame.Contracts.Messages.GameActions;
 using TheProjectGame.Contracts.Messages.Structures;
 using TheProjectGame.Messaging;

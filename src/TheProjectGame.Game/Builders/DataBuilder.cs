@@ -43,11 +43,11 @@ namespace TheProjectGame.Game.Builders
             var taskTiles = tileList.OfType<TaskTile>().ToList();
             var gameTiles = tileList.OfType<GoalTile>().ToList();
 
-            var goalFields = gameTiles.Where(tile=>tile.Discovered).Select(ObjectMapper.Map).ToList();
+            var goalFields = gameTiles.Where(tile => tile.Discovered).Select(ObjectMapper.Map).ToList();
             var nonDiscoveredGoalFields = gameTiles.Where(tile => !tile.Discovered).Select(ObjectMapper.Map).ToList();
             nonDiscoveredGoalFields.ForEach(field => field.Type = GoalFieldType.Unknown);
             goalFields.AddRange(nonDiscoveredGoalFields);
-            
+
             var taskFields = taskTiles.Select(ObjectMapper.Map).ToList();
 
             var pieces =
