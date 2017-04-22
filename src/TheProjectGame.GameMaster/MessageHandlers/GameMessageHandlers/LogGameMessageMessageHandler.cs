@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using Serilog;
+﻿using Serilog;
 using TheProjectGame.Contracts.Messages.Structures;
 using TheProjectGame.GameMaster.Logging;
 using TheProjectGame.Messaging;

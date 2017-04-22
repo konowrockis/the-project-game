@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TheProjectGame.Contracts;
 using TheProjectGame.Contracts.Enums;
 using TheProjectGame.Contracts.Messages.PlayerActions;
@@ -91,20 +88,24 @@ namespace TheProjectGame.Player.Game
                 direction = playerPos.Y > y ? MoveType.Up : MoveType.Down;
             }
 
-            Move move = new Move();
-            move.GameId = knowledge.GameState.Id;
-            move.Direction = direction;
-            move.PlayerGuid = knowledge.Guid;
+            Move move = new Move()
+            {
+                GameId = knowledge.GameState.Id,
+                Direction = direction,
+                PlayerGuid = knowledge.Guid
+            };
             return move;
 
         }
 
         private Move RandomMove(PlayerKnowledge knowledge)
         {
-            Move move = new Move();
-            move.GameId = knowledge.GameState.Id;
-            move.Direction = RandomMoveDirection();
-            move.PlayerGuid = knowledge.Guid;
+            Move move = new Move()
+            {
+                GameId = knowledge.GameState.Id,
+                Direction = RandomMoveDirection(),
+                PlayerGuid = knowledge.Guid
+            };
             return move;
         }
 

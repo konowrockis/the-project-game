@@ -4,7 +4,6 @@ using TheProjectGame.Contracts.Enums;
 using TheProjectGame.Contracts.Messages.GameActions;
 using TheProjectGame.Contracts.Messages.Structures;
 using TheProjectGame.Game;
-using TheProjectGame.Game.Builders;
 using TheProjectGame.GameMaster.Games;
 using TheProjectGame.Messaging;
 using TheProjectGame.Settings.Options;
@@ -14,7 +13,6 @@ namespace TheProjectGame.GameMaster.MessageHandlers
 {
     class JoinGameMessageHandler : MessageHandler<JoinGame>
     {
-
         private ILogger logger = Log.ForContext<JoinGameMessageHandler>();
 
         private readonly IMessageWriter messageWriter;
@@ -22,7 +20,8 @@ namespace TheProjectGame.GameMaster.MessageHandlers
         private readonly IPlayersMap players;
         private readonly GameOptions gameOptions;
 
-        public JoinGameMessageHandler(IMessageWriter messageWriter, ICurrentGame currentGame, GameMasterOptions gameOptions)
+        public JoinGameMessageHandler(IMessageWriter messageWriter, ICurrentGame currentGame, 
+            GameMasterOptions gameOptions)
         {
             this.messageWriter = messageWriter;
             this.game = currentGame.Game;
@@ -118,7 +117,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers
             if (game.Players.Count >= gameOptions.NumberOfPlayersPerTeam * 2)
             {
                 // TODO: add proper Goal count
-                game.Board.Init(game.Players,gameOptions.InitialNumberOfPieces,1);
+                game.Board.Init(game.Players, gameOptions.InitialNumberOfPieces, 1);
 
                 var gameResponse = new Contracts.Messages.GameActions.Game()
                 {
@@ -136,17 +135,17 @@ namespace TheProjectGame.GameMaster.MessageHandlers
                     }).ToList(),
                 };
 
-                logger.Information("SENDING NEW GAME");
-
                 foreach (var currentPlayer in game.Players)
                 {
-                    logger.Information("TO : "+currentPlayer.Id);
-                    var response = new Contracts.Messages.GameActions.Game();
-                    response.Board = gameResponse.Board;
-                    response.Players = gameResponse.Players;
-                    response.PlayerId = currentPlayer.Id;
-                    response.PlayerLocation = Map(currentPlayer.Position);
+                    logger.Verbose("Sending GameMessage to {@Player}", currentPlayer);
 
+                    var response = new Contracts.Messages.GameActions.Game()
+                    {
+                        Board = gameResponse.Board,
+                        Players = gameResponse.Players,
+                        PlayerId = currentPlayer.Id,
+                        PlayerLocation = Map(currentPlayer.Position)
+                    };
                     messageWriter.Write(response);
                 }
             }

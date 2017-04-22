@@ -61,7 +61,6 @@ namespace TheProjectGame.Player.MessageHandlers
                 players.Add(gamePlayer);
             }
 
-
             board.Fields[message.PlayerLocation.X, message.PlayerLocation.Y].Player = playerKnowledge.Player;
 
             playerKnowledge.GameState.Players = players;

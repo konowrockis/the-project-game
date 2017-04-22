@@ -30,7 +30,7 @@ namespace TheProjectGame.Game
 
         public Board()
         {
-            
+
         }
 
         public Board(uint width, uint taskAreaHeight, uint goalAreaHeight, double shamProbability)
@@ -38,7 +38,7 @@ namespace TheProjectGame.Game
             BoardWidth = width;
             TaskAreaHeight = taskAreaHeight;
             GoalAreaHeight = goalAreaHeight;
-            BoardHeight = taskAreaHeight + goalAreaHeight*2;
+            BoardHeight = taskAreaHeight + goalAreaHeight * 2;
             this.shamProbability = shamProbability;
 
             Fields = new Tile[BoardWidth, BoardHeight];
@@ -120,7 +120,7 @@ namespace TheProjectGame.Game
                 var selectedTile = tiles[random.Next(tiles.Count)];
 
                 BoardPiece piece = new BoardPiece(NextPieceId, null,
-                    random.NextDouble() <shamProbability ? PieceType.Sham : PieceType.Normal,
+                    random.NextDouble() < shamProbability ? PieceType.Sham : PieceType.Normal,
                     new Position(selectedTile.X, selectedTile.Y));
                 selectedTile.Piece = piece;
                 Pieces.Add(piece);
@@ -204,7 +204,7 @@ namespace TheProjectGame.Game
             {
                 for (int y = 0; y < GoalAreaHeight; y++)
                 {
-                    goalFields.Add(Fields[x,startHeight+y] as GoalTile);
+                    goalFields.Add(Fields[x, startHeight + y] as GoalTile);
                 }
             }
 
@@ -221,7 +221,7 @@ namespace TheProjectGame.Game
             TaskTile taskTile = tile as TaskTile;
             if (taskTile.Piece != null) return false;
             taskTile.Piece = piece;
-            piece.Position = new Position(position.X,position.Y);
+            piece.Position = new Position(position.X, position.Y);
             piece.SetPlayer(null);
             return true;
         }
@@ -263,7 +263,5 @@ namespace TheProjectGame.Game
                 goalTile.Timestamp = Time.Now;
             }
         }
-
-
     }
 }
