@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheProjectGame.Contracts.Enums;
 using TheProjectGame.Contracts.Messages.Structures;
 
 namespace TheProjectGame.Game.Builders
@@ -64,14 +65,18 @@ namespace TheProjectGame.Game.Builders
             return goalField;
         }
 
-        public static Piece Map(BoardPiece boardPiece)
+        public static Piece Map(BoardPiece boardPiece, bool discovered=false)
         {
             var piece = new Piece()
             {
                 Id = boardPiece.Id,
                 Timestamp = Time.Now,
-                Type = boardPiece.Type,
+                Type = PieceType.Unknown,
             };
+            if (discovered)
+            {
+                piece.Type = boardPiece.Type;
+            }
             if (boardPiece.Player != null)
             {
                 piece.PlayerIdSpecified = true;

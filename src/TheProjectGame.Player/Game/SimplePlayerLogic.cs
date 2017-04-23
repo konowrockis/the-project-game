@@ -13,6 +13,7 @@ namespace TheProjectGame.Player.Game
     public class SimplePlayerLogic : IPlayerLogic
     {
         private Random random = new Random();
+        private bool lastDiscovered = false;
 
         public IMessage GetNextMove(IBoard board, PlayerKnowledge knowledge)
         {
@@ -30,8 +31,20 @@ namespace TheProjectGame.Player.Game
 
             if (knowledge.CarriedPiece != null)
             {
+                // has piece
+                if (knowledge.CarriedPiece.Type == PieceType.Unknown)
+                {
+                    // piece unknown, test it
+                    knowledge.CarriedPiece = null;
+                    TestPiece testPiece = new TestPiece();
+                    testPiece.PlayerGuid = knowledge.Guid;
+                    testPiece.GameId = knowledge.GameState.Id;
+                    return testPiece;
+                }
+
                 if (board.IsInGoalArea(playerPos))
                 {
+                    // is in goal area and on unknown goal tile, place piece
                     var tile = board.Fields[playerPos.X, playerPos.Y] as GoalTile;
                     if (tile.Type == GoalFieldType.Unknown && tile.Team == knowledge.Player.Team)
                     {
@@ -42,31 +55,78 @@ namespace TheProjectGame.Player.Game
                         return placePiece;
                     }
                 }
+                // not on undiscovered goal
                 // go straight to first non-discovered goal
                 return MoveToAnyNonDiscoveredGoal(knowledge);
             }
             else
             {
+                // doesnt have piece
                 if (!board.IsInGoalArea(playerPos))
                 {
+                    // is in task area
                     var tile = board.Fields[playerPos.X, playerPos.Y] as TaskTile;
                     if (tile.Piece != null)
                     {
+                        // task tile has piece, pick it up
                         PickUpPiece pickup = new PickUpPiece();
                         pickup.PlayerGuid = knowledge.Guid;
                         pickup.GameId = knowledge.GameState.Id;
                         return pickup;
                     }
+                    else
+                    {
+                        // task tile has no piece
+                        if (lastDiscovered)
+                        {
+                            // if previously used discover go to tile with lowest distance to piece
+                            lastDiscovered = false;
+                            var first = board.GetNeighbourhood(playerPos.X, playerPos.Y).ToList().OfType<TaskTile>().OrderBy(t=>t.DistanceToPiece,Comparer<int>.Default).FirstOrDefault();
+                            return MoveToward(knowledge, new Position(first.X,first.Y));
+                        }
+                        else
+                        {
+                            // if discover not used previously use discover
+                            Discover discover = new Discover();
+                            discover.PlayerGuid = knowledge.Guid;
+                            discover.GameId = knowledge.GameState.Id;
+                            lastDiscovered = true;
+                            return discover;
+                        }
+                    }
                 }
-                /*if (random.NextDouble() > 0.8 && !board.IsInGoalArea(playerPos))
+                else
                 {
-                    Discover discover = new Discover();
-                    discover.PlayerGuid = knowledge.Guid;
-                    discover.GameId = knowledge.GameState.Id;
-                    return discover;
-                }*/
-                return RandomMove(knowledge);
+                    // is in goal area
+                    // go to task area immediately!
+                    MoveType direction = knowledge.Player.Team == TeamColor.Red ? MoveType.Down : MoveType.Up;
+                    Move move = new Move();
+                    move.Direction = direction;
+                    move.PlayerGuid = knowledge.Guid;
+                    move.GameId = knowledge.GameState.Id;
+                    return move;
+                }
             }
+        }
+
+        private Move MoveToward(PlayerKnowledge knowledge, Position destination)
+        {
+            Position current = knowledge.Player.Position;
+            MoveType direction = MoveType.Down;
+
+            if (current.X - destination.X != 0)
+            {
+                direction = current.X > destination.X ? MoveType.Left : MoveType.Right;
+            }
+            else
+            {
+                direction = current.Y > destination.Y ? MoveType.Up : MoveType.Down;
+            }
+            Move move = new Move();
+            move.GameId = knowledge.GameState.Id;
+            move.Direction = direction;
+            move.PlayerGuid = knowledge.Guid;
+            return move;
         }
 
         private Move MoveToAnyNonDiscoveredGoal(PlayerKnowledge knowledge)

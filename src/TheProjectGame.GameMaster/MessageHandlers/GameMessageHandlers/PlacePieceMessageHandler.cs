@@ -54,7 +54,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers
                 }
                 else
                 {
-                    builder.Pieces(piece);
+                    builder.Pieces(false,piece);
                 }
                 board.RefreshBoardState();
                 messageWriter.Write(builder.Build(), actionCosts.PlacingDelay);

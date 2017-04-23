@@ -62,7 +62,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers.GameMessageHandlers
             var response = builder.GameFinished(false)
                 .PlayerId(gamePlayer.Id)
                 .PlayerLocation(ObjectMapper.Map(gamePlayer.Position))
-                .Pieces(piece)
+                .Pieces(false,piece)
                 .Fields(field)
                 .Build();
 

@@ -71,6 +71,7 @@
     <Compile Include="MessageHandlers\GameMessageHandlers\LogGameMessageMessageHandler.cs" />
     <Compile Include="MessageHandlers\GameMessageHandlers\DiscoverMessageHandler.cs" />
     <Compile Include="MessageHandlers\GameMessageHandlers\PickupPieceMessageHandler.cs" />
+    <Compile Include="MessageHandlers\GameMessageHandlers\TestPieceMessageHandler.cs" />
     <Compile Include="MessageHandlers\JoinGameMessageHandler.cs" />
     <Compile Include="MessageHandlers\ConfirmGameRegistrationMessageHandler.cs" />
     <Compile Include="MessageHandlers\GameMessageHandlers\MoveMessageHandler.cs" />

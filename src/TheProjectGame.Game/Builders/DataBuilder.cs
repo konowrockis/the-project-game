@@ -51,7 +51,7 @@ namespace TheProjectGame.Game.Builders
             var taskFields = taskTiles.Select(ObjectMapper.Map).ToList();
 
             var pieces =
-                taskTiles.Where(tile => tile.Piece != null).Select(tile => tile.Piece).Select(ObjectMapper.Map).ToList();
+                taskTiles.Where(tile => tile.Piece != null).Select(tile => tile.Piece).Select(p=>ObjectMapper.Map(p,false)).ToList();
 
             data.GoalFields = goalFields;
             data.TaskFields = taskFields;
@@ -63,13 +63,13 @@ namespace TheProjectGame.Game.Builders
             return this;
         }
 
-        public DataBuilder Pieces(params BoardPiece[] pieces)
+        public DataBuilder Pieces(bool discovered, params BoardPiece[] pieces)
         {
             if (data.Pieces != null)
             {
-                data.Pieces.AddRange(pieces.ToList().Select(ObjectMapper.Map).ToList());
+                data.Pieces.AddRange(pieces.ToList().Select(p => ObjectMapper.Map(p, discovered)).ToList());
             } else
-            data.Pieces = pieces.ToList().Select(ObjectMapper.Map).ToList();
+            data.Pieces = pieces.ToList().Select(p => ObjectMapper.Map(p, discovered)).ToList();
             return this;
         }
 
