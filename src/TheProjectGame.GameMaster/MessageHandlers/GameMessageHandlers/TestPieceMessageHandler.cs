@@ -50,8 +50,8 @@ namespace TheProjectGame.GameMaster.MessageHandlers.GameMessageHandlers
             {
                 board.Pieces.Remove(piece);
                 board.PlaceNewPiece();
-                board.RefreshBoardState();
             }
+            board.RefreshBoardState();
             // return information about the piece
             var response = builder.Pieces(true, piece).Build();
 

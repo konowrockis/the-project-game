@@ -57,6 +57,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers.GameMessageHandlers
             var piece = field.Piece;
             piece.Player = gamePlayer;
             field.Piece = null;
+            board.RefreshBoardState();
 
             DataBuilder builder = new DataBuilder();
             var response = builder.GameFinished(false)

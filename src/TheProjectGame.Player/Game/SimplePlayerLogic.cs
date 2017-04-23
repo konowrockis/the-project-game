@@ -81,8 +81,9 @@ namespace TheProjectGame.Player.Game
                         {
                             // if previously used discover go to tile with lowest distance to piece
                             lastDiscovered = false;
-                            var first = board.GetNeighbourhood(playerPos.X, playerPos.Y).ToList().OfType<TaskTile>().OrderBy(t=>t.DistanceToPiece,Comparer<int>.Default).FirstOrDefault();
-                            return MoveToward(knowledge, new Position(first.X,first.Y));
+                            var tiles = board.GetNeighbourhood(playerPos.X, playerPos.Y).ToList().OfType<TaskTile>().OrderBy(t=>t.DistanceToPiece,Comparer<int>.Default).ToList();
+                            var dest = tiles[random.Next(tiles.Count())];
+                            return MoveToward(knowledge, new Position(dest.X,dest.Y));
                         }
                         else
                         {
