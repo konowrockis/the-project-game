@@ -1,4 +1,4 @@
-using System.Linq;
+﻿using System.Linq;
 using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,22 +24,30 @@ namespace TheProjectGame.Player.MessageHandlers
         private IMessageWriter writer;
         private PlayerKnowledge knowledge;
         private bool gameFinished = false;
+        private PlayerOptions playerOptions;
 
-        public DataMessageHandler(IMessageWriter writer, IPlayerLogic playerLogic, PlayerKnowledge playerKnowledge)
+        public DataMessageHandler(IMessageWriter writer, IPlayerLogic playerLogic, PlayerKnowledge playerKnowledge,PlayerOptions playerOptions)
         {
             this.board = playerKnowledge.GameState.Board;
             this.playerLogic = playerLogic;
             this.writer = writer;
             this.knowledge = playerKnowledge;
+            this.playerOptions = playerOptions;
         }
+
+        private bool rejoined = false;
 
         public override void Handle(Data message)
         {
-            if (gameFinished)
+            if (gameFinished && !rejoined)
             {
-                writer.Write(new GetGames());
+                logger.Debug("Rejoining for a rematch...");
+                writer.Write(new GetGames(), playerOptions.RetryJoinGameInterval);
+                rejoined = true;
                 return;
             }
+            rejoined = false;
+
             var messagePlayerLocation = message.PlayerLocation;
             var messageGoalFields = message.GoalFields;
             var messagePieces = message.Pieces;

@@ -1,5 +1,6 @@
 ﻿using TheProjectGame.CommunicationServer.Routing;
 using TheProjectGame.Contracts.Messages.GameActions;
+using TheProjectGame.Contracts.Messages.Structures;
 using TheProjectGame.Messaging;
 
 namespace TheProjectGame.CommunicationServer.MessageHandlers
@@ -21,26 +22,38 @@ namespace TheProjectGame.CommunicationServer.MessageHandlers
 
             if (gamesManager.GetGameByName(gameInfo.Name) != null)
             {
-                var response = new RejectGameRegistration()
+                var game = gamesManager.GetGameByName(gameInfo.Name);
+                if (currentClient.GameId == game.Id)
                 {
-                    GameName = gameInfo.Name
-                };
-                currentClient.Write(response);
-            }
-            else
-            {
-                var id = gamesManager.GetNewGameId();
-                var game = new ServerGame(id, gameInfo.Name, currentClient, gameInfo.BlueTeamPlayers, gameInfo.RedTeamPlayers);
-
-                gamesManager.Add(game);
-
-                var response = new ConfirmGameRegistration()
+                    gamesManager.Remove(game);
+                }
+                else
                 {
-                    GameId = id
-                };
-
-                currentClient.Write(response);
+                    var response = new RejectGameRegistration()
+                    {
+                        GameName = gameInfo.Name
+                    };
+                    currentClient.Write(response);
+                    return;
+                }
             }
+            RegisterGame(gameInfo);
         }
+
+        private void RegisterGame(GameInfo gameInfo)
+        {
+            var id = gamesManager.GetNewGameId();
+            var game = new ServerGame(id, gameInfo.Name, currentClient, gameInfo.BlueTeamPlayers, gameInfo.RedTeamPlayers);
+
+            gamesManager.Add(game);
+
+            var response = new ConfirmGameRegistration()
+            {
+                GameId = id
+            };
+            currentClient.JoinGame(id);
+            currentClient.Write(response);
+        }
+
     }
 }
