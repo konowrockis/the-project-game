@@ -30,7 +30,7 @@ namespace TheProjectGame.Player
         protected override IContainer ConfigureContainer(ContainerBuilder builder)
         {
             builder.RegisterOptions<PlayerOptions>();
-            builder.RegisterType<PlayerKnowledge>().AsSelf().SingleInstance();
+            builder.RegisterType<PlayerKnowledge>().As<IPlayerKnowledge>().SingleInstance();
             builder.RegisterType<SimplePlayerLogic>().As<IPlayerLogic>().SingleInstance();
 
             return base.ConfigureContainer(builder);

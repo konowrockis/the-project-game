@@ -79,6 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Game\IPlayerLogic.cs" />
+    <Compile Include="Game\IPlayerKnowledge.cs" />
     <Compile Include="Game\PlayerKnowledge.cs" />
     <Compile Include="Game\SimplePlayerLogic.cs" />
     <Compile Include="MessageHandlers\DataMessageHandler.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="MessageHandlers\RejectJoiningGameMessageHandler.cs" />
     <Compile Include="MessageHandlers\ConfirmJoiningGameMessageHandler.cs" />
     <Compile Include="MessageHandlers\RegisteredGamesMessageHandler.cs" />
+    <Compile Include="MessageHandlers\RejectKnowledgeExchangeMessageHandler.cs" />
     <Compile Include="PlayerEventHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

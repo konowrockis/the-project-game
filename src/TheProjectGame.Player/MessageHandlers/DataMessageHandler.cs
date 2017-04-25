@@ -11,19 +11,20 @@ namespace TheProjectGame.Player.MessageHandlers
 {
     class DataMessageHandler : MessageHandler<Data>
     {
-        private IBoard board;
-        private IPlayerLogic playerLogic;
-        private IMessageWriter writer;
-        private PlayerKnowledge knowledge;
+        private readonly IPlayerLogic playerLogic;
+        private readonly IMessageWriter writer;
+        private readonly IPlayerKnowledge playerKnowledge;
 
         private bool gameFinished = false;
 
-        public DataMessageHandler(IMessageWriter writer, IPlayerLogic playerLogic, PlayerKnowledge playerKnowledge)
+        public DataMessageHandler(
+            IMessageWriter writer, 
+            IPlayerLogic playerLogic, 
+            IPlayerKnowledge playerKnowledge)
         {
-            this.board = playerKnowledge.GameState.Board;
             this.playerLogic = playerLogic;
             this.writer = writer;
-            this.knowledge = playerKnowledge;
+            this.playerKnowledge = playerKnowledge;
         }
 
         public override void Handle(Data message)
@@ -32,11 +33,14 @@ namespace TheProjectGame.Player.MessageHandlers
             {
                 return;
             }
+
             var messagePlayerLocation = message.PlayerLocation;
             var messageGoalFields = message.GoalFields;
             var messagePieces = message.Pieces;
             var messageGameFinished = message.GameFinished;
             var messageTaskFields = message.TaskFields;
+
+            var board = playerKnowledge.GameState.Board;
 
             if (messageGameFinished)
             {
@@ -47,7 +51,7 @@ namespace TheProjectGame.Player.MessageHandlers
 
             if (messagePlayerLocation != null)
             {
-                board.MovePlayer(knowledge.Player, new Position(messagePlayerLocation.X, messagePlayerLocation.Y));
+                board.MovePlayer(playerKnowledge.Player, new Position(messagePlayerLocation.X, messagePlayerLocation.Y));
             }
             messageGoalFields?.ForEach(UpdateGoalField);
             messageTaskFields?.ForEach(UpdateTaskField);
@@ -55,17 +59,19 @@ namespace TheProjectGame.Player.MessageHandlers
 
             //if (knowledge.Player.Team == TeamColor.Red) return;
 
-            IMessage response = playerLogic.GetNextMove(board, knowledge);
+            IMessage response = playerLogic.GetNextMove();
             writer.Write(response);
         }
 
         private void UpdateGoalField(GoalField field)
         {
+            var board = playerKnowledge.GameState.Board;
+
             var tile = board.Fields[field.X, field.Y] as GoalTile;
             tile.Timestamp = field.Timestamp;
             if (field.PlayerIdSpecified)
             {
-                var player = knowledge.GameState.Players.Find(p => p.Id == field.PlayerId);
+                var player = playerKnowledge.GameState.Players.Find(p => p.Id == field.PlayerId);
                 board.MovePlayer(player,new Position(field.X,field.Y));
             }
             if (field.Type != GoalFieldType.Unknown) tile.Type = field.Type;
@@ -73,11 +79,13 @@ namespace TheProjectGame.Player.MessageHandlers
 
         private void UpdateTaskField(TaskField field)
         {
+            var board = playerKnowledge.GameState.Board;
+
             var tile = board.Fields[field.X, field.Y] as TaskTile;
             tile.Timestamp = field.Timestamp;
             if (field.PlayerIdSpecified)
             {
-                var player = knowledge.GameState.Players.Find(p => p.Id == field.PlayerId);
+                var player = playerKnowledge.GameState.Players.Find(p => p.Id == field.PlayerId);
                 board.MovePlayer(player, new Position(field.X, field.Y));
             }
             if (field.PieceIdSpecified)
@@ -106,6 +114,8 @@ namespace TheProjectGame.Player.MessageHandlers
 
         private void UpdatePiece(Piece piece)
         {
+            var board = playerKnowledge.GameState.Board;
+
             var boardPiece = board.Pieces.Find(p => p.Id == piece.Id);
             if (piece.Type != PieceType.Unknown)
             {
@@ -113,14 +123,13 @@ namespace TheProjectGame.Player.MessageHandlers
             }
             if (piece.PlayerIdSpecified)
             {
-                GamePlayer player = knowledge.GameState.Players.Find(p => p.Id == piece.PlayerId);
+                GamePlayer player = playerKnowledge.GameState.Players.Find(p => p.Id == piece.PlayerId);
                 boardPiece.SetPlayer(player);
-                if (piece.PlayerId == knowledge.Player.Id)
+                if (piece.PlayerId == playerKnowledge.Player.Id)
                 {
-                    knowledge.CarriedPiece = boardPiece;
+                    playerKnowledge.SetCarriedPiece(boardPiece);
                 }
             }
-
         }
     }
 }

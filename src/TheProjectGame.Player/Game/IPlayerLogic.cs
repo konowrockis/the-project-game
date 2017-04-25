@@ -5,6 +5,6 @@ namespace TheProjectGame.Player.Game
 {
     public interface IPlayerLogic
     {
-        IMessage GetNextMove(IBoard board, PlayerKnowledge knowledge);
+        IMessage GetNextMove();
     }
 }

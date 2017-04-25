@@ -9,9 +9,16 @@ namespace TheProjectGame.Player.Game
 {
     public class SimplePlayerLogic : IPlayerLogic
     {
-        private Random random = new Random();
+        private readonly Random random = new Random();
 
-        public IMessage GetNextMove(IBoard board, PlayerKnowledge knowledge)
+        private readonly IPlayerKnowledge knowledge;
+        
+        public SimplePlayerLogic(IPlayerKnowledge knowledge)
+        {
+            this.knowledge = knowledge;
+        }
+
+        public IMessage GetNextMove()
         {
             // algorithm
             // 1. if on goal field and not carrying piece
@@ -24,6 +31,7 @@ namespace TheProjectGame.Player.Game
             // 8. if not sham go to first non discovered goal starting from top left goal tiles (!!! deadlocks of characters possible)
             // 9. discover goal and go back to 1.
             var playerPos = knowledge.Player.Position;
+            var board = knowledge.GameState.Board;
 
             if (knowledge.CarriedPiece != null)
             {
@@ -32,15 +40,15 @@ namespace TheProjectGame.Player.Game
                     var tile = board.Fields[playerPos.X, playerPos.Y] as GoalTile;
                     if (tile.Type == GoalFieldType.Unknown && tile.Team == knowledge.Player.Team)
                     {
-                        knowledge.CarriedPiece = null;
+                        knowledge.ClearCarriedPiece();
                         PlacePiece placePiece = new PlacePiece();
-                        placePiece.PlayerGuid = knowledge.Guid;
+                        placePiece.PlayerGuid = knowledge.MyGuid;
                         placePiece.GameId = knowledge.GameState.Id;
                         return placePiece;
                     }
                 }
                 // go straight to first non-discovered goal
-                return MoveToAnyNonDiscoveredGoal(knowledge);
+                return MoveToAnyNonDiscoveredGoal();
             }
             else
             {
@@ -50,7 +58,7 @@ namespace TheProjectGame.Player.Game
                     if (tile.Piece != null)
                     {
                         PickUpPiece pickup = new PickUpPiece();
-                        pickup.PlayerGuid = knowledge.Guid;
+                        pickup.PlayerGuid = knowledge.MyGuid;
                         pickup.GameId = knowledge.GameState.Id;
                         return pickup;
                     }
@@ -62,11 +70,11 @@ namespace TheProjectGame.Player.Game
                     discover.GameId = knowledge.GameState.Id;
                     return discover;
                 }*/
-                return RandomMove(knowledge);
+                return RandomMove();
             }
         }
 
-        private Move MoveToAnyNonDiscoveredGoal(PlayerKnowledge knowledge)
+        private Move MoveToAnyNonDiscoveredGoal()
         {
             var playerPos = knowledge.Player.Position;
             var board = knowledge.GameState.Board;
@@ -92,19 +100,19 @@ namespace TheProjectGame.Player.Game
             {
                 GameId = knowledge.GameState.Id,
                 Direction = direction,
-                PlayerGuid = knowledge.Guid
+                PlayerGuid = knowledge.MyGuid
             };
             return move;
 
         }
 
-        private Move RandomMove(PlayerKnowledge knowledge)
+        private Move RandomMove()
         {
             Move move = new Move()
             {
                 GameId = knowledge.GameState.Id,
                 Direction = RandomMoveDirection(),
-                PlayerGuid = knowledge.Guid
+                PlayerGuid = knowledge.MyGuid
             };
             return move;
         }

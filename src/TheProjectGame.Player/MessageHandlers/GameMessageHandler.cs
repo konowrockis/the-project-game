@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Serilog;
-using Serilog.Core;
-using TheProjectGame.Contracts.Messages.Structures;
 using TheProjectGame.Game;
-using TheProjectGame.Game.Builders;
 using TheProjectGame.Messaging;
 using TheProjectGame.Player.Game;
 
@@ -19,9 +12,12 @@ namespace TheProjectGame.Player.MessageHandlers
 
         private readonly IMessageWriter messageWriter;
         private readonly IPlayerLogic playerLogic;
-        private readonly PlayerKnowledge playerKnowledge;
+        private readonly IPlayerKnowledge playerKnowledge;
 
-        public GameMessageHandler(IMessageWriter messageWriter, PlayerKnowledge playerKnowledge, IPlayerLogic playerLogic)
+        public GameMessageHandler(
+            IMessageWriter messageWriter, 
+            IPlayerKnowledge playerKnowledge, 
+            IPlayerLogic playerLogic)
         {
             this.messageWriter = messageWriter;
             this.playerKnowledge = playerKnowledge;
@@ -66,7 +62,8 @@ namespace TheProjectGame.Player.MessageHandlers
             playerKnowledge.GameState.Players = players;
             playerKnowledge.GameState.Board = board;
 
-            messageWriter.Write(playerLogic.GetNextMove(playerKnowledge.GameState.Board, playerKnowledge));
+            var response = playerLogic.GetNextMove();
+            messageWriter.Write(response);
         }
     }
 }
