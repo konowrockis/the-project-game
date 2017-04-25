@@ -100,12 +100,22 @@ namespace TheProjectGame.Player.Game
                     // go to task area immediately!
                     MoveType direction = knowledge.Player.Team == TeamColor.Red ? MoveType.Down : MoveType.Up;
                     Move move = new Move();
-                    move.Direction = direction;
+                    move.Direction = CheckMove(knowledge,direction);
                     move.PlayerGuid = knowledge.Guid;
                     move.GameId = knowledge.GameState.Id;
                     return move;
                 }
             }
+        }
+
+        private MoveType CheckMove(PlayerKnowledge knowledge, MoveType dir)
+        {
+            var position = knowledge.Player.Position.Move(dir);
+            if (knowledge.GameState.Board.Fields[position.X, position.Y].Player != null)
+            {
+                return RandomMoveDirection();
+            }
+            return dir;
         }
 
         private Move MoveToward(PlayerKnowledge knowledge, Position destination)
@@ -123,7 +133,7 @@ namespace TheProjectGame.Player.Game
             }
             Move move = new Move();
             move.GameId = knowledge.GameState.Id;
-            move.Direction = direction;
+            move.Direction = CheckMove(knowledge,direction);
             move.PlayerGuid = knowledge.Guid;
             return move;
         }
@@ -149,6 +159,8 @@ namespace TheProjectGame.Player.Game
             {
                 direction = playerPos.Y > y ? MoveType.Up : MoveType.Down;
             }
+
+            direction = CheckMove(knowledge, direction);
 
             Move move = new Move()
             {
