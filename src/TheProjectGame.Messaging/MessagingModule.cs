@@ -1,4 +1,6 @@
 ﻿using Autofac;
+using TheProjectGame.Messaging.Autofac;
+using TheProjectGame.Messaging.Default;
 
 namespace TheProjectGame.Messaging
 {
@@ -6,13 +8,13 @@ namespace TheProjectGame.Messaging
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<MessagesParser>().As<IMessageParser>().SingleInstance();
-            builder.RegisterType<SchemaSource>().As<ISchemaSource>().InstancePerDependency();
-            builder.RegisterType<MessageStream>();
-
-            builder.RegisterType<DefaultMessageExecutor>().As<IMessageExecutor>().InstancePerLifetimeScope();
             builder.RegisterType<AutofacMessageHandlerResolver>().As<IMessageHandlerResolver>().InstancePerLifetimeScope();
 
+            builder.RegisterType<DefaultMessagesParser>().As<IMessageParser>().SingleInstance();
+            builder.RegisterType<DefaultSchemaSource>().As<ISchemaSource>().InstancePerDependency();
+            builder.RegisterType<DefaultMessageExecutor>().As<IMessageExecutor>().InstancePerLifetimeScope();
+
+            builder.RegisterType<MessageStream>();
             builder.RegisterType<MessageProxy>().AsImplementedInterfaces().InstancePerLifetimeScope();
         }
     }

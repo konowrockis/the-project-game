@@ -1,6 +1,6 @@
 ﻿using TheProjectGame.Contracts;
 
-namespace TheProjectGame.Messaging
+namespace TheProjectGame.Messaging.Default
 {
     class DefaultMessageExecutor : IMessageExecutor
     {

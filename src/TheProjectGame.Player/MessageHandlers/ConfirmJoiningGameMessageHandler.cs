@@ -19,14 +19,17 @@ namespace TheProjectGame.Player.MessageHandlers
         public override void Handle(ConfirmJoiningGame message)
         {
             // Patience is a virtue
+
             playerKnowledge.GameState = new GameState(message.GameId);
             playerKnowledge.Guid = message.PrivateGuid;
+
             var playerData = message.PlayerDefinition;
             var player = new GamePlayer(playerData.Id)
             {
                 Role = playerData.Type,
                 Team = playerData.Team
             };
+
             playerKnowledge.Player = player;
         }
     }

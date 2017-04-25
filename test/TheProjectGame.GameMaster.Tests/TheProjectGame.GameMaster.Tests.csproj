@@ -57,6 +57,7 @@
     <Compile Include="MoveMessageHandlerTests.cs" />
     <Compile Include="PlacePieceMessageHandlerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ConfirmGameRegistrationMessageHandlerTests.cs" />
     <Compile Include="RejectGameRegistrationMessageHandlerTests.cs" />
   </ItemGroup>
   <ItemGroup>

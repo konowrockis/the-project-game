@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using TheProjectGame.Contracts;
+using TheProjectGame.Messaging.Default;
 
 namespace TheProjectGame.Messaging.Tests
 {

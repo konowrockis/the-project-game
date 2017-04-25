@@ -1,6 +1,4 @@
-﻿using System;
-using TheProjectGame.Contracts.Enums;
-using TheProjectGame.Contracts.Messages.Structures;
+﻿using TheProjectGame.Contracts.Enums;
 
 namespace TheProjectGame.Game
 {

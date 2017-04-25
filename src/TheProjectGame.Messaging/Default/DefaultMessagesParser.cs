@@ -7,16 +7,16 @@ using TheProjectGame.Contracts.Messages.CommunicationActions;
 using TheProjectGame.Contracts.Messages.GameActions;
 using TheProjectGame.Contracts.Messages.PlayerActions;
 
-namespace TheProjectGame.Messaging
+namespace TheProjectGame.Messaging.Default
 {
-    class MessagesParser : IMessageParser
+    class DefaultMessagesParser : IMessageParser
     {
         private const string DefaultNamespace = "http://theprojectgame.mini.pw.edu.pl/";
         private const byte ETB = 0x17;
 
         private readonly Dictionary<string, XmlSerializer> messageSerializers;
 
-        public MessagesParser()
+        public DefaultMessagesParser()
         {
             messageSerializers = new Dictionary<string, XmlSerializer>();
 

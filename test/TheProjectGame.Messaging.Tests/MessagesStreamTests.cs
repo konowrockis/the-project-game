@@ -7,6 +7,7 @@ using TheProjectGame.Contracts.Enums;
 using TheProjectGame.Contracts.Messages.CommunicationActions;
 using TheProjectGame.Contracts.Messages.GameActions;
 using TheProjectGame.Contracts.Messages.PlayerActions;
+using TheProjectGame.Messaging.Default;
 
 namespace TheProjectGame.Messaging.Tests
 {
@@ -347,7 +348,7 @@ namespace TheProjectGame.Messaging.Tests
             var messageSource = Substitute.For<ISchemaSource>();
             messageSource.GetSchema().Returns(getSchemaStream());
 
-            return new MessageStream(messageContent, new MessagesParser(), messageSource);
+            return new MessageStream(messageContent, new DefaultMessagesParser(), messageSource);
         }
 
         private Stream getMessageFromResource(string message)

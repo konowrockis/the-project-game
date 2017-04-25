@@ -9,12 +9,11 @@ namespace TheProjectGame.Game.Builders
 {
     public class ObjectMapper
     {
-
         public static Location Map(Position position)
         {
             return new Location((uint)position.X, (uint)position.Y);
         }
-    
+
         public static Field Map(Tile tile)
         {
             if (tile is TaskTile) return Map(tile as TaskTile);
@@ -90,6 +89,5 @@ namespace TheProjectGame.Game.Builders
             };
             return player;
         }
-
     }
 }

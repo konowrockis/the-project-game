@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using TheProjectGame.Contracts.Enums;
 using TheProjectGame.Contracts.Messages.PlayerActions;
 using TheProjectGame.Contracts.Messages.Structures;
@@ -43,18 +39,27 @@ namespace TheProjectGame.Game.Builders
             var taskTiles = tileList.OfType<TaskTile>().ToList();
             var gameTiles = tileList.OfType<GoalTile>().ToList();
 
-            var goalFields = gameTiles.Where(tile=>tile.Discovered).Select(ObjectMapper.Map).ToList();
-            var nonDiscoveredGoalFields = gameTiles.Where(tile => !tile.Discovered).Select(ObjectMapper.Map).ToList();
+            var goalFields = gameTiles
+                .Where(tile => tile.Discovered)
+                .Select(ObjectMapper.Map).ToList();
+
+            var nonDiscoveredGoalFields = gameTiles
+                .Where(tile => !tile.Discovered)
+                .Select(ObjectMapper.Map).ToList();
+
+            var pieces = taskTiles
+                .Where(tile => tile.Piece != null)
+                .Select(tile => tile.Piece)
+                .Select(ObjectMapper.Map).ToList();
+
             nonDiscoveredGoalFields.ForEach(field => field.Type = GoalFieldType.Unknown);
             goalFields.AddRange(nonDiscoveredGoalFields);
-            
-            var taskFields = taskTiles.Select(ObjectMapper.Map).ToList();
 
-            var pieces =
-                taskTiles.Where(tile => tile.Piece != null).Select(tile => tile.Piece).Select(ObjectMapper.Map).ToList();
+            var taskFields = taskTiles.Select(ObjectMapper.Map).ToList();
 
             data.GoalFields = goalFields;
             data.TaskFields = taskFields;
+
             if (data.Pieces != null)
             {
                 data.Pieces.AddRange(pieces);
@@ -68,8 +73,11 @@ namespace TheProjectGame.Game.Builders
             if (data.Pieces != null)
             {
                 data.Pieces.AddRange(pieces.ToList().Select(ObjectMapper.Map).ToList());
-            } else
-            data.Pieces = pieces.ToList().Select(ObjectMapper.Map).ToList();
+            }
+            else
+            {
+                data.Pieces = pieces.ToList().Select(ObjectMapper.Map).ToList();
+            }
             return this;
         }
 

@@ -8,21 +8,19 @@ namespace TheProjectGame.GameMaster.MessageHandlers
 {
     class ConfirmGameRegistrationMessageHandler : MessageHandler<ConfirmGameRegistration>
     {
-        private readonly IMessageWriter messageWriter;
         private readonly GameOptions gameOptions;
         private readonly IGameCreator gameCreator;
 
-        public ConfirmGameRegistrationMessageHandler(IMessageWriter messageWriter, IGameCreator gameCreator, GameMasterOptions gameOptions)
+        public ConfirmGameRegistrationMessageHandler(IGameCreator gameCreator, GameMasterOptions gameOptions)
         {
-            this.messageWriter = messageWriter;
             this.gameCreator = gameCreator;
             this.gameOptions = gameOptions.GameDefinition;
         }
 
         public override void Handle(ConfirmGameRegistration message)
         {
-            IGameState game = new GameState(message.GameId, gameOptions.BoardWidth, 
-                gameOptions.TaskAreaLength, gameOptions.GoalAreaLength,gameOptions.ShamProbability);
+            var game = new GameState(message.GameId, gameOptions.BoardWidth,
+                gameOptions.TaskAreaLength, gameOptions.GoalAreaLength, gameOptions.ShamProbability);
 
             gameCreator.SetCurrentGame(game);
         }
