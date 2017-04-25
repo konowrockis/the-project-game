@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 using Serilog;
 using TheProjectGame.Contracts;
 using TheProjectGame.Contracts.Enums;
+using TheProjectGame.Contracts.Messages.GameActions;
 using TheProjectGame.Contracts.Messages.PlayerActions;
+using TheProjectGame.Contracts.Messages.Structures;
 using TheProjectGame.Game;
 using TheProjectGame.Game.Builders;
 using TheProjectGame.GameMaster.Games;
@@ -24,13 +26,15 @@ namespace TheProjectGame.GameMaster.MessageHandlers
         private readonly ActionCostsOptions actionCosts;
         private readonly IGameState game;
         private readonly IPlayersMap players;
+        private readonly GameMasterOptions options;
 
-        public PlacePieceMessageHandler(IMessageWriter messageWriter, ActionCostsOptions actionCosts, ICurrentGame currentGame)
+        public PlacePieceMessageHandler(IMessageWriter messageWriter, ActionCostsOptions actionCosts, ICurrentGame currentGame, GameMasterOptions options)
         {
             this.messageWriter = messageWriter;
             this.actionCosts = actionCosts;
             this.game = currentGame.Game;
             this.players = currentGame.Players;
+            this.options = options;
         }
 
         public override void Handle(PlacePiece message)
@@ -90,6 +94,16 @@ namespace TheProjectGame.GameMaster.MessageHandlers
                         PlayerId = gamePlayer.Id
                     });
                 }
+                var registerGame = new RegisterGame()
+                {
+                    NewGameInfo = new GameInfo()
+                    {
+                        Name = options.GameDefinition.GameName,
+                        BlueTeamPlayers = options.GameDefinition.NumberOfPlayersPerTeam,
+                        RedTeamPlayers = options.GameDefinition.NumberOfPlayersPerTeam
+                    }
+                };
+                messageWriter.Write(registerGame);
             }
             else
             {

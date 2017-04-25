@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using Serilog;
 using TheProjectGame.Contracts;
 using TheProjectGame.Contracts.Enums;
+using TheProjectGame.Contracts.Messages.GameActions;
 using TheProjectGame.Contracts.Messages.PlayerActions;
 using TheProjectGame.Contracts.Messages.Structures;
 using TheProjectGame.Game;
 using TheProjectGame.Messaging;
 using TheProjectGame.Player.Game;
+using TheProjectGame.Settings.Options;
 
 namespace TheProjectGame.Player.MessageHandlers
 {
@@ -21,7 +23,6 @@ namespace TheProjectGame.Player.MessageHandlers
         private IPlayerLogic playerLogic;
         private IMessageWriter writer;
         private PlayerKnowledge knowledge;
-
         private bool gameFinished = false;
 
         public DataMessageHandler(IMessageWriter writer, IPlayerLogic playerLogic, PlayerKnowledge playerKnowledge)
@@ -36,6 +37,7 @@ namespace TheProjectGame.Player.MessageHandlers
         {
             if (gameFinished)
             {
+                writer.Write(new GetGames());
                 return;
             }
             var messagePlayerLocation = message.PlayerLocation;
@@ -112,7 +114,6 @@ namespace TheProjectGame.Player.MessageHandlers
 
         private void UpdatePiece(Piece piece)
         {
-            logger.Verbose("\n\nPIECE INFO {@Response}\n\n", piece);
             // find the board piece equivalent (must exist because it must have been discovered first)
             var boardPiece = board.Pieces.Find(p => p.Id == piece.Id);
             // if its a sham forget about it
