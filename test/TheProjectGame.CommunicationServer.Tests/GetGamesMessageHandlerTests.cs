@@ -112,7 +112,7 @@ namespace TheProjectGame.CommunicationServer.Tests
 
             public ulong Id { get; }
             public string Name { get; }
-            public IClient GameMaster => throw new NotImplementedException();
+            public IClient GameMaster => null;
             public ulong BlueTeamPlayers => playersPerTeam;
             public ulong RedTeamPlayers => playersPerTeam;
 

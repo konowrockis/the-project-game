@@ -72,6 +72,7 @@ namespace TheProjectGame.Game
                 new Position(selectedTile.X, selectedTile.Y));
             selectedTile.Piece = piece;
             Pieces.Add(piece);
+            RefreshBoardState();
         }
 
         public void Init(IList<GamePlayer> players, uint pieceCount, uint goalCount)

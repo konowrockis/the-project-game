@@ -1,4 +1,8 @@
-﻿using System.Linq;
+using System.Linq;
+using System.Security.Permissions;
+using System.Text;
+using System.Threading.Tasks;
+using Serilog;
 using TheProjectGame.Contracts;
 using TheProjectGame.Contracts.Enums;
 using TheProjectGame.Contracts.Messages.PlayerActions;
@@ -11,6 +15,8 @@ namespace TheProjectGame.Player.MessageHandlers
 {
     class DataMessageHandler : MessageHandler<Data>
     {
+        private readonly ILogger logger = Log.ForContext<DataMessageHandler>();
+
         private IBoard board;
         private IPlayerLogic playerLogic;
         private IMessageWriter writer;
@@ -106,11 +112,20 @@ namespace TheProjectGame.Player.MessageHandlers
 
         private void UpdatePiece(Piece piece)
         {
+            logger.Verbose("\n\nPIECE INFO {@Response}\n\n", piece);
+            // find the board piece equivalent (must exist because it must have been discovered first)
             var boardPiece = board.Pieces.Find(p => p.Id == piece.Id);
+            // if its a sham forget about it
+            if (piece.Type == PieceType.Sham)
+            {
+                return;
+            }
+            // if we know its type set it
             if (piece.Type != PieceType.Unknown)
             {
                 boardPiece.Type = piece.Type;
             }
+            // if players is carrying it remember that
             if (piece.PlayerIdSpecified)
             {
                 GamePlayer player = knowledge.GameState.Players.Find(p => p.Id == piece.PlayerId);

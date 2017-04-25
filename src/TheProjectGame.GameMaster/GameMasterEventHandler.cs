@@ -35,7 +35,7 @@ namespace TheProjectGame.GameMaster
             logger.Debug("Connected to host at port {@Port}", connection.Port);
 
             proxyCreator.SetStream(stream);
-            messageWriter.Write(new RegisterGame()
+            var registerGame = new RegisterGame()
             {
                 NewGameInfo = new GameInfo()
                 {
@@ -43,8 +43,9 @@ namespace TheProjectGame.GameMaster
                     BlueTeamPlayers = options.GameDefinition.NumberOfPlayersPerTeam,
                     RedTeamPlayers = options.GameDefinition.NumberOfPlayersPerTeam
                 }
-            });
-            
+            };
+            messageWriter.Write(registerGame);
+
             while (true)
             {
                 var message = messageReader.Read();

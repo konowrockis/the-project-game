@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Serilog;
 using TheProjectGame.Contracts.Messages.GameActions;
 using TheProjectGame.Messaging;
@@ -22,25 +23,23 @@ namespace TheProjectGame.Player.MessageHandlers
         {
             var games = message.GameInfo;
 
-            if (games.Count > 0)
+            if (games.FirstOrDefault(g => g.Name == playerOptions.NameOfTheGame) == null)
             {
-                int gameId = new Random().Next(games.Count);
-
-                var response = new JoinGame()
-                {
-                    GameName = games[gameId].Name,
-                    PreferedRole = playerOptions.Role == "leader" ? Contracts.Enums.PlayerType.Leader : Contracts.Enums.PlayerType.Player,
-                    PreferedTeam = playerOptions.TeamColor == "red" ? Contracts.Enums.TeamColor.Red : Contracts.Enums.TeamColor.Blue
-                };
-                logger.Debug("Joining game");
-
-                // TODO: Add enums there!
-                messageWriter.Write(response);
+                logger.Debug("Game not found");
+                messageWriter.Write(new GetGames(),playerOptions.RetryJoinGameInterval);
+                return;
             }
-            else
+
+            var response = new JoinGame()
             {
-                messageWriter.Write(new GetGames(), 100);
-            }
+                GameName = playerOptions.NameOfTheGame,
+                PreferedRole = playerOptions.Role == "leader" ? Contracts.Enums.PlayerType.Leader : Contracts.Enums.PlayerType.Player,
+                PreferedTeam = playerOptions.TeamColor == "red" ? Contracts.Enums.TeamColor.Red : Contracts.Enums.TeamColor.Blue
+            };
+            logger.Debug("Joining game");
+
+            // TODO: Add enums there!
+            messageWriter.Write(response);
         }
     }
 }
