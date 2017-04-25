@@ -146,6 +146,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers
                         PlayerId = currentPlayer.Id,
                         PlayerLocation = Map(currentPlayer.Position)
                     };
+
                     messageWriter.Write(response);
                 }
             }
