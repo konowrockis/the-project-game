@@ -14,6 +14,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers.GameMessageHandlers
     class TestPieceMessageHandler : MessageHandler<TestPieceMessage>
     {
         private readonly ILogger logger = Log.ForContext<GameMasterEventHandler>();
+
         private readonly IMessageWriter messageWriter;
         private readonly ActionCostsOptions actionCosts;
         private readonly IGameState game;
@@ -21,8 +22,8 @@ namespace TheProjectGame.GameMaster.MessageHandlers.GameMessageHandlers
         private readonly Func<DataBuilder> dataBuilder;
 
         public TestPieceMessageHandler(
-            IMessageWriter messageWriter,
-            GameMasterOptions gameMasterOptions,
+            IMessageWriter messageWriter, 
+            GameMasterOptions gameMasterOptions, 
             ICurrentGame currentGame,
             Func<DataBuilder> dataBuilder)
         {
@@ -62,9 +63,6 @@ namespace TheProjectGame.GameMaster.MessageHandlers.GameMessageHandlers
             // return information about the piece
             var response = builder.Pieces(true, piece).Build();
 
-            logger.Verbose("TEST PIECE RESPONSE AAAAA {@Response}", response);
-
             messageWriter.Write(response, actionCosts.TestDelay);
         }
-    }
-}
+    }}

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
+using Serilog;
 using TheProjectGame.Contracts;
 using TheProjectGame.Contracts.Enums;
 using TheProjectGame.Contracts.Messages.PlayerActions;
@@ -10,6 +12,7 @@ namespace TheProjectGame.Player.Game
 {
     public class SimplePlayerLogic : IPlayerLogic
     {
+        private readonly ILogger logger = Log.ForContext<SimplePlayerLogic>();
         private Random random = new Random();
         private bool lastDiscovered = false;
 
@@ -47,6 +50,8 @@ namespace TheProjectGame.Player.Game
                         PlayerGuid = knowledge.MyGuid,
                         GameId = knowledge.GameState.Id
                     };
+
+                    logger.Debug("Testing piece {@Message}", testPiece);
                     return testPiece;
                 }
 
@@ -62,6 +67,8 @@ namespace TheProjectGame.Player.Game
                             PlayerGuid = knowledge.MyGuid,
                             GameId = knowledge.GameState.Id
                         };
+                        logger.Debug("Placing piece {@Message}", placePiece);
+
                         return placePiece;
                     }
                 }
@@ -84,6 +91,8 @@ namespace TheProjectGame.Player.Game
                             PlayerGuid = knowledge.MyGuid,
                             GameId = knowledge.GameState.Id
                         };
+
+                        logger.Debug("Picking up piece {@Message}", pickup);
                         return pickup;
                     }
                     else
@@ -106,6 +115,7 @@ namespace TheProjectGame.Player.Game
                                 GameId = knowledge.GameState.Id
                             };
                             lastDiscovered = true;
+                            logger.Debug("Discovering... {@Message}", discover);
                             return discover;
                         }
                     }
@@ -115,12 +125,25 @@ namespace TheProjectGame.Player.Game
                     // is in goal area
                     // go to task area immediately!
                     MoveType direction = knowledge.Player.Team == TeamColor.Red ? MoveType.Down : MoveType.Up;
+
+                    var otherTeam = knowledge.Player.Team == TeamColor.Blue ? TeamColor.Red : TeamColor.Blue;
+
+                    var otherTeamGoalTilePositions = board.GetGoalTiles(otherTeam).Select(t => new Position(t.X, t.Y)).ToList();
+                    if (otherTeamGoalTilePositions.Find(p => p.X == playerPos.X && p.Y == playerPos.Y) != null)
+                    {
+                        // player is in enemy goal area
+                        if (direction == MoveType.Up) direction = MoveType.Down;
+                        else if (direction == MoveType.Down) direction = MoveType.Up;
+                    }
+
                     MoveMessage move = new MoveMessage()
                     {
                         Direction = CheckMove(direction),
                         PlayerGuid = knowledge.MyGuid,
                         GameId = knowledge.GameState.Id
                     };
+                    logger.Debug("Moving to task area {@Message}", move);
+
                     return move;
                 }
             }
@@ -129,7 +152,7 @@ namespace TheProjectGame.Player.Game
         private MoveType CheckMove(MoveType dir)
         {
             var position = knowledge.Player.Position.Move(dir);
-            if (knowledge.GameState.Board.Fields[position.X, position.Y].Player != null)
+            if (knowledge.GameState.Board.IsValid(position) && knowledge.GameState.Board.Fields[position.X, position.Y].Player != null)
             {
                 return RandomMoveDirection();
             }
@@ -149,12 +172,15 @@ namespace TheProjectGame.Player.Game
             {
                 direction = current.Y > destination.Y ? MoveType.Up : MoveType.Down;
             }
+
             MoveMessage move = new MoveMessage()
             {
                 GameId = knowledge.GameState.Id,
                 Direction = CheckMove(direction),
                 PlayerGuid = knowledge.MyGuid
             };
+
+            logger.Debug("Moving to {@Message}",move);
             return move;
         }
 
@@ -188,6 +214,8 @@ namespace TheProjectGame.Player.Game
                 Direction = direction,
                 PlayerGuid = knowledge.MyGuid
             };
+            logger.Debug("Moving to nondiscovered goal {@Message}",move);
+
             return move;
 
         }

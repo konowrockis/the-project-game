@@ -52,7 +52,10 @@ namespace TheProjectGame.GameMaster.MessageHandlers
 
             if (!board.IsInGoalArea(player.Position) && piece != null)
             {
-                board.Pieces.Add(piece);
+                board.Pieces.Remove(piece);
+                board.PlaceNewPiece();
+                messageWriter.Write(builder.Build(), actionCosts.PlacingDelay);
+                /*board.Pieces.Add(piece);
                 bool result = board.DropPiece(piece, player.Position);
                 if (result)
                 {
@@ -64,7 +67,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers
                 }
                 board.RefreshBoardState();
                 messageWriter.Write(builder.Build(), actionCosts.PlacingDelay);
-                return;
+                return;*/
             }
 
             if (piece != null)
