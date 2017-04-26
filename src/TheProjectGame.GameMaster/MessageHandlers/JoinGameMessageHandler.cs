@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using AutoMapper;
 using Serilog;
 using TheProjectGame.Contracts.Enums;
 using TheProjectGame.Contracts.Messages.GameActions;
@@ -7,11 +8,10 @@ using TheProjectGame.Game;
 using TheProjectGame.GameMaster.Games;
 using TheProjectGame.Messaging;
 using TheProjectGame.Settings.Options;
-using static TheProjectGame.Game.Builders.ObjectMapper;
 
 namespace TheProjectGame.GameMaster.MessageHandlers
 {
-    class JoinGameMessageHandler : MessageHandler<JoinGame>
+    class JoinGameMessageHandler : MessageHandler<JoinGameMessage>
     {
         private ILogger logger = Log.ForContext<JoinGameMessageHandler>();
 
@@ -19,17 +19,22 @@ namespace TheProjectGame.GameMaster.MessageHandlers
         private readonly IGameState game;
         private readonly IPlayersMap players;
         private readonly GameOptions gameOptions;
+        private readonly IMapper mapper;
 
-        public JoinGameMessageHandler(IMessageWriter messageWriter, ICurrentGame currentGame, 
-            GameMasterOptions gameOptions)
+        public JoinGameMessageHandler(
+            IMessageWriter messageWriter, 
+            ICurrentGame currentGame, 
+            GameMasterOptions gameOptions,
+            IMapper mapper)
         {
             this.messageWriter = messageWriter;
             this.game = currentGame.Game;
             this.players = currentGame.Players;
             this.gameOptions = gameOptions.GameDefinition;
+            this.mapper = mapper;
         }
 
-        public override void Handle(JoinGame message)
+        public override void Handle(JoinGameMessage message)
         {
             GamePlayer player = new GamePlayer(message.PlayerId);
 
@@ -48,7 +53,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers
         {
             if (game.Players.Count >= gameOptions.NumberOfPlayersPerTeam * 2)
             {
-                var response = new RejectJoiningGame()
+                var response = new RejectJoiningGameMessage()
                 {
                     GameName = gameName,
                     PlayerId = player.Id
@@ -96,7 +101,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers
 
         private void SendConfirmJoiningGame(GamePlayer player, string guid)
         {
-            var response = new ConfirmJoiningGame()
+            var response = new ConfirmJoiningGameMessage()
             {
                 PlayerId = player.Id,
                 GameId = game.Id,
@@ -119,7 +124,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers
                 // TODO: add proper Goal count
                 game.Board.Init(game.Players, gameOptions.InitialNumberOfPieces, 1);
 
-                var gameResponse = new Contracts.Messages.GameActions.Game()
+                var gameResponse = new GameStartedMessage()
                 {
                     Board = new GameBoard()
                     {
@@ -139,12 +144,12 @@ namespace TheProjectGame.GameMaster.MessageHandlers
                 {
                     logger.Verbose("Sending GameMessage to {@Player}", currentPlayer);
 
-                    var response = new Contracts.Messages.GameActions.Game()
+                    var response = new GameStartedMessage()
                     {
                         Board = gameResponse.Board,
                         Players = gameResponse.Players,
                         PlayerId = currentPlayer.Id,
-                        PlayerLocation = Map(currentPlayer.Position)
+                        PlayerLocation = mapper.Map<Location>(currentPlayer.Position)
                     };
 
                     messageWriter.Write(response);

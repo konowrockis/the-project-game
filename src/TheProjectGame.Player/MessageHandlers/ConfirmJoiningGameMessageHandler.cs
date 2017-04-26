@@ -5,23 +5,22 @@ using TheProjectGame.Player.Game;
 
 namespace TheProjectGame.Player.MessageHandlers
 {
-    class ConfirmJoiningGameMessageHandler : MessageHandler<ConfirmJoiningGame>
+    class ConfirmJoiningGameMessageHandler : MessageHandler<ConfirmJoiningGameMessage>
     {
         private readonly IMessageWriter messageWriter;
-        private readonly PlayerKnowledge playerKnowledge;
+        private readonly IPlayerKnowledge playerKnowledge;
 
-        public ConfirmJoiningGameMessageHandler(IMessageWriter messageWriter, PlayerKnowledge playerKnowledge)
+        public ConfirmJoiningGameMessageHandler(
+            IMessageWriter messageWriter, 
+            IPlayerKnowledge playerKnowledge)
         {
             this.messageWriter = messageWriter;
             this.playerKnowledge = playerKnowledge;
         }
 
-        public override void Handle(ConfirmJoiningGame message)
+        public override void Handle(ConfirmJoiningGameMessage message)
         {
             // Patience is a virtue
-
-            playerKnowledge.GameState = new GameState(message.GameId);
-            playerKnowledge.Guid = message.PrivateGuid;
 
             var playerData = message.PlayerDefinition;
             var player = new GamePlayer(playerData.Id)
@@ -30,7 +29,7 @@ namespace TheProjectGame.Player.MessageHandlers
                 Team = playerData.Team
             };
 
-            playerKnowledge.Player = player;
+            playerKnowledge.Init(player, message.PrivateGuid, new GameState(message.GameId));
         }
     }
 }

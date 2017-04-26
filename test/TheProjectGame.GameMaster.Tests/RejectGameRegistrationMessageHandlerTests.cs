@@ -17,11 +17,11 @@ namespace TheProjectGame.GameMaster.Tests
         {
             IMessageWriter writer = Substitute.For<IMessageWriter>();
             var handler = new RejectGameRegistrationMessageHandler(writer, GetOptions());
-            var message = new RejectGameRegistration();
+            var message = new RejectGameRegistrationMessage();
 
             handler.Handle(message);
 
-            writer.Received().Write(Arg.Any<RegisterGame>(), RetryRegisterGameInterval);
+            writer.Received().Write(Arg.Any<RegisterGameMessage>(), RetryRegisterGameInterval);
         }
 
         private GameMasterOptions GetOptions()

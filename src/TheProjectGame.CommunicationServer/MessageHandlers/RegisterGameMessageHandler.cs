@@ -5,7 +5,7 @@ using TheProjectGame.Messaging;
 
 namespace TheProjectGame.CommunicationServer.MessageHandlers
 {
-    class RegisterGameMessageHandler : MessageHandler<RegisterGame>
+    class RegisterGameMessageHandler : MessageHandler<RegisterGameMessage>
     {
         private readonly IClient currentClient;
         private readonly IGamesManager gamesManager;
@@ -16,20 +16,21 @@ namespace TheProjectGame.CommunicationServer.MessageHandlers
             this.gamesManager = gamesManager;
         }
 
-        public override void Handle(RegisterGame message)
+        public override void Handle(RegisterGameMessage message)
         {
             var gameInfo = message.NewGameInfo;
 
             if (gamesManager.GetGameByName(gameInfo.Name) != null)
             {
                 var game = gamesManager.GetGameByName(gameInfo.Name);
+
                 if (currentClient.GameId == game.Id)
                 {
                     gamesManager.Remove(game);
                 }
                 else
                 {
-                    var response = new RejectGameRegistration()
+                    var response = new RejectGameRegistrationMessage()
                     {
                         GameName = gameInfo.Name
                     };
@@ -46,11 +47,11 @@ namespace TheProjectGame.CommunicationServer.MessageHandlers
             var game = new ServerGame(id, gameInfo.Name, currentClient, gameInfo.BlueTeamPlayers, gameInfo.RedTeamPlayers);
 
             gamesManager.Add(game);
-
-            var response = new ConfirmGameRegistration()
+            var response = new ConfirmGameRegistrationMessage()
             {
                 GameId = id
             };
+
             currentClient.JoinGame(id);
             currentClient.Write(response);
         }

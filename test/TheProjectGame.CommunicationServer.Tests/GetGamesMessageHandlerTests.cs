@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
-using NSubstitute.ReturnsExtensions;
 using TheProjectGame.CommunicationServer.MessageHandlers;
 using TheProjectGame.CommunicationServer.Routing;
-using TheProjectGame.Contracts;
 using TheProjectGame.Contracts.Messages.GameActions;
 
 namespace TheProjectGame.CommunicationServer.Tests
@@ -42,7 +38,7 @@ namespace TheProjectGame.CommunicationServer.Tests
 
             messageHandler.Handle(message);
 
-            player.Received().Write(Arg.Any<RegisteredGames>());
+            player.Received().Write(Arg.Any<RegisteredGamesMessage>());
         }
 
         [TestMethod]
@@ -52,7 +48,7 @@ namespace TheProjectGame.CommunicationServer.Tests
 
             messageHandler.Handle(message);
 
-            player.Received().Write(Arg.Is<RegisteredGames>(m => 
+            player.Received().Write(Arg.Is<RegisteredGamesMessage>(m => 
                 m.GameInfo != null &&
                 m.GameInfo.Count == 0
             ));
@@ -67,7 +63,7 @@ namespace TheProjectGame.CommunicationServer.Tests
             messageHandler.Handle(message);
 
             Guid ignoreGuid;
-            player.Received().Write(Arg.Is<RegisteredGames>(m =>
+            player.Received().Write(Arg.Is<RegisteredGamesMessage>(m =>
                 m.GameInfo != null &&
                 m.GameInfo.Count == 1 &&
                 m.GameInfo[0].BlueTeamPlayers == TestGame.playersPerTeam &&
@@ -85,15 +81,15 @@ namespace TheProjectGame.CommunicationServer.Tests
 
             messageHandler.Handle(message);
 
-            player.Received().Write(Arg.Is<RegisteredGames>(m =>
+            player.Received().Write(Arg.Is<RegisteredGamesMessage>(m =>
                 m.GameInfo != null &&
                 m.GameInfo.Count == gamesCount
             ));
         }
 
-        private GetGames GetMessage()
+        private GetGamesMessage GetMessage()
         {
-            return new GetGames();
+            return new GetGamesMessage();
         }
 
         private void SetGamesList(int count = 1)
@@ -115,7 +111,7 @@ namespace TheProjectGame.CommunicationServer.Tests
             public IClient GameMaster => null;
             public ulong BlueTeamPlayers => playersPerTeam;
             public ulong RedTeamPlayers => playersPerTeam;
-
+            
             public TestGame()
             {
                 Id = id++;

@@ -14,11 +14,11 @@ namespace TheProjectGame.Player.Tests
         {
             IMessageWriter writer = Substitute.For<IMessageWriter>();
             var handler = new RejectJoiningGameMessageHandler(writer);
-            var message = new RejectJoiningGame();
+            var message = new RejectJoiningGameMessage();
 
             handler.Handle(message);
 
-            writer.Received().Write(Arg.Any<GetGames>());
+            writer.Received().Write(Arg.Any<GetGamesMessage>());
         }
     }
 }

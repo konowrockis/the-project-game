@@ -3,7 +3,6 @@ using System.IO;
 using Serilog;
 using TheProjectGame.Contracts.Messages.GameActions;
 using TheProjectGame.Contracts.Messages.Structures;
-using TheProjectGame.GameMaster.Logging;
 using TheProjectGame.Messaging;
 using TheProjectGame.Network;
 using TheProjectGame.Settings.Options;
@@ -35,7 +34,8 @@ namespace TheProjectGame.GameMaster
             logger.Debug("Connected to host at port {@Port}", connection.Port);
 
             proxyCreator.SetStream(stream);
-            var registerGame = new RegisterGame()
+
+            messageWriter.Write(new RegisterGameMessage()
             {
                 NewGameInfo = new GameInfo()
                 {
@@ -43,8 +43,7 @@ namespace TheProjectGame.GameMaster
                     BlueTeamPlayers = options.GameDefinition.NumberOfPlayersPerTeam,
                     RedTeamPlayers = options.GameDefinition.NumberOfPlayersPerTeam
                 }
-            };
-            messageWriter.Write(registerGame);
+            });
 
             while (true)
             {

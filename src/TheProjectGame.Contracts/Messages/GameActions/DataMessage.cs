@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using System.Security.Principal;
 using System.Xml.Serialization;
 using TheProjectGame.Contracts.Messages.Structures;
 
 namespace TheProjectGame.Contracts.Messages.PlayerActions
 {
-    public class Data : PlayerMessage, IMessage
+    [XmlRoot(ElementName = "Data")]
+    public class DataMessage : PlayerMessage, IMessage
     {
         public List<TaskField> TaskFields { get; set; }
 

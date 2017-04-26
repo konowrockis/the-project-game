@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=6.0.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\AutoMapper.6.0.2\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -42,7 +45,6 @@
   <ItemGroup>
     <Compile Include="BoardPiece.cs" />
     <Compile Include="Builders\DataBuilder.cs" />
-    <Compile Include="Builders\ObjectMapper.cs" />
     <Compile Include="GamePlayer.cs" />
     <Compile Include="Board.cs" />
     <Compile Include="GameState.cs" />
@@ -58,6 +60,9 @@
       <Project>{F91C87F2-0417-4882-8312-C2F8CA3590CF}</Project>
       <Name>TheProjectGame.Contracts</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

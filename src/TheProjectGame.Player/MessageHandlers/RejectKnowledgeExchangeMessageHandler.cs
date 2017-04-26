@@ -1,36 +1,32 @@
-﻿using Serilog;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TheProjectGame.Contracts.Messages.CommunicationActions;
+﻿using TheProjectGame.Contracts.Messages.CommunicationActions;
 using TheProjectGame.Messaging;
-using TheProjectGame.Settings.Options;
+using TheProjectGame.Player.Game;
 
 namespace TheProjectGame.Player.MessageHandlers
 {
-    class RejectKnowledgeExchangeMessageHandler : MessageHandler<RejectKnowledgeExchange>
+    class RejectKnowledgeExchangeMessageHandler : MessageHandler<RejectKnowledgeExchangeMessage>
     {
-        private readonly ILogger logger = Log.ForContext<PlayerEventHandler>();
         private readonly IMessageWriter messageWriter;
-        private readonly ActionCostsOptions actionCosts;
+        private readonly IPlayerLogic playerLogic;
+        private readonly IPlayerKnowledge playerKnowledge;
 
-        public RejectKnowledgeExchangeMessageHandler(IMessageWriter messageWriter, ActionCostsOptions actionCosts)
+        public RejectKnowledgeExchangeMessageHandler(
+            IMessageWriter messageWriter, 
+            IPlayerLogic playerLogic,
+            IPlayerKnowledge playerKnowledge)
         {
             this.messageWriter = messageWriter;
-            this.actionCosts = actionCosts;
+            this.playerLogic = playerLogic;
+            this.playerKnowledge = playerKnowledge;
         }
-        public override void Handle(RejectKnowledgeExchange message)
-        {
 
-            var response = new RejectKnowledgeExchange
-            {
-                Permanent = message.Permanent,
-                PlayerId = message.PlayerId,
-                SenderPlayerId = message.SenderPlayerId
-            };
-            messageWriter.Write(response, actionCosts.KnowledgeExchangeDelay);
+        public override void Handle(RejectKnowledgeExchangeMessage message)
+        {
+            // TODO: Handle permanent flag
+
+            var response = playerLogic.GetNextMove();
+
+            messageWriter.Write(response);
         }
     }
 }

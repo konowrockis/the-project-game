@@ -51,7 +51,7 @@ namespace TheProjectGame.CommunicationServer.Tests
 
         private PlayerMessage GetMessage(ulong playerId = playerId)
         {
-            return new RejectJoiningGame()
+            return new RejectJoiningGameMessage()
             {
                 PlayerId = playerId
             };

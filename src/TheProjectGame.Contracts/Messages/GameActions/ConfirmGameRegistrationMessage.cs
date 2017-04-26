@@ -2,7 +2,8 @@
 
 namespace TheProjectGame.Contracts.Messages.GameActions
 {
-    public class ConfirmGameRegistration : IMessage
+    [XmlRoot(ElementName = "ConfirmGameRegistration")]
+    public class ConfirmGameRegistrationMessage : IMessage
     {
         [XmlAttribute("gameId")]
         public ulong GameId { get; set; }

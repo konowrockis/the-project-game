@@ -24,7 +24,7 @@ namespace TheProjectGame.GameMaster.Tests
         {
             IGameCreator gameCreator = Substitute.For<IGameCreator>();
             var handler = new ConfirmGameRegistrationMessageHandler(gameCreator, GetOptions());
-            var message = new ConfirmGameRegistration() { GameId = gameId };
+            var message = new ConfirmGameRegistrationMessage() { GameId = gameId };
 
             handler.Handle(message);
 

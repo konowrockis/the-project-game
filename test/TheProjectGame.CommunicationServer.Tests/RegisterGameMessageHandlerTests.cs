@@ -45,7 +45,7 @@ namespace TheProjectGame.CommunicationServer.Tests
 
             messageHandler.Handle(message);
 
-            client.Received().Write(Arg.Is<RejectGameRegistration>(m => m.GameName == existingGameName));
+            client.Received().Write(Arg.Is<RejectGameRegistrationMessage>(m => m.GameName == existingGameName));
         }
 
         [TestMethod]
@@ -55,7 +55,7 @@ namespace TheProjectGame.CommunicationServer.Tests
 
             messageHandler.Handle(message);
 
-            client.Received().Write(Arg.Is<ConfirmGameRegistration>(m => m.GameId == nextGameId));
+            client.Received().Write(Arg.Is<ConfirmGameRegistrationMessage>(m => m.GameId == nextGameId));
         }
 
         [TestMethod]
@@ -74,9 +74,9 @@ namespace TheProjectGame.CommunicationServer.Tests
             ));
         }
 
-        private RegisterGame GetMessage(string gameName)
+        private RegisterGameMessage GetMessage(string gameName)
         {
-            return new RegisterGame()
+            return new RegisterGameMessage()
             {
                 NewGameInfo =  new GameInfo()
                 {

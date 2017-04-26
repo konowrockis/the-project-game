@@ -4,7 +4,7 @@ using TheProjectGame.Messaging;
 
 namespace TheProjectGame.CommunicationServer.MessageHandlers
 {
-    class JoinGameMessageHandler : MessageHandler<JoinGame>
+    class JoinGameMessageHandler : MessageHandler<JoinGameMessage>
     {
         private readonly IClient currentClient;
         private readonly IGamesManager gamesManager;
@@ -15,12 +15,12 @@ namespace TheProjectGame.CommunicationServer.MessageHandlers
             this.gamesManager = gamesManager;
         }
 
-        public override void Handle(JoinGame message)
+        public override void Handle(JoinGameMessage message)
         {
             var game = gamesManager.GetGameByName(message.GameName);
             if (game == null)
             {
-                var response = new RejectJoiningGame()
+                var response = new RejectJoiningGameMessage()
                 {
                     GameName = message.GameName,
                     PlayerId = 0

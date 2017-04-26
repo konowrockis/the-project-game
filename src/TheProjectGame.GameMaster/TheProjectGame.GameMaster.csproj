@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=6.0.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\AutoMapper.6.0.2\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Serilog.2.4.0\lib\net45\Serilog.dll</HintPath>
       <Private>True</Private>
@@ -68,6 +71,7 @@
     <Compile Include="Logging\CsvMessageFormatter.cs" />
     <Compile Include="Logging\GameEvent.cs" />
     <Compile Include="Logging\LogExtensions.cs" />
+    <Compile Include="MessageHandlers\BetweenPlayersMessageHandlers\AuthorizeKnowledgeExchangeMessageHandler.cs" />
     <Compile Include="MessageHandlers\GameMessageHandlers\LogGameMessageMessageHandler.cs" />
     <Compile Include="MessageHandlers\GameMessageHandlers\DiscoverMessageHandler.cs" />
     <Compile Include="MessageHandlers\GameMessageHandlers\PickupPieceMessageHandler.cs" />

@@ -30,7 +30,7 @@ namespace TheProjectGame.GameMaster.Tests
             GamePlayer player = CreatePlayer(1, 0, 0, board);
             string guid = systemUnderTests.PlayersMap.AddPlayer(player);
             var message = CreateMessage(MoveType.Down, GameId, guid);
-            Predicate<Data> assertValidResponse = data =>
+            Predicate<DataMessage> assertValidResponse = data =>
                 data.GameFinished == false
                 && (data.Pieces == null || data.Pieces.Count == 0)
                 && data.PlayerId == player.Id
@@ -47,7 +47,7 @@ namespace TheProjectGame.GameMaster.Tests
 
             Assert.IsTrue(systemUnderTests.GameState.Board.Fields[0,0].Player==null);
             Assert.IsTrue(systemUnderTests.GameState.Board.Fields[0, 1].Player == player);
-            systemUnderTests.Writer.Received().Write(Arg.Is<Data>(data=>assertValidResponse(data)),Arg.Is<double>(delay=>delay.Equals(MoveDelay)));
+            systemUnderTests.Writer.Received().Write(Arg.Is<DataMessage>(data=>assertValidResponse(data)),Arg.Is<double>(delay=>delay.Equals(MoveDelay)));
         }
 
         [TestMethod]
@@ -62,7 +62,7 @@ namespace TheProjectGame.GameMaster.Tests
 
             systemUnderTests.Handler.Handle(message);
 
-            Predicate<Data> assertValidResponse = data =>
+            Predicate<DataMessage> assertValidResponse = data =>
                 data.GameFinished == false
                 && (data.Pieces == null || data.Pieces.Count == 0)
                 && data.PlayerId == player.Id
@@ -72,7 +72,7 @@ namespace TheProjectGame.GameMaster.Tests
                 && (data.GoalFields == null || data.GoalFields.Count == 0);
 
             Assert.IsTrue(systemUnderTests.GameState.Board.Fields[0, 0].Player == player);
-            systemUnderTests.Writer.Received().Write(Arg.Is<Data>(data => assertValidResponse(data)), Arg.Is<double>(delay => delay.Equals(MoveDelay)));
+            systemUnderTests.Writer.Received().Write(Arg.Is<DataMessage>(data => assertValidResponse(data)), Arg.Is<double>(delay => delay.Equals(MoveDelay)));
         }
 
         [TestMethod]
@@ -88,7 +88,7 @@ namespace TheProjectGame.GameMaster.Tests
 
             systemUnderTests.Handler.Handle(message);
 
-            Predicate<Data> assertValidResponse = data =>
+            Predicate<DataMessage> assertValidResponse = data =>
                 data.GameFinished == false
                 && (data.Pieces == null || data.Pieces.Count == 0)
                 && data.PlayerId == player.Id
@@ -103,12 +103,12 @@ namespace TheProjectGame.GameMaster.Tests
 
             Assert.IsTrue(systemUnderTests.GameState.Board.Fields[0, 0].Player == player);
             Assert.IsTrue(systemUnderTests.GameState.Board.Fields[0, 1].Player == enemy);
-            systemUnderTests.Writer.Received().Write(Arg.Is<Data>(data => assertValidResponse(data)), Arg.Is<double>(delay => delay.Equals(MoveDelay)));
+            systemUnderTests.Writer.Received().Write(Arg.Is<DataMessage>(data => assertValidResponse(data)), Arg.Is<double>(delay => delay.Equals(MoveDelay)));
         }
 
-        private Move CreateMessage(MoveType direction, ulong gameId, string playerGuid)
+        private MoveMessage CreateMessage(MoveType direction, ulong gameId, string playerGuid)
         {
-            return new Move()
+            return new MoveMessage()
             {
                 Direction = direction,
                 GameId = gameId,
@@ -124,9 +124,10 @@ namespace TheProjectGame.GameMaster.Tests
             ICurrentGame currentGame = Substitute.For<ICurrentGame>();
             currentGame.Game.Returns(state);
             currentGame.Players.Returns(playersMap);
-            
-            MoveMessageHandler handler = new MoveMessageHandler(writer, new ActionCostsOptions(),currentGame);
-            return new SystemUnderTests(handler,writer,state,playersMap);
+
+            return null;
+            //MoveMessageHandler handler = new MoveMessageHandler(writer, new ActionCostsOptions(),currentGame);
+            //return new SystemUnderTests(handler,writer,state,playersMap);
         }
 
         private GamePlayer CreatePlayer(ulong id, uint x, uint y, IBoard board)

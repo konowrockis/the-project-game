@@ -1,17 +1,30 @@
-﻿using TheProjectGame.Game;
+﻿using System;
+using TheProjectGame.Game;
 
 namespace TheProjectGame.Player.Game
 {
-    public class PlayerKnowledge
+    public class PlayerKnowledge : IPlayerKnowledge
     {
-        public GamePlayer Player { get; set; }
-        public BoardPiece CarriedPiece { get; set; }
-        public string Guid { get; set; }
-        public IGameState GameState { get; set; }
+        public GamePlayer Player { get; private set; }
+        public BoardPiece CarriedPiece { get; private set; }
+        public string MyGuid { get; private set; }
+        public IGameState GameState { get; private set; }
 
-        public PlayerKnowledge()
+        public void Init(GamePlayer player, string myGuid, IGameState gameState)
         {
+            Player = player;
+            MyGuid = myGuid;
+            GameState = gameState;
+        }
 
+        public void SetCarriedPiece(BoardPiece piece)
+        {
+            CarriedPiece = piece;
+        }
+
+        public void ClearCarriedPiece()
+        {
+            CarriedPiece = null;
         }
     }
 }

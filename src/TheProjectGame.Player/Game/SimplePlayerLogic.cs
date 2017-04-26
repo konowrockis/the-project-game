@@ -13,8 +13,16 @@ namespace TheProjectGame.Player.Game
         private Random random = new Random();
         private bool lastDiscovered = false;
 
-        public IMessage GetNextMove(IBoard board, PlayerKnowledge knowledge)
+        private readonly IPlayerKnowledge knowledge;
+
+        public SimplePlayerLogic(IPlayerKnowledge knowledge)
         {
+            this.knowledge = knowledge;
+        }
+
+        public IMessage GetNextMove()
+        {
+            var board = knowledge.GameState.Board;
             // algorithm
             // 1. if on goal field and not carrying piece
             // 2. go in straight line to task fields
@@ -33,10 +41,12 @@ namespace TheProjectGame.Player.Game
                 if (knowledge.CarriedPiece.Type == PieceType.Unknown)
                 {
                     // piece unknown, test it
-                    knowledge.CarriedPiece = null;
-                    TestPiece testPiece = new TestPiece();
-                    testPiece.PlayerGuid = knowledge.Guid;
-                    testPiece.GameId = knowledge.GameState.Id;
+                    knowledge.ClearCarriedPiece();
+                    TestPieceMessage testPiece = new TestPieceMessage()
+                    {
+                        PlayerGuid = knowledge.MyGuid,
+                        GameId = knowledge.GameState.Id
+                    };
                     return testPiece;
                 }
 
@@ -46,16 +56,18 @@ namespace TheProjectGame.Player.Game
                     var tile = board.Fields[playerPos.X, playerPos.Y] as GoalTile;
                     if (tile.Type == GoalFieldType.Unknown && tile.Team == knowledge.Player.Team)
                     {
-                        knowledge.CarriedPiece = null;
-                        PlacePiece placePiece = new PlacePiece();
-                        placePiece.PlayerGuid = knowledge.Guid;
-                        placePiece.GameId = knowledge.GameState.Id;
+                        knowledge.ClearCarriedPiece();
+                        PlacePieceMessage placePiece = new PlacePieceMessage()
+                        {
+                            PlayerGuid = knowledge.MyGuid,
+                            GameId = knowledge.GameState.Id
+                        };
                         return placePiece;
                     }
                 }
                 // not on undiscovered goal
                 // go straight to first non-discovered goal
-                return MoveToAnyNonDiscoveredGoal(knowledge);
+                return MoveToAnyNonDiscoveredGoal();
             }
             else
             {
@@ -67,9 +79,11 @@ namespace TheProjectGame.Player.Game
                     if (tile.Piece != null)
                     {
                         // task tile has piece, pick it up
-                        PickUpPiece pickup = new PickUpPiece();
-                        pickup.PlayerGuid = knowledge.Guid;
-                        pickup.GameId = knowledge.GameState.Id;
+                        PickUpPieceMessage pickup = new PickUpPieceMessage()
+                        {
+                            PlayerGuid = knowledge.MyGuid,
+                            GameId = knowledge.GameState.Id
+                        };
                         return pickup;
                     }
                     else
@@ -79,16 +93,18 @@ namespace TheProjectGame.Player.Game
                         {
                             // if previously used discover go to tile with lowest distance to piece
                             lastDiscovered = false;
-                            var tiles = board.GetNeighbourhood(playerPos.X, playerPos.Y).ToList().OfType<TaskTile>().OrderBy(t=>t.DistanceToPiece,Comparer<int>.Default).ToList();
+                            var tiles = board.GetNeighbourhood(playerPos.X, playerPos.Y).ToList().OfType<TaskTile>().OrderBy(t => t.DistanceToPiece, Comparer<int>.Default).ToList();
                             var dest = tiles[random.Next(tiles.Count())];
-                            return MoveToward(knowledge, new Position(dest.X,dest.Y));
+                            return MoveToward(new Position(dest.X, dest.Y));
                         }
                         else
                         {
                             // if discover not used previously use discover
-                            Discover discover = new Discover();
-                            discover.PlayerGuid = knowledge.Guid;
-                            discover.GameId = knowledge.GameState.Id;
+                            DiscoverMessage discover = new DiscoverMessage()
+                            {
+                                PlayerGuid = knowledge.MyGuid,
+                                GameId = knowledge.GameState.Id
+                            };
                             lastDiscovered = true;
                             return discover;
                         }
@@ -99,16 +115,18 @@ namespace TheProjectGame.Player.Game
                     // is in goal area
                     // go to task area immediately!
                     MoveType direction = knowledge.Player.Team == TeamColor.Red ? MoveType.Down : MoveType.Up;
-                    Move move = new Move();
-                    move.Direction = CheckMove(knowledge,direction);
-                    move.PlayerGuid = knowledge.Guid;
-                    move.GameId = knowledge.GameState.Id;
+                    MoveMessage move = new MoveMessage()
+                    {
+                        Direction = CheckMove(direction),
+                        PlayerGuid = knowledge.MyGuid,
+                        GameId = knowledge.GameState.Id
+                    };
                     return move;
                 }
             }
         }
 
-        private MoveType CheckMove(PlayerKnowledge knowledge, MoveType dir)
+        private MoveType CheckMove(MoveType dir)
         {
             var position = knowledge.Player.Position.Move(dir);
             if (knowledge.GameState.Board.Fields[position.X, position.Y].Player != null)
@@ -118,7 +136,7 @@ namespace TheProjectGame.Player.Game
             return dir;
         }
 
-        private Move MoveToward(PlayerKnowledge knowledge, Position destination)
+        private MoveMessage MoveToward(Position destination)
         {
             Position current = knowledge.Player.Position;
             MoveType direction = MoveType.Down;
@@ -131,14 +149,16 @@ namespace TheProjectGame.Player.Game
             {
                 direction = current.Y > destination.Y ? MoveType.Up : MoveType.Down;
             }
-            Move move = new Move();
-            move.GameId = knowledge.GameState.Id;
-            move.Direction = CheckMove(knowledge,direction);
-            move.PlayerGuid = knowledge.Guid;
+            MoveMessage move = new MoveMessage()
+            {
+                GameId = knowledge.GameState.Id,
+                Direction = CheckMove(direction),
+                PlayerGuid = knowledge.MyGuid
+            };
             return move;
         }
 
-        private Move MoveToAnyNonDiscoveredGoal(PlayerKnowledge knowledge)
+        private MoveMessage MoveToAnyNonDiscoveredGoal()
         {
             var playerPos = knowledge.Player.Position;
             var board = knowledge.GameState.Board;
@@ -160,25 +180,25 @@ namespace TheProjectGame.Player.Game
                 direction = playerPos.Y > y ? MoveType.Up : MoveType.Down;
             }
 
-            direction = CheckMove(knowledge, direction);
+            direction = CheckMove(direction);
 
-            Move move = new Move()
+            MoveMessage move = new MoveMessage()
             {
                 GameId = knowledge.GameState.Id,
                 Direction = direction,
-                PlayerGuid = knowledge.Guid
+                PlayerGuid = knowledge.MyGuid
             };
             return move;
 
         }
 
-        private Move RandomMove(PlayerKnowledge knowledge)
+        private MoveMessage RandomMove(PlayerKnowledge knowledge)
         {
-            Move move = new Move()
+            MoveMessage move = new MoveMessage()
             {
                 GameId = knowledge.GameState.Id,
                 Direction = RandomMoveDirection(),
-                PlayerGuid = knowledge.Guid
+                PlayerGuid = knowledge.MyGuid
             };
             return move;
         }
@@ -188,17 +208,26 @@ namespace TheProjectGame.Player.Game
             switch (random.Next(4))
             {
                 case 0:
-                    return MoveType.Down;
+                return MoveType.Down;
                 case 1:
-                    return MoveType.Up;
+                return MoveType.Up;
                 case 2:
-                    return MoveType.Left;
+                return MoveType.Left;
                 case 3:
-                    return MoveType.Right;
+                return MoveType.Right;
                 default:
-                    return MoveType.Down;
+                return MoveType.Down;
             }
         }
 
+        public bool ShouldExchangeKnowledge()
+        {
+            if (knowledge.Player.Role == PlayerType.Leader)
+            {
+                return true;
+            }
+
+            return random.Next(100) < 70; // 70% chance to accept the request
+        }
     }
 }

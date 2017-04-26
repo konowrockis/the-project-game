@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Serilog;
 using TheProjectGame.Contracts.Enums;
 using TheProjectGame.Contracts.Messages.PlayerActions;
@@ -10,30 +11,36 @@ using TheProjectGame.Settings.Options;
 
 namespace TheProjectGame.GameMaster.MessageHandlers.GameMessageHandlers
 {
-    class TestPieceMessageHandler : MessageHandler<TestPiece>
+    class TestPieceMessageHandler : MessageHandler<TestPieceMessage>
     {
         private readonly ILogger logger = Log.ForContext<GameMasterEventHandler>();
         private readonly IMessageWriter messageWriter;
         private readonly ActionCostsOptions actionCosts;
         private readonly IGameState game;
         private readonly IPlayersMap players;
+        private readonly Func<DataBuilder> dataBuilder;
 
-        public TestPieceMessageHandler(IMessageWriter messageWriter, ActionCostsOptions actionCosts, ICurrentGame currentGame)
+        public TestPieceMessageHandler(
+            IMessageWriter messageWriter,
+            GameMasterOptions gameMasterOptions,
+            ICurrentGame currentGame,
+            Func<DataBuilder> dataBuilder)
         {
             this.messageWriter = messageWriter;
-            this.actionCosts = actionCosts;
+            this.actionCosts = gameMasterOptions.ActionCosts;
             this.game = currentGame.Game;
             this.players = currentGame.Players;
+            this.dataBuilder = dataBuilder;
         }
 
-        public override void Handle(TestPiece message)
+        public override void Handle(TestPieceMessage message)
         {
             var board = game.Board;
             var player = players.GetPlayer(message.PlayerGuid);
 
-            var builder = new DataBuilder()
+            var builder = dataBuilder()
                 .GameFinished(false)
-                .PlayerLocation(ObjectMapper.Map(player.Position))
+                .PlayerLocation(player.Position)
                 .PlayerId(player.Id);
 
             // find piece
@@ -41,7 +48,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers.GameMessageHandlers
             // is player doesnt carry return empty message
             if (piece == null)
             {
-                messageWriter.Write(builder.Build(),actionCosts.TestDelay);
+                messageWriter.Write(builder.Build(), actionCosts.TestDelay);
                 return;
             }
             // is piece is a sham remove it from the game
@@ -55,9 +62,9 @@ namespace TheProjectGame.GameMaster.MessageHandlers.GameMessageHandlers
             // return information about the piece
             var response = builder.Pieces(true, piece).Build();
 
-            logger.Verbose("TEST PIECE RESPONSE AAAAA {@Response}",response);
+            logger.Verbose("TEST PIECE RESPONSE AAAAA {@Response}", response);
 
-            messageWriter.Write(response,actionCosts.TestDelay);
+            messageWriter.Write(response, actionCosts.TestDelay);
         }
     }
 }

@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Serilog;
-using TheProjectGame.Contracts;
 using TheProjectGame.Contracts.Enums;
 using TheProjectGame.Contracts.Messages.GameActions;
 using TheProjectGame.Contracts.Messages.PlayerActions;
@@ -18,37 +14,43 @@ using TheProjectGame.Settings.Options;
 
 namespace TheProjectGame.GameMaster.MessageHandlers
 {
-    class PlacePieceMessageHandler : MessageHandler<PlacePiece>
+    class PlacePieceMessageHandler : MessageHandler<PlacePieceMessage>
     {
         private readonly ILogger logger = Log.ForContext<GameMasterEventHandler>();
 
         private readonly IMessageWriter messageWriter;
-        private readonly ActionCostsOptions actionCosts;
         private readonly IGameState game;
         private readonly IPlayersMap players;
         private readonly GameMasterOptions options;
+        private readonly Func<DataBuilder> dataBuilder;
+        private readonly ActionCostsOptions actionCosts;
 
-        public PlacePieceMessageHandler(IMessageWriter messageWriter, ActionCostsOptions actionCosts, ICurrentGame currentGame, GameMasterOptions options)
+        public PlacePieceMessageHandler(
+            IMessageWriter messageWriter,
+            GameMasterOptions gameMasterOptions,
+            ICurrentGame currentGame,
+            Func<DataBuilder> dataBuilder)
         {
             this.messageWriter = messageWriter;
-            this.actionCosts = actionCosts;
+            this.actionCosts = gameMasterOptions.ActionCosts;
             this.game = currentGame.Game;
             this.players = currentGame.Players;
-            this.options = options;
+            this.options = gameMasterOptions;
+            this.dataBuilder = dataBuilder;
         }
 
-        public override void Handle(PlacePiece message)
+        public override void Handle(PlacePieceMessage message)
         {
             var board = game.Board;
             var player = players.GetPlayer(message.PlayerGuid);
 
-            var builder = new DataBuilder()
+            var builder = dataBuilder()
                 .GameFinished(false)
                 .PlayerId(player.Id);
 
             var piece = board.Pieces.FirstOrDefault(p => p.Player == player);
 
-            if (!board.IsInGoalArea(player.Position) && piece!=null)
+            if (!board.IsInGoalArea(player.Position) && piece != null)
             {
                 board.Pieces.Add(piece);
                 bool result = board.DropPiece(piece, player.Position);
@@ -76,7 +78,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers
                 messageWriter.Write(builder.Build(), actionCosts.PlacingDelay);
                 return;
             }
-            
+
             var goalTile = board.Fields[player.Position.X, player.Position.Y] as GoalTile;
             goalTile.Discovered = true;
 
@@ -88,13 +90,13 @@ namespace TheProjectGame.GameMaster.MessageHandlers
                         ? GameEvent.CreateVictory(message.PlayerGuid, game.Id, player.Id, player.Team, player.Role)
                         : GameEvent.CreateDefeat(message.PlayerGuid, game.Id, player.Id, player.Team, player.Role));
 
-                    messageWriter.Write(new Data()
+                    messageWriter.Write(new DataMessage()
                     {
                         GameFinished = true,
                         PlayerId = gamePlayer.Id
                     });
                 }
-                var registerGame = new RegisterGame()
+                var registerGame = new RegisterGameMessage()
                 {
                     NewGameInfo = new GameInfo()
                     {

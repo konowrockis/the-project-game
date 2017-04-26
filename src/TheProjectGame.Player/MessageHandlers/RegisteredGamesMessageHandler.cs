@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Serilog;
 using TheProjectGame.Contracts.Messages.GameActions;
 using TheProjectGame.Messaging;
@@ -7,7 +6,7 @@ using TheProjectGame.Settings.Options;
 
 namespace TheProjectGame.Player.MessageHandlers
 {
-    class RegisteredGamesMessageHandler : MessageHandler<RegisteredGames>
+    class RegisteredGamesMessageHandler : MessageHandler<RegisteredGamesMessage>
     {
         private readonly ILogger logger = Log.ForContext<RegisteredGamesMessageHandler>();
         private readonly IMessageWriter messageWriter;
@@ -19,25 +18,22 @@ namespace TheProjectGame.Player.MessageHandlers
             this.playerOptions = playerOptions;
         }
 
-        public override void Handle(RegisteredGames message)
+        public override void Handle(RegisteredGamesMessage message)
         {
             var games = message.GameInfo;
-
             if (games.FirstOrDefault(g => g.Name == playerOptions.NameOfTheGame) == null)
             {
                 logger.Debug("Game not found");
-                messageWriter.Write(new GetGames(),playerOptions.RetryJoinGameInterval);
+                messageWriter.Write(new GetGamesMessage(),playerOptions.RetryJoinGameInterval);
                 return;
             }
-
-            var response = new JoinGame()
+            var response = new JoinGameMessage()
             {
                 GameName = playerOptions.NameOfTheGame,
                 PreferedRole = playerOptions.Role == "leader" ? Contracts.Enums.PlayerType.Leader : Contracts.Enums.PlayerType.Player,
                 PreferedTeam = playerOptions.TeamColor == "red" ? Contracts.Enums.TeamColor.Red : Contracts.Enums.TeamColor.Blue
             };
             logger.Debug("Joining game");
-
             // TODO: Add enums there!
             messageWriter.Write(response);
         }

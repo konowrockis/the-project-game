@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Serilog;
 using TheProjectGame.Contracts;
 using TheProjectGame.Contracts.Messages.PlayerActions;
@@ -14,7 +10,7 @@ using TheProjectGame.Settings.Options;
 
 namespace TheProjectGame.GameMaster.MessageHandlers.GameMessageHandlers
 {
-    class PickupPieceMessageHandler : MessageHandler<PickUpPiece>
+    class PickupPieceMessageHandler : MessageHandler<PickUpPieceMessage>
     {
         private readonly ILogger logger = Log.ForContext<GameMasterEventHandler>();
 
@@ -22,17 +18,22 @@ namespace TheProjectGame.GameMaster.MessageHandlers.GameMessageHandlers
         private readonly ActionCostsOptions actionCosts;
         private readonly IGameState game;
         private readonly IPlayersMap players;
+        private readonly Func<DataBuilder> dataBuilder;
 
-        public PickupPieceMessageHandler(IMessageWriter messageWriter, ActionCostsOptions actionCosts,
-            ICurrentGame currentGame)
+        public PickupPieceMessageHandler(
+            IMessageWriter messageWriter,
+            GameMasterOptions gameMasterOptions,
+            ICurrentGame currentGame,
+            Func<DataBuilder> dataBuilder)
         {
             this.messageWriter = messageWriter;
-            this.actionCosts = actionCosts;
+            this.actionCosts = gameMasterOptions.ActionCosts;
             this.game = currentGame.Game;
             this.players = currentGame.Players;
+            this.dataBuilder = dataBuilder;
         }
 
-        public override void Handle(PickUpPiece message)
+        public override void Handle(PickUpPieceMessage message)
         {
             var board = game.Board;
             var gamePlayer = players.GetPlayer(message.PlayerGuid);
@@ -42,7 +43,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers.GameMessageHandlers
 
             if (board.IsInGoalArea(position))
             {
-                messageWriter.Write(EmptyData(tile,gamePlayer),actionCosts.PickUpDelay);
+                messageWriter.Write(EmptyData(tile, gamePlayer), actionCosts.PickUpDelay);
                 return;
             }
 
@@ -53,30 +54,30 @@ namespace TheProjectGame.GameMaster.MessageHandlers.GameMessageHandlers
                 return;
             }
 
-
             var piece = field.Piece;
             piece.Player = gamePlayer;
             field.Piece = null;
             board.RefreshBoardState();
 
-            DataBuilder builder = new DataBuilder();
-            var response = builder.GameFinished(false)
+            var response = dataBuilder()
+                .GameFinished(false)
                 .PlayerId(gamePlayer.Id)
-                .PlayerLocation(ObjectMapper.Map(gamePlayer.Position))
-                .Pieces(false,piece)
+                .PlayerLocation(gamePlayer.Position)
+                .Pieces(false, piece)
                 .Fields(field)
                 .Build();
 
             var responsePieces = response.Pieces;
 
-            messageWriter.Write(response,actionCosts.PickUpDelay);
+            messageWriter.Write(response, actionCosts.PickUpDelay);
         }
 
         public IMessage EmptyData(Tile tile, GamePlayer player)
         {
-            return new DataBuilder().GameFinished(false)
+            return dataBuilder()
+                .GameFinished(false)
                 .PlayerId(player.Id)
-                .PlayerLocation(ObjectMapper.Map(player.Position))
+                .PlayerLocation(player.Position)
                 .Fields(tile)
                 .Build();
         }

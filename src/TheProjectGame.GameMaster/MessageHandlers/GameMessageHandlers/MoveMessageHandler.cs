@@ -1,24 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using AutoMapper;
 using Serilog;
-using TheProjectGame.Contracts.Enums;
-using TheProjectGame.Contracts.Messages.GameActions;
 using TheProjectGame.Contracts.Messages.PlayerActions;
-using TheProjectGame.Contracts.Messages.Structures;
 using TheProjectGame.Game;
 using TheProjectGame.Game.Builders;
 using TheProjectGame.GameMaster.Games;
-using TheProjectGame.GameMaster.Logging;
 using TheProjectGame.Messaging;
 using TheProjectGame.Settings.Options;
-using static TheProjectGame.Game.Builders.ObjectMapper;
 
 namespace TheProjectGame.GameMaster.MessageHandlers
 {
-    class MoveMessageHandler : MessageHandler<Move>
+    class MoveMessageHandler : MessageHandler<MoveMessage>
     {
         private readonly ILogger logger = Log.ForContext<GameMasterEventHandler>();
 
@@ -26,16 +18,22 @@ namespace TheProjectGame.GameMaster.MessageHandlers
         private readonly ActionCostsOptions actionCosts;
         private readonly IGameState game;
         private readonly IPlayersMap players;
+        private readonly Func<DataBuilder> dataBuilder;
 
-        public MoveMessageHandler(IMessageWriter messageWriter, ActionCostsOptions actionCosts, ICurrentGame currentGame)
+        public MoveMessageHandler(
+            IMessageWriter messageWriter, 
+            GameMasterOptions gameMasterOptions, 
+            ICurrentGame currentGame,
+            Func<DataBuilder> dataBuilder)
         {
             this.messageWriter = messageWriter;
-            this.actionCosts = actionCosts;
+            this.actionCosts = gameMasterOptions.ActionCosts;
             this.game = currentGame.Game;
             this.players = currentGame.Players;
+            this.dataBuilder = dataBuilder;
         }
 
-        public override void Handle(Move message)
+        public override void Handle(MoveMessage message)
         {
             var board = game.Board;
             var player = players.GetPlayer(message.PlayerGuid);
@@ -44,7 +42,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers
             var destination = position.Move(direction);
             var moveStatus = CheckMove(destination, board);
 
-            var builder = new DataBuilder()
+            var builder = dataBuilder()
                 .GameFinished(false)
                 .PlayerId(player.Id);
 
@@ -53,7 +51,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers
                 board.MovePlayer(player, destination);
             }
             board.RefreshBoardState();
-            builder.PlayerLocation(Map(player.Position));
+            builder.PlayerLocation(player.Position);
             if (moveStatus != MoveStatus.Invalid)
             {
                 builder.Fields(board.Fields[destination.X, destination.Y]);

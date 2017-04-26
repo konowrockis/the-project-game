@@ -1,4 +1,5 @@
-﻿using TheProjectGame.Contracts.Enums;
+﻿using System;
+using TheProjectGame.Contracts.Enums;
 
 namespace TheProjectGame.Game
 {
@@ -8,6 +9,7 @@ namespace TheProjectGame.Game
         public GamePlayer Player { get; set; }
         public PieceType Type { get; set; }
         public Position Position { get; set; }
+        public DateTime Timestamp { get; set; }
 
         public BoardPiece(ulong id, GamePlayer player, PieceType type, Position position)
         {

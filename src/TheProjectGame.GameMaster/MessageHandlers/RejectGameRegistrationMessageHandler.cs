@@ -5,7 +5,7 @@ using TheProjectGame.Settings.Options;
 
 namespace TheProjectGame.GameMaster.MessageHandlers
 {
-    class RejectGameRegistrationMessageHandler : MessageHandler<RejectGameRegistration>
+    class RejectGameRegistrationMessageHandler : MessageHandler<RejectGameRegistrationMessage>
     {
         private readonly IMessageWriter messageWriter;
         private readonly GameMasterOptions options;
@@ -16,9 +16,9 @@ namespace TheProjectGame.GameMaster.MessageHandlers
             this.options = options;
         }
 
-        public override void Handle(RejectGameRegistration message)
+        public override void Handle(RejectGameRegistrationMessage message)
         {
-            var response = new RegisterGame()
+            var response = new RegisterGameMessage()
             {
                 NewGameInfo = new GameInfo()
                 {
