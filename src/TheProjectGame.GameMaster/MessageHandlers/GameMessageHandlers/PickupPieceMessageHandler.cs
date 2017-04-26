@@ -67,8 +67,6 @@ namespace TheProjectGame.GameMaster.MessageHandlers.GameMessageHandlers
                 .Fields(field)
                 .Build();
 
-            var responsePieces = response.Pieces;
-
             messageWriter.Write(response,actionCosts.PickUpDelay);
         }
 

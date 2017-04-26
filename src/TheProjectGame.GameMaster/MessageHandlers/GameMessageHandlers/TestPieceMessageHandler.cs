@@ -55,8 +55,6 @@ namespace TheProjectGame.GameMaster.MessageHandlers.GameMessageHandlers
             // return information about the piece
             var response = builder.Pieces(true, piece).Build();
 
-            logger.Verbose("TEST PIECE RESPONSE AAAAA {@Response}",response);
-
             messageWriter.Write(response,actionCosts.TestDelay);
         }
     }
