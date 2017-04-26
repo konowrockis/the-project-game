@@ -1,15 +1,17 @@
-using System.Linq;
+﻿using System.Linq;
 using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
 using Serilog;
 using TheProjectGame.Contracts;
 using TheProjectGame.Contracts.Enums;
+using TheProjectGame.Contracts.Messages.GameActions;
 using TheProjectGame.Contracts.Messages.PlayerActions;
 using TheProjectGame.Contracts.Messages.Structures;
 using TheProjectGame.Game;
 using TheProjectGame.Messaging;
 using TheProjectGame.Player.Game;
+using TheProjectGame.Settings.Options;
 
 namespace TheProjectGame.Player.MessageHandlers
 {
@@ -21,23 +23,26 @@ namespace TheProjectGame.Player.MessageHandlers
         private IPlayerLogic playerLogic;
         private IMessageWriter writer;
         private PlayerKnowledge knowledge;
-
         private bool gameFinished = false;
+        private PlayerOptions playerOptions;
 
-        public DataMessageHandler(IMessageWriter writer, IPlayerLogic playerLogic, PlayerKnowledge playerKnowledge)
+        public DataMessageHandler(IMessageWriter writer, IPlayerLogic playerLogic, PlayerKnowledge playerKnowledge,PlayerOptions playerOptions)
         {
             this.board = playerKnowledge.GameState.Board;
             this.playerLogic = playerLogic;
             this.writer = writer;
             this.knowledge = playerKnowledge;
-        }
+            this.playerOptions = playerOptions;
+        }        
 
         public override void Handle(Data message)
         {
             if (gameFinished)
             {
+                logger.Debug("Received message after game finished");
                 return;
             }
+
             var messagePlayerLocation = message.PlayerLocation;
             var messageGoalFields = message.GoalFields;
             var messagePieces = message.Pieces;
@@ -47,6 +52,7 @@ namespace TheProjectGame.Player.MessageHandlers
             if (messageGameFinished)
             {
                 // todo: display game state
+                writer.Write(new GetGames(), playerOptions.RetryJoinGameInterval);
                 gameFinished = true;
                 return;
             }
@@ -112,7 +118,6 @@ namespace TheProjectGame.Player.MessageHandlers
 
         private void UpdatePiece(Piece piece)
         {
-            logger.Verbose("\n\nPIECE INFO {@Response}\n\n", piece);
             // find the board piece equivalent (must exist because it must have been discovered first)
             var boardPiece = board.Pieces.Find(p => p.Id == piece.Id);
             // if its a sham forget about it
