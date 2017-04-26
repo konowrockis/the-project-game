@@ -84,6 +84,7 @@
     <Compile Include="Game\SimplePlayerLogic.cs" />
     <Compile Include="MessageHandlers\DataMessageHandler.cs" />
     <Compile Include="MessageHandlers\GameMessageHandler.cs" />
+    <Compile Include="MessageHandlers\KnowledgeExchangeRequestMessageHandler.cs" />
     <Compile Include="MessageHandlers\RejectJoiningGameMessageHandler.cs" />
     <Compile Include="MessageHandlers\ConfirmJoiningGameMessageHandler.cs" />
     <Compile Include="MessageHandlers\RegisteredGamesMessageHandler.cs" />

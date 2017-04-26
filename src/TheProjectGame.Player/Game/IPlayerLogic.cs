@@ -6,5 +6,7 @@ namespace TheProjectGame.Player.Game
     public interface IPlayerLogic
     {
         IMessage GetNextMove();
+
+        bool ShouldExchangeKnowledge();
     }
 }

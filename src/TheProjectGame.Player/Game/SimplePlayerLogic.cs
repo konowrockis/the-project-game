@@ -134,5 +134,14 @@ namespace TheProjectGame.Player.Game
             }
         }
 
+        public bool ShouldExchangeKnowledge()
+        {
+            if (knowledge.Player.Role == PlayerType.Leader)
+            {
+                return true;
+            }
+
+            return random.Next(100) < 70; // 70% chance to accept the request
+        }
     }
 }
