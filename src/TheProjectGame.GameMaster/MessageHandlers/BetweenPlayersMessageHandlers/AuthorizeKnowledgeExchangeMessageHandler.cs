@@ -9,7 +9,7 @@ using TheProjectGame.Contracts;
 
 namespace TheProjectGame.GameMaster.MessageHandlers.BetweenPlayersMessageHandlers
 {
-    class AuthorizeKnowledgeExchangeMessageHandler : MessageHandler<AuthorizeKnowledgeExchange>
+    class AuthorizeKnowledgeExchangeMessageHandler : MessageHandler<AuthorizeKnowledgeExchangeMessage>
     {
         private readonly ILogger logger = Log.ForContext<GameMasterEventHandler>();
         private readonly IMessageWriter messageWriter;
@@ -26,7 +26,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers.BetweenPlayersMessageHandler
             this.actionCosts = gameMasterOptions.ActionCosts;
         }
 
-        public override void Handle(AuthorizeKnowledgeExchange message)
+        public override void Handle(AuthorizeKnowledgeExchangeMessage message)
         {
             var player = currentGame.Players.GetPlayer(message.PlayerGuid);
             if (player == null) return;
@@ -38,16 +38,16 @@ namespace TheProjectGame.GameMaster.MessageHandlers.BetweenPlayersMessageHandler
             messageWriter.Write(response, actionCosts.KnowledgeExchangeDelay);
         }
 
-        private IMessage RejectKnowledgeExchange(AuthorizeKnowledgeExchange message, GamePlayer player) =>
-            new RejectKnowledgeExchange()
+        private IMessage RejectKnowledgeExchange(AuthorizeKnowledgeExchangeMessage message, GamePlayer player) =>
+            new RejectKnowledgeExchangeMessage()
             {
                 Permanent = true,
                 PlayerId = player.Id,
                 SenderPlayerId = message.WithPlayerId
             };
 
-        private IMessage PassRequest(AuthorizeKnowledgeExchange message, GamePlayer player) =>
-            new KnowledgeExchangeRequest()
+        private IMessage PassRequest(AuthorizeKnowledgeExchangeMessage message, GamePlayer player) =>
+            new KnowledgeExchangeRequestMessage()
             {
                 PlayerId = message.WithPlayerId,
                 SenderPlayerId = player.Id

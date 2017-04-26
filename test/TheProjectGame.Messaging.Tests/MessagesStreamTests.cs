@@ -19,7 +19,7 @@ namespace TheProjectGame.Messaging.Tests
         {
             var stream = getMessageStream("GetGames.xml");
 
-            var message = stream.Read() as GetGames;
+            var message = stream.Read() as GetGamesMessage;
 
             Assert.IsNotNull(message);
         }
@@ -29,7 +29,7 @@ namespace TheProjectGame.Messaging.Tests
         {
             var stream = getMessageStream("RegisterGame.xml");
 
-            var message = stream.Read() as RegisterGame;
+            var message = stream.Read() as RegisterGameMessage;
 
             Assert.IsNotNull(message);
             Assert.AreEqual("easyGame", message.NewGameInfo.Name);
@@ -42,7 +42,7 @@ namespace TheProjectGame.Messaging.Tests
         {
             var stream = getMessageStream("ConfirmGameRegistration.xml");
 
-            var message = stream.Read() as ConfirmGameRegistration;
+            var message = stream.Read() as ConfirmGameRegistrationMessage;
 
             Assert.IsNotNull(message);
             Assert.AreEqual<ulong>(1, message.GameId);
@@ -53,7 +53,7 @@ namespace TheProjectGame.Messaging.Tests
         {
             var stream = getMessageStream("RegisteredGames.xml");
 
-            var message = stream.Read() as RegisteredGames;
+            var message = stream.Read() as RegisteredGamesMessage;
 
             Assert.IsNotNull(message);
             Assert.AreEqual(2, message.GameInfo.Count);
@@ -70,7 +70,7 @@ namespace TheProjectGame.Messaging.Tests
         {
             var stream = getMessageStream("JoinGame.xml");
 
-            var message = stream.Read() as JoinGame;
+            var message = stream.Read() as JoinGameMessage;
 
             Assert.IsNotNull(message);
             Assert.AreEqual("easyGame", message.GameName);
@@ -83,7 +83,7 @@ namespace TheProjectGame.Messaging.Tests
         {
             var stream = getMessageStream("ConfirmJoingingGame.xml");
 
-            var message = stream.Read() as ConfirmJoiningGame;
+            var message = stream.Read() as ConfirmJoiningGameMessage;
 
             Assert.IsNotNull(message);
             Assert.AreEqual<ulong>(1, message.GameId);
@@ -99,7 +99,7 @@ namespace TheProjectGame.Messaging.Tests
         {
             var stream = getMessageStream("Game.xml");
 
-            var message = stream.Read() as Game;
+            var message = stream.Read() as GameMessage;
 
             Assert.IsNotNull(message);
             Assert.AreEqual<ulong>(2, message.PlayerId);
@@ -116,7 +116,7 @@ namespace TheProjectGame.Messaging.Tests
         {
             var stream = getMessageStream("Discover.xml");
 
-            var message = stream.Read() as Discover;
+            var message = stream.Read() as DiscoverMessage;
 
             Assert.IsNotNull(message);
             Assert.AreEqual<ulong>(1, message.GameId);
@@ -128,7 +128,7 @@ namespace TheProjectGame.Messaging.Tests
         {
             var stream = getMessageStream("DiscoverResponse.xml");
 
-            var message = stream.Read() as Data;
+            var message = stream.Read() as DataMessage;
 
             Assert.IsNotNull(message);
             Assert.AreEqual<ulong>(1, message.PlayerId);
@@ -158,7 +158,7 @@ namespace TheProjectGame.Messaging.Tests
         {
             var stream = getMessageStream("Move.xml");
 
-            var message = stream.Read() as Move;
+            var message = stream.Read() as MoveMessage;
 
             Assert.IsNotNull(message);
             Assert.AreEqual<ulong>(1, message.GameId);
@@ -171,7 +171,7 @@ namespace TheProjectGame.Messaging.Tests
         {
             var parser = getMessageStream("MoveProperResponse.xml");
 
-            var message = parser.Read() as Data;
+            var message = parser.Read() as DataMessage;
 
             Assert.IsNotNull(message);
             Assert.AreEqual<ulong>(1, message.PlayerId);
@@ -194,7 +194,7 @@ namespace TheProjectGame.Messaging.Tests
         {
             var stream = getMessageStream("MoveOccupiedResponse.xml");
 
-            var message = stream.Read() as Data;
+            var message = stream.Read() as DataMessage;
 
             Assert.IsNotNull(message);
             Assert.AreEqual<ulong>(1, message.PlayerId);
@@ -223,7 +223,7 @@ namespace TheProjectGame.Messaging.Tests
         {
             var stream = getMessageStream("PickUpPiece.xml");
 
-            var message = stream.Read() as PickUpPiece;
+            var message = stream.Read() as PickUpPieceMessage;
 
             Assert.IsNotNull(message);
             Assert.AreEqual<ulong>(1, message.GameId);
@@ -235,7 +235,7 @@ namespace TheProjectGame.Messaging.Tests
         {
             var stream = getMessageStream("PickUpPieceResponse.xml");
 
-            var message = stream.Read() as Data;
+            var message = stream.Read() as DataMessage;
 
             Assert.IsNotNull(message);
             Assert.AreEqual<ulong>(1, message.PlayerId);
@@ -255,7 +255,7 @@ namespace TheProjectGame.Messaging.Tests
         {
             var stream = getMessageStream("TestPiece.xml");
 
-            var message = stream.Read() as TestPiece;
+            var message = stream.Read() as TestPieceMessage;
 
             Assert.IsNotNull(message);
             Assert.AreEqual<ulong>(1, message.GameId);
@@ -267,7 +267,7 @@ namespace TheProjectGame.Messaging.Tests
         {
             var stream = getMessageStream("AuthorizeKnowledgeExchange.xml");
 
-            var message = stream.Read() as AuthorizeKnowledgeExchange;
+            var message = stream.Read() as AuthorizeKnowledgeExchangeMessage;
 
             Assert.IsNotNull(message);
             Assert.AreEqual<ulong>(1, message.GameId);
@@ -280,7 +280,7 @@ namespace TheProjectGame.Messaging.Tests
         {
             var stream = getMessageStream("KnowledgeExchangeRequest.xml");
 
-            var message = stream.Read() as KnowledgeExchangeRequest;
+            var message = stream.Read() as KnowledgeExchangeRequestMessage;
 
             Assert.IsNotNull(message);
             Assert.AreEqual<ulong>(2, message.PlayerId);
@@ -292,7 +292,7 @@ namespace TheProjectGame.Messaging.Tests
         {
             var stream = getMessageStream("RejectKnowledgeExchange.xml");
 
-            var message = stream.Read() as RejectKnowledgeExchange;
+            var message = stream.Read() as RejectKnowledgeExchangeMessage;
 
             Assert.IsNotNull(message);
             Assert.IsFalse(message.Permanent);
@@ -305,7 +305,7 @@ namespace TheProjectGame.Messaging.Tests
         {
             var stream = getMessageStream("AcceptExchangeRequest.xml");
 
-            var message = stream.Read() as AcceptExchangeRequest;
+            var message = stream.Read() as AcceptExchangeRequestMessage;
 
             Assert.IsNotNull(message);
             Assert.AreEqual<ulong>(2, message.PlayerId);
@@ -317,7 +317,7 @@ namespace TheProjectGame.Messaging.Tests
         {
             var stream = getMessageStream("KnowledgeExchangeResponse.xml");
 
-            var message = stream.Read() as Data;
+            var message = stream.Read() as DataMessage;
 
             Assert.IsNotNull(message);
             Assert.AreEqual(2, message.TaskFields.Count);

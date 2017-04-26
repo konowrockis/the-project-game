@@ -14,7 +14,7 @@ using TheProjectGame.Settings.Options;
 
 namespace TheProjectGame.GameMaster.MessageHandlers.GameMessageHandlers
 {
-    class PickupPieceMessageHandler : MessageHandler<PickUpPiece>
+    class PickupPieceMessageHandler : MessageHandler<PickUpPieceMessage>
     {
         private readonly ILogger logger = Log.ForContext<GameMasterEventHandler>();
 
@@ -32,7 +32,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers.GameMessageHandlers
             this.players = currentGame.Players;
         }
 
-        public override void Handle(PickUpPiece message)
+        public override void Handle(PickUpPieceMessage message)
         {
             var board = game.Board;
             var gamePlayer = players.GetPlayer(message.PlayerGuid);

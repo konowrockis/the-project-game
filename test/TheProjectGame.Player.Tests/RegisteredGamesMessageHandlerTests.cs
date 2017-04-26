@@ -23,10 +23,10 @@ namespace TheProjectGame.Player.Tests
         public void Resend_GetGames_when_received_empty_list()
         {
             IMessageWriter writer = Substitute.For<IMessageWriter>();
-            GetGames response = null;
-            writer.When(w => w.Write(Arg.Any<GetGames>(), Arg.Any<double>())).Do(c => response = c.Arg<GetGames>());
+            GetGamesMessage response = null;
+            writer.When(w => w.Write(Arg.Any<GetGamesMessage>(), Arg.Any<double>())).Do(c => response = c.Arg<GetGamesMessage>());
 
-            new RegisteredGamesMessageHandler(writer, null).Handle(new RegisteredGames()
+            new RegisteredGamesMessageHandler(writer, null).Handle(new RegisteredGamesMessage()
             {
                 GameInfo = new List<GameInfo>()
             });
@@ -44,10 +44,10 @@ namespace TheProjectGame.Player.Tests
                 Role = "leader"
             };
             GameInfo info = new GameInfo {Name = "test"};
-            JoinGame response = null;
-            writer.When(w => w.Write(Arg.Any<JoinGame>())).Do(c => response = c.Arg<JoinGame>());
+            JoinGameMessage response = null;
+            writer.When(w => w.Write(Arg.Any<JoinGameMessage>())).Do(c => response = c.Arg<JoinGameMessage>());
 
-            new RegisteredGamesMessageHandler(writer, options).Handle(new RegisteredGames()
+            new RegisteredGamesMessageHandler(writer, options).Handle(new RegisteredGamesMessage()
             {
                 GameInfo = new List<GameInfo>() {info}
             });

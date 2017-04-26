@@ -9,7 +9,7 @@ using TheProjectGame.Player.Game;
 
 namespace TheProjectGame.Player.MessageHandlers
 {
-    class DataMessageHandler : MessageHandler<Data>
+    class DataMessageHandler : MessageHandler<DataMessage>
     {
         private readonly IPlayerLogic playerLogic;
         private readonly IMessageWriter writer;
@@ -27,7 +27,7 @@ namespace TheProjectGame.Player.MessageHandlers
             this.playerKnowledge = playerKnowledge;
         }
 
-        public override void Handle(Data message)
+        public override void Handle(DataMessage message)
         {
             if (gameFinished)
             {

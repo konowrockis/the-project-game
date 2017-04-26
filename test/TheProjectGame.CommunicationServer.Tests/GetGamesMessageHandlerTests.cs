@@ -38,7 +38,7 @@ namespace TheProjectGame.CommunicationServer.Tests
 
             messageHandler.Handle(message);
 
-            player.Received().Write(Arg.Any<RegisteredGames>());
+            player.Received().Write(Arg.Any<RegisteredGamesMessage>());
         }
 
         [TestMethod]
@@ -48,7 +48,7 @@ namespace TheProjectGame.CommunicationServer.Tests
 
             messageHandler.Handle(message);
 
-            player.Received().Write(Arg.Is<RegisteredGames>(m => 
+            player.Received().Write(Arg.Is<RegisteredGamesMessage>(m => 
                 m.GameInfo != null &&
                 m.GameInfo.Count == 0
             ));
@@ -63,7 +63,7 @@ namespace TheProjectGame.CommunicationServer.Tests
             messageHandler.Handle(message);
 
             Guid ignoreGuid;
-            player.Received().Write(Arg.Is<RegisteredGames>(m =>
+            player.Received().Write(Arg.Is<RegisteredGamesMessage>(m =>
                 m.GameInfo != null &&
                 m.GameInfo.Count == 1 &&
                 m.GameInfo[0].BlueTeamPlayers == TestGame.playersPerTeam &&
@@ -81,15 +81,15 @@ namespace TheProjectGame.CommunicationServer.Tests
 
             messageHandler.Handle(message);
 
-            player.Received().Write(Arg.Is<RegisteredGames>(m =>
+            player.Received().Write(Arg.Is<RegisteredGamesMessage>(m =>
                 m.GameInfo != null &&
                 m.GameInfo.Count == gamesCount
             ));
         }
 
-        private GetGames GetMessage()
+        private GetGamesMessage GetMessage()
         {
-            return new GetGames();
+            return new GetGamesMessage();
         }
 
         private void SetGamesList(int count = 1)

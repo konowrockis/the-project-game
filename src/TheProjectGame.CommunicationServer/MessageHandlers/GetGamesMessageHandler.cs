@@ -6,7 +6,7 @@ using TheProjectGame.Messaging;
 
 namespace TheProjectGame.CommunicationServer.MessageHandlers
 {
-    class GetGamesMessageHandler : MessageHandler<GetGames>
+    class GetGamesMessageHandler : MessageHandler<GetGamesMessage>
     {
         private readonly IClient currentClient;
         private readonly IGamesManager gamesManager;
@@ -17,7 +17,7 @@ namespace TheProjectGame.CommunicationServer.MessageHandlers
             this.gamesManager = gamesManager;
         }
 
-        public override void Handle(GetGames message)
+        public override void Handle(GetGamesMessage message)
         {
             var games = gamesManager.GetGamesList()
                 .Select(g => new GameInfo()
@@ -27,7 +27,7 @@ namespace TheProjectGame.CommunicationServer.MessageHandlers
                     RedTeamPlayers = g.RedTeamPlayers
                 }).ToList();
 
-            var response = new RegisteredGames()
+            var response = new RegisteredGamesMessage()
             {
                 GameInfo = games
             };

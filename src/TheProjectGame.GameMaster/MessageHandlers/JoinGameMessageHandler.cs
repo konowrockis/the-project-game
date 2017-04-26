@@ -11,7 +11,7 @@ using static TheProjectGame.Game.Builders.ObjectMapper;
 
 namespace TheProjectGame.GameMaster.MessageHandlers
 {
-    class JoinGameMessageHandler : MessageHandler<JoinGame>
+    class JoinGameMessageHandler : MessageHandler<JoinGameMessage>
     {
         private ILogger logger = Log.ForContext<JoinGameMessageHandler>();
 
@@ -29,7 +29,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers
             this.gameOptions = gameOptions.GameDefinition;
         }
 
-        public override void Handle(JoinGame message)
+        public override void Handle(JoinGameMessage message)
         {
             GamePlayer player = new GamePlayer(message.PlayerId);
 
@@ -48,7 +48,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers
         {
             if (game.Players.Count >= gameOptions.NumberOfPlayersPerTeam * 2)
             {
-                var response = new RejectJoiningGame()
+                var response = new RejectJoiningGameMessage()
                 {
                     GameName = gameName,
                     PlayerId = player.Id
@@ -96,7 +96,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers
 
         private void SendConfirmJoiningGame(GamePlayer player, string guid)
         {
-            var response = new ConfirmJoiningGame()
+            var response = new ConfirmJoiningGameMessage()
             {
                 PlayerId = player.Id,
                 GameId = game.Id,
@@ -119,7 +119,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers
                 // TODO: add proper Goal count
                 game.Board.Init(game.Players, gameOptions.InitialNumberOfPieces, 1);
 
-                var gameResponse = new Contracts.Messages.GameActions.Game()
+                var gameResponse = new Contracts.Messages.GameActions.GameMessage()
                 {
                     Board = new GameBoard()
                     {
@@ -139,7 +139,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers
                 {
                     logger.Verbose("Sending GameMessage to {@Player}", currentPlayer);
 
-                    var response = new Contracts.Messages.GameActions.Game()
+                    var response = new Contracts.Messages.GameActions.GameMessage()
                     {
                         Board = gameResponse.Board,
                         Players = gameResponse.Players,

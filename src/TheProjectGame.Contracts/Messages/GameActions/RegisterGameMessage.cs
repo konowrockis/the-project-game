@@ -3,9 +3,9 @@ using TheProjectGame.Contracts.Messages.Structures;
 
 namespace TheProjectGame.Contracts.Messages.GameActions
 {
-    public class RejectJoiningGame : PlayerMessage, IMessage
+    [XmlRoot(ElementName = "RegisterGame")]
+    public class RegisterGameMessage : IMessage
     {
-        [XmlAttribute("gameName")]
-        public string GameName { get; set; }
+        public GameInfo NewGameInfo { get; set; }
     }
 }

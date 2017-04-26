@@ -43,7 +43,7 @@ namespace TheProjectGame.CommunicationServer.Tests
 
             messageHandler.Handle(message);
 
-            client.Received().Write(Arg.Is<RejectJoiningGame>(r => 
+            client.Received().Write(Arg.Is<RejectJoiningGameMessage>(r => 
                 r.GameName == nonExistingGameName
             ));
         }
@@ -55,14 +55,14 @@ namespace TheProjectGame.CommunicationServer.Tests
 
             messageHandler.Handle(message);
 
-            gameMaster.Received().Write(Arg.Is<JoinGame>(j => 
+            gameMaster.Received().Write(Arg.Is<JoinGameMessage>(j => 
                 j.PlayerId == playerId && j.GameName == existingGameName
             ));
         }
 
-        private JoinGame GetMessage(string gameName)
+        private JoinGameMessage GetMessage(string gameName)
         {
-            return new JoinGame()
+            return new JoinGameMessage()
             {
                 GameName = gameName
             };

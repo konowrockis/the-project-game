@@ -3,7 +3,8 @@ using TheProjectGame.Contracts.Messages.Structures;
 
 namespace TheProjectGame.Contracts.Messages.GameActions
 {
-    public class ConfirmJoiningGame : PlayerMessage, IMessage
+    [XmlRoot(ElementName = "ConfirmJoiningGame")]
+    public class ConfirmJoiningGameMessage : PlayerMessage, IMessage
     {
         public Player PlayerDefinition { get; set; }
 

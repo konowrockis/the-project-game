@@ -36,7 +36,7 @@ namespace TheProjectGame.GameMaster.Tests
 
             writer.Received()
                 .Write(
-                    Arg.Is<Data>(
+                    Arg.Is<DataMessage>(
                         data =>
                             !data.GameFinished && data.PlayerId == PlayerId && data.GoalFields == null &&
                             data.PlayerLocation == null && data.TaskFields == null && data.Pieces == null),
@@ -65,9 +65,9 @@ namespace TheProjectGame.GameMaster.Tests
             return new SystemUnderTests(writer, board, player, handler);
         }
 
-        private PlacePiece CreateMessage()
+        private PlacePieceMessage CreateMessage()
         {
-            return new PlacePiece()
+            return new PlacePieceMessage()
             {
                 GameId = GameId,
                 PlayerGuid = PlayerGuid

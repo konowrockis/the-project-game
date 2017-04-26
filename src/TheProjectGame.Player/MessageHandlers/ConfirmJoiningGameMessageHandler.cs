@@ -5,7 +5,7 @@ using TheProjectGame.Player.Game;
 
 namespace TheProjectGame.Player.MessageHandlers
 {
-    class ConfirmJoiningGameMessageHandler : MessageHandler<ConfirmJoiningGame>
+    class ConfirmJoiningGameMessageHandler : MessageHandler<ConfirmJoiningGameMessage>
     {
         private readonly IMessageWriter messageWriter;
         private readonly IPlayerKnowledge playerKnowledge;
@@ -18,7 +18,7 @@ namespace TheProjectGame.Player.MessageHandlers
             this.playerKnowledge = playerKnowledge;
         }
 
-        public override void Handle(ConfirmJoiningGame message)
+        public override void Handle(ConfirmJoiningGameMessage message)
         {
             // Patience is a virtue
 

@@ -2,7 +2,8 @@
 
 namespace TheProjectGame.Contracts.Messages.CommunicationActions
 {
-    public class RejectKnowledgeExchange : BetweenPlayersMessage, IMessage
+    [XmlRoot(ElementName = "RejectKnowledgeExchange")]
+    public class RejectKnowledgeExchangeMessage : BetweenPlayersMessage, IMessage
     {
         [XmlAttribute("Permanent")]
         public bool Permanent { get; set; }

@@ -18,7 +18,7 @@ using static TheProjectGame.Game.Builders.ObjectMapper;
 
 namespace TheProjectGame.GameMaster.MessageHandlers
 {
-    class MoveMessageHandler : MessageHandler<Move>
+    class MoveMessageHandler : MessageHandler<MoveMessage>
     {
         private readonly ILogger logger = Log.ForContext<GameMasterEventHandler>();
 
@@ -35,7 +35,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers
             this.players = currentGame.Players;
         }
 
-        public override void Handle(Move message)
+        public override void Handle(MoveMessage message)
         {
             var board = game.Board;
             var player = players.GetPlayer(message.PlayerGuid);

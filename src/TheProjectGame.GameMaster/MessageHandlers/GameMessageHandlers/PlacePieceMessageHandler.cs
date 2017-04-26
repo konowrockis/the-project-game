@@ -16,7 +16,7 @@ using TheProjectGame.Settings.Options;
 
 namespace TheProjectGame.GameMaster.MessageHandlers
 {
-    class PlacePieceMessageHandler : MessageHandler<PlacePiece>
+    class PlacePieceMessageHandler : MessageHandler<PlacePieceMessage>
     {
         private readonly ILogger logger = Log.ForContext<GameMasterEventHandler>();
 
@@ -33,7 +33,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers
             this.players = currentGame.Players;
         }
 
-        public override void Handle(PlacePiece message)
+        public override void Handle(PlacePieceMessage message)
         {
             var board = game.Board;
             var player = players.GetPlayer(message.PlayerGuid);
@@ -84,7 +84,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers
                         ? GameEvent.CreateVictory(message.PlayerGuid, game.Id, player.Id, player.Team, player.Role)
                         : GameEvent.CreateDefeat(message.PlayerGuid, game.Id, player.Id, player.Team, player.Role));
 
-                    messageWriter.Write(new Data()
+                    messageWriter.Write(new DataMessage()
                     {
                         GameFinished = true,
                         PlayerId = gamePlayer.Id

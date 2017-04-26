@@ -2,6 +2,7 @@
 
 namespace TheProjectGame.Contracts
 {
+    [XmlRoot(ElementName = "GameFinished")]
     public class GameFinished : IMessage
     {
         [XmlAttribute("gameId")]

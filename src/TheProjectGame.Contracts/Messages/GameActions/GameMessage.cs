@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Xml.Serialization;
 using TheProjectGame.Contracts.Messages.Structures;
 
 namespace TheProjectGame.Contracts.Messages.GameActions
 {
-    public class Game : PlayerMessage, IMessage
+    [XmlRoot(ElementName = "Game")]
+    public class GameMessage : PlayerMessage, IMessage
     {
         public List<Player> Players { get; set; }
 

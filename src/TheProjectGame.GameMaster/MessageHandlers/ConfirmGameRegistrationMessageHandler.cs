@@ -6,7 +6,7 @@ using TheProjectGame.Settings.Options;
 
 namespace TheProjectGame.GameMaster.MessageHandlers
 {
-    class ConfirmGameRegistrationMessageHandler : MessageHandler<ConfirmGameRegistration>
+    class ConfirmGameRegistrationMessageHandler : MessageHandler<ConfirmGameRegistrationMessage>
     {
         private readonly GameOptions gameOptions;
         private readonly IGameCreator gameCreator;
@@ -17,7 +17,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers
             this.gameOptions = gameOptions.GameDefinition;
         }
 
-        public override void Handle(ConfirmGameRegistration message)
+        public override void Handle(ConfirmGameRegistrationMessage message)
         {
             var game = new GameState(message.GameId, gameOptions.BoardWidth,
                 gameOptions.TaskAreaLength, gameOptions.GoalAreaLength, gameOptions.ShamProbability);

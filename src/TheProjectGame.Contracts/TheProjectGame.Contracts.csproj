@@ -40,28 +40,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Messages\GameActions\RejectJoiningGame.cs" />
-    <Compile Include="Messages\GameActions\RejectGameRegistration.cs" />
-    <Compile Include="Messages\GameActions\ConfirmGameRegistration.cs" />
-    <Compile Include="Messages\GameActions\GetGames.cs" />
-    <Compile Include="Messages\GameActions\GameFinished.cs" />
-    <Compile Include="Messages\GameActions\ConfirmJoiningGame.cs" />
-    <Compile Include="Messages\GameActions\JoinGame.cs" />
-    <Compile Include="Messages\GameActions\RegisteredGames.cs" />
+    <Compile Include="Messages\GameActions\RejectJoiningGameMessage.cs" />
+    <Compile Include="Messages\GameActions\RejectGameRegistrationMessage.cs" />
+    <Compile Include="Messages\GameActions\ConfirmGameRegistrationMessage.cs" />
+    <Compile Include="Messages\GameActions\GetGamesMessage.cs" />
+    <Compile Include="Messages\GameActions\GameFinishedMessage.cs" />
+    <Compile Include="Messages\GameActions\ConfirmJoiningGameMessage.cs" />
+    <Compile Include="Messages\GameActions\JoinGameMessage.cs" />
+    <Compile Include="Messages\GameActions\RegisteredGamesMessage.cs" />
     <Compile Include="IMessage.cs" />
-    <Compile Include="Messages\GameActions\RegisterGame.cs" />
+    <Compile Include="Messages\GameActions\RegisterGameMessage.cs" />
     <Compile Include="Messages\Structures\GameBoard.cs" />
-    <Compile Include="Messages\GameActions\Game.cs" />
-    <Compile Include="Messages\CommunicationActions\RejectKnowledgeExchange.cs" />
-    <Compile Include="Messages\CommunicationActions\AuthorizeKnowledgeExchange.cs" />
-    <Compile Include="Messages\CommunicationActions\AcceptExchangeRequest.cs" />
-    <Compile Include="Messages\CommunicationActions\KnowledgeExchangeRequest.cs" />
+    <Compile Include="Messages\GameActions\GameMessage.cs" />
+    <Compile Include="Messages\CommunicationActions\RejectKnowledgeExchangeMessage.cs" />
+    <Compile Include="Messages\CommunicationActions\AuthorizeKnowledgeExchangeMessage.cs" />
+    <Compile Include="Messages\CommunicationActions\AcceptExchangeRequestMessage.cs" />
+    <Compile Include="Messages\CommunicationActions\KnowledgeExchangeRequestMessage.cs" />
     <Compile Include="Enums\MoveType.cs" />
-    <Compile Include="Messages\PlayerActions\Move.cs" />
-    <Compile Include="Messages\PlayerActions\Discover.cs" />
-    <Compile Include="Messages\PlayerActions\PickUpPiece.cs" />
-    <Compile Include="Messages\PlayerActions\PlacePiece.cs" />
-    <Compile Include="Messages\PlayerActions\TestPiece.cs" />
+    <Compile Include="Messages\PlayerActions\MoveMessage.cs" />
+    <Compile Include="Messages\PlayerActions\DiscoverMessage.cs" />
+    <Compile Include="Messages\PlayerActions\PickUpPieceMessage.cs" />
+    <Compile Include="Messages\PlayerActions\PlacePieceMessage.cs" />
+    <Compile Include="Messages\PlayerActions\TestPieceMessage.cs" />
     <Compile Include="Messages\Structures\GoalField.cs" />
     <Compile Include="Messages\Structures\Piece.cs" />
     <Compile Include="Messages\Structures\GameMessage.cs" />
@@ -75,7 +75,7 @@
     <Compile Include="Messages\Structures\Location.cs" />
     <Compile Include="Messages\Structures\Field.cs" />
     <Compile Include="Messages\Structures\TaskField.cs" />
-    <Compile Include="Messages\GameActions\Data.cs" />
+    <Compile Include="Messages\GameActions\DataMessage.cs" />
     <Compile Include="Messages\Structures\PlayerMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

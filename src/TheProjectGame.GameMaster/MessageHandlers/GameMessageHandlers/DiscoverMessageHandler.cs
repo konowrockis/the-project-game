@@ -11,7 +11,7 @@ using static TheProjectGame.Game.Builders.ObjectMapper;
 
 namespace TheProjectGame.GameMaster.MessageHandlers
 {
-    class DiscoverMessageHandler : MessageHandler<Discover>
+    class DiscoverMessageHandler : MessageHandler<DiscoverMessage>
     {
         private readonly IMessageWriter messageWriter;
         private readonly ActionCostsOptions actionCosts;
@@ -26,7 +26,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers
             this.players = currentGame.Players;
         }
 
-        public override void Handle(Discover message)
+        public override void Handle(DiscoverMessage message)
         {
             var board = game.Board;
             var player = players.GetPlayer(message.PlayerGuid);
@@ -58,7 +58,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers
             
             DateTime timestamp = DateTime.Now;
 
-            var response = new Data()
+            var response = new DataMessage()
             {
                 TaskFields = tasks.Select(t => new TaskField()
                 {

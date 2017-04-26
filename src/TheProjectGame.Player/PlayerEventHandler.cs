@@ -30,7 +30,7 @@ namespace TheProjectGame.Player
 
             proxyCreator.SetStream(stream);
 
-            messageWriter.Write(new GetGames());
+            messageWriter.Write(new GetGamesMessage());
 
             while (true)
             {

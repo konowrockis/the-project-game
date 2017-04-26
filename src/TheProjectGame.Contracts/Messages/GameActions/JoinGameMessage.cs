@@ -3,7 +3,8 @@ using TheProjectGame.Contracts.Enums;
 
 namespace TheProjectGame.Contracts.Messages.GameActions
 {
-    public class JoinGame : IMessage
+    [XmlRoot(ElementName = "JoinGame")]
+    public class JoinGameMessage : IMessage
     {
         [XmlAttribute("gameName")]
         public string GameName { get; set; }

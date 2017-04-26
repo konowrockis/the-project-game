@@ -7,11 +7,11 @@ namespace TheProjectGame.Game.Builders
 {
     public class DataBuilder
     {
-        private readonly Data data;
+        private readonly DataMessage data;
 
         public DataBuilder()
         {
-            data = new Data();
+            data = new DataMessage();
         }
 
         public DataBuilder PlayerId(ulong id)
@@ -81,7 +81,7 @@ namespace TheProjectGame.Game.Builders
             return this;
         }
 
-        public Data Build()
+        public DataMessage Build()
         {
             return data;
         }

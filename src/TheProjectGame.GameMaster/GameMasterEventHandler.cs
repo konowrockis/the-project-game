@@ -34,7 +34,7 @@ namespace TheProjectGame.GameMaster
             logger.Debug("Connected to host at port {@Port}", connection.Port);
 
             proxyCreator.SetStream(stream);
-            messageWriter.Write(new RegisterGame()
+            messageWriter.Write(new RegisterGameMessage()
             {
                 NewGameInfo = new GameInfo()
                 {

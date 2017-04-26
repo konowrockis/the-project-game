@@ -69,7 +69,7 @@ namespace TheProjectGame.CommunicationServer.Tests
 
         private GameMessage GetMessage(string playerGuid, ulong gameId = gameId)
         {
-            return new TestPiece()
+            return new TestPieceMessage()
             {
                 PlayerGuid = playerGuid,
                 GameId = gameId

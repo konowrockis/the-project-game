@@ -21,7 +21,7 @@ namespace TheProjectGame.GameMaster.Logging
         public TeamColor Color { get; private set; }
         public PlayerType Role { get; private set; }
 
-        public static GameEvent CreateFromMessage(GameMessage message, ulong playerId, TeamColor color, PlayerType role)
+        public static GameEvent CreateFromMessage(Contracts.Messages.Structures.GameMessage message, ulong playerId, TeamColor color, PlayerType role)
         {
             return new GameEvent()
             {
@@ -35,7 +35,7 @@ namespace TheProjectGame.GameMaster.Logging
             };
         }
 
-        public static GameEvent CreateFromMessage(GameMessage message, GamePlayer player)
+        public static GameEvent CreateFromMessage(Contracts.Messages.Structures.GameMessage message, GamePlayer player)
         {
             return CreateFromMessage(message, player.Id, player.Team, player.Role);
         }
@@ -64,13 +64,13 @@ namespace TheProjectGame.GameMaster.Logging
             };
         }
 
-        private static GameEventType GetEventType(GameMessage message)
+        private static GameEventType GetEventType(Contracts.Messages.Structures.GameMessage message)
         {
-            if (message is Move) return GameEventType.Move;
-            if (message is TestPiece) return GameEventType.TestPiece;
-            if (message is PlacePiece) return GameEventType.PlacePiece;
-            if (message is Discover) return GameEventType.Discover;
-            if (message is PickUpPiece) return GameEventType.PickUpPiece;
+            if (message is MoveMessage) return GameEventType.Move;
+            if (message is TestPieceMessage) return GameEventType.TestPiece;
+            if (message is PlacePieceMessage) return GameEventType.PlacePiece;
+            if (message is DiscoverMessage) return GameEventType.Discover;
+            if (message is PickUpPieceMessage) return GameEventType.PickUpPiece;
 
             throw new Exception("Invalid message type");
         }

@@ -3,7 +3,7 @@ using TheProjectGame.Messaging;
 
 namespace TheProjectGame.Player.MessageHandlers
 {
-    class RejectJoiningGameMessageHandler : MessageHandler<RejectJoiningGame>
+    class RejectJoiningGameMessageHandler : MessageHandler<RejectJoiningGameMessage>
     {
         private readonly IMessageWriter messageWriter;
 
@@ -12,9 +12,9 @@ namespace TheProjectGame.Player.MessageHandlers
             this.messageWriter = messageWriter;
         }
 
-        public override void Handle(RejectJoiningGame message)
+        public override void Handle(RejectJoiningGameMessage message)
         {
-            messageWriter.Write(new GetGames());
+            messageWriter.Write(new GetGamesMessage());
         }
     }
 }

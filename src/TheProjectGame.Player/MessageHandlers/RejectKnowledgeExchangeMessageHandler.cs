@@ -4,7 +4,7 @@ using TheProjectGame.Player.Game;
 
 namespace TheProjectGame.Player.MessageHandlers
 {
-    class RejectKnowledgeExchangeMessageHandler : MessageHandler<RejectKnowledgeExchange>
+    class RejectKnowledgeExchangeMessageHandler : MessageHandler<RejectKnowledgeExchangeMessage>
     {
         private readonly IMessageWriter messageWriter;
         private readonly IPlayerLogic playerLogic;
@@ -20,7 +20,7 @@ namespace TheProjectGame.Player.MessageHandlers
             this.playerKnowledge = playerKnowledge;
         }
 
-        public override void Handle(RejectKnowledgeExchange message)
+        public override void Handle(RejectKnowledgeExchangeMessage message)
         {
             // TODO: Handle permanent flag
 

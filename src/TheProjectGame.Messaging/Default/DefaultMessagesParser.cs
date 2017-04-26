@@ -25,34 +25,34 @@ namespace TheProjectGame.Messaging.Default
 
         private void initMessageSerializers()
         {
-            addMessageSerializer<GetGames>();
-            addMessageSerializer<RegisterGame>();
-            addMessageSerializer<ConfirmGameRegistration>();
-            addMessageSerializer<RegisteredGames>();
-            addMessageSerializer<JoinGame>();
-            addMessageSerializer<ConfirmJoiningGame>();
-            addMessageSerializer<Game>();
-            addMessageSerializer<GameFinished>();
-            addMessageSerializer<RejectGameRegistration>();
+            addMessageSerializer<GetGamesMessage>("GetGames");
+            addMessageSerializer<RegisterGameMessage>("RegisterGame");
+            addMessageSerializer<ConfirmGameRegistrationMessage>("ConfirmGameRegistration");
+            addMessageSerializer<RegisteredGamesMessage>("RegisteredGames");
+            addMessageSerializer<JoinGameMessage>("JoinGame");
+            addMessageSerializer<ConfirmJoiningGameMessage>("ConfirmJoiningGame");
+            addMessageSerializer<GameMessage>("Game");
+            addMessageSerializer<GameFinished>("GameFinished");
+            addMessageSerializer<RejectGameRegistrationMessage>("RejectGameRegistration");
 
-            addMessageSerializer<Discover>();
-            addMessageSerializer<Move>();
-            addMessageSerializer<PickUpPiece>();
-            addMessageSerializer<PlacePiece>();
-            addMessageSerializer<TestPiece>();
+            addMessageSerializer<DiscoverMessage>("Discover");
+            addMessageSerializer<MoveMessage>("Move");
+            addMessageSerializer<PickUpPieceMessage>("PickUpPiece");
+            addMessageSerializer<PlacePieceMessage>("PlacePiece");
+            addMessageSerializer<TestPieceMessage>("TestPiece");
 
-            addMessageSerializer<Data>();
+            addMessageSerializer<DataMessage>("Data");
 
-            addMessageSerializer<KnowledgeExchangeRequest>();
-            addMessageSerializer<AcceptExchangeRequest>();
-            addMessageSerializer<AuthorizeKnowledgeExchange>();
-            addMessageSerializer<RejectKnowledgeExchange>();
+            addMessageSerializer<KnowledgeExchangeRequestMessage>("KnowledgeExchangeRequest");
+            addMessageSerializer<AcceptExchangeRequestMessage>("AcceptExchangeRequest");
+            addMessageSerializer<AuthorizeKnowledgeExchangeMessage>("AuthorizeKnowledgeExchange");
+            addMessageSerializer<RejectKnowledgeExchangeMessage>("RejectKnowledgeExchange");
         }
 
-        private void addMessageSerializer<T>() where T: IMessage
+        private void addMessageSerializer<T>(string name) where T: IMessage
         {
             var t = typeof(T);
-            messageSerializers[t.Name] = new XmlSerializer(t, DefaultNamespace);
+            messageSerializers[name] = new XmlSerializer(t, DefaultNamespace);
         }
 
         public IMessage Parse(string messageName, XmlReader reader)

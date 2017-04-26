@@ -41,7 +41,7 @@ namespace TheProjectGame.Player.Game
                     if (tile.Type == GoalFieldType.Unknown && tile.Team == knowledge.Player.Team)
                     {
                         knowledge.ClearCarriedPiece();
-                        PlacePiece placePiece = new PlacePiece();
+                        PlacePieceMessage placePiece = new PlacePieceMessage();
                         placePiece.PlayerGuid = knowledge.MyGuid;
                         placePiece.GameId = knowledge.GameState.Id;
                         return placePiece;
@@ -57,7 +57,7 @@ namespace TheProjectGame.Player.Game
                     var tile = board.Fields[playerPos.X, playerPos.Y] as TaskTile;
                     if (tile.Piece != null)
                     {
-                        PickUpPiece pickup = new PickUpPiece();
+                        PickUpPieceMessage pickup = new PickUpPieceMessage();
                         pickup.PlayerGuid = knowledge.MyGuid;
                         pickup.GameId = knowledge.GameState.Id;
                         return pickup;
@@ -74,7 +74,7 @@ namespace TheProjectGame.Player.Game
             }
         }
 
-        private Move MoveToAnyNonDiscoveredGoal()
+        private MoveMessage MoveToAnyNonDiscoveredGoal()
         {
             var playerPos = knowledge.Player.Position;
             var board = knowledge.GameState.Board;
@@ -96,7 +96,7 @@ namespace TheProjectGame.Player.Game
                 direction = playerPos.Y > y ? MoveType.Up : MoveType.Down;
             }
 
-            Move move = new Move()
+            MoveMessage move = new MoveMessage()
             {
                 GameId = knowledge.GameState.Id,
                 Direction = direction,
@@ -106,9 +106,9 @@ namespace TheProjectGame.Player.Game
 
         }
 
-        private Move RandomMove()
+        private MoveMessage RandomMove()
         {
-            Move move = new Move()
+            MoveMessage move = new MoveMessage()
             {
                 GameId = knowledge.GameState.Id,
                 Direction = RandomMoveDirection(),

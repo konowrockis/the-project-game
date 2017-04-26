@@ -8,7 +8,7 @@ using TheProjectGame.Player.Game;
 
 namespace TheProjectGame.Player.MessageHandlers
 {
-    class KnowledgeExchangeRequestMessageHandler : MessageHandler<KnowledgeExchangeRequest>
+    class KnowledgeExchangeRequestMessageHandler : MessageHandler<KnowledgeExchangeRequestMessage>
     {
         private readonly IMessageWriter messageWriter;
         private readonly IPlayerLogic playerLogic;
@@ -24,7 +24,7 @@ namespace TheProjectGame.Player.MessageHandlers
             this.playerKnowledge = playerKnowledge;
         }
 
-        public override void Handle(KnowledgeExchangeRequest message)
+        public override void Handle(KnowledgeExchangeRequestMessage message)
         {
             if (!playerLogic.ShouldExchangeKnowledge())
             {
@@ -37,9 +37,9 @@ namespace TheProjectGame.Player.MessageHandlers
             }
         }
 
-        private void RejectKnowledgeExchange(KnowledgeExchangeRequest message)
+        private void RejectKnowledgeExchange(KnowledgeExchangeRequestMessage message)
         {
-            var response = new RejectKnowledgeExchange()
+            var response = new RejectKnowledgeExchangeMessage()
             {
                 Permanent = false,
                 PlayerId = message.SenderPlayerId,
@@ -49,7 +49,7 @@ namespace TheProjectGame.Player.MessageHandlers
             messageWriter.Write(response);
         }
 
-        private void SendData(KnowledgeExchangeRequest message)
+        private void SendData(KnowledgeExchangeRequestMessage message)
         {
             var taskTiles = playerKnowledge.GameState.Board.Fields.OfType<TaskTile>().ToList()
                 .Select(t => new TaskField()
@@ -89,7 +89,7 @@ namespace TheProjectGame.Player.MessageHandlers
                 })
                 .ToList();
 
-            var data = new Data()
+            var data = new DataMessage()
             {
                 TaskFields = taskTiles,
                 GoalFields = goalTiles,
@@ -100,9 +100,9 @@ namespace TheProjectGame.Player.MessageHandlers
             messageWriter.Write(data);
         }
 
-        private void SendAuthorization(KnowledgeExchangeRequest message)
+        private void SendAuthorization(KnowledgeExchangeRequestMessage message)
         {
-            var response = new AuthorizeKnowledgeExchange()
+            var response = new AuthorizeKnowledgeExchangeMessage()
             {
                 GameId = playerKnowledge.GameState.Id,
                 PlayerGuid = playerKnowledge.MyGuid,

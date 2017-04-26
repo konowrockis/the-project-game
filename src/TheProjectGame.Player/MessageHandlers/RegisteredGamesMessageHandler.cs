@@ -6,7 +6,7 @@ using TheProjectGame.Settings.Options;
 
 namespace TheProjectGame.Player.MessageHandlers
 {
-    class RegisteredGamesMessageHandler : MessageHandler<RegisteredGames>
+    class RegisteredGamesMessageHandler : MessageHandler<RegisteredGamesMessage>
     {
         private readonly ILogger logger = Log.ForContext<RegisteredGamesMessageHandler>();
         private readonly IMessageWriter messageWriter;
@@ -18,7 +18,7 @@ namespace TheProjectGame.Player.MessageHandlers
             this.playerOptions = playerOptions;
         }
 
-        public override void Handle(RegisteredGames message)
+        public override void Handle(RegisteredGamesMessage message)
         {
             var games = message.GameInfo;
 
@@ -26,7 +26,7 @@ namespace TheProjectGame.Player.MessageHandlers
             {
                 int gameId = new Random().Next(games.Count);
 
-                var response = new JoinGame()
+                var response = new JoinGameMessage()
                 {
                     GameName = games[gameId].Name,
                     PreferedRole = playerOptions.Role == "leader" ? Contracts.Enums.PlayerType.Leader : Contracts.Enums.PlayerType.Player,
@@ -39,7 +39,7 @@ namespace TheProjectGame.Player.MessageHandlers
             }
             else
             {
-                messageWriter.Write(new GetGames(), 100);
+                messageWriter.Write(new GetGamesMessage(), 100);
             }
         }
     }

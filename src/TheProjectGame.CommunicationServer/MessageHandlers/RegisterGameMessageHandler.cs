@@ -4,7 +4,7 @@ using TheProjectGame.Messaging;
 
 namespace TheProjectGame.CommunicationServer.MessageHandlers
 {
-    class RegisterGameMessageHandler : MessageHandler<RegisterGame>
+    class RegisterGameMessageHandler : MessageHandler<RegisterGameMessage>
     {
         private readonly IClient currentClient;
         private readonly IGamesManager gamesManager;
@@ -15,13 +15,13 @@ namespace TheProjectGame.CommunicationServer.MessageHandlers
             this.gamesManager = gamesManager;
         }
 
-        public override void Handle(RegisterGame message)
+        public override void Handle(RegisterGameMessage message)
         {
             var gameInfo = message.NewGameInfo;
 
             if (gamesManager.GetGameByName(gameInfo.Name) != null)
             {
-                var response = new RejectGameRegistration()
+                var response = new RejectGameRegistrationMessage()
                 {
                     GameName = gameInfo.Name
                 };
@@ -34,7 +34,7 @@ namespace TheProjectGame.CommunicationServer.MessageHandlers
 
                 gamesManager.Add(game);
 
-                var response = new ConfirmGameRegistration()
+                var response = new ConfirmGameRegistrationMessage()
                 {
                     GameId = id
                 };

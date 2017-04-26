@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MessageHandlers\BetweenPlayersMessageHandler.cs" />
     <Compile Include="MessageHandlers\JoinGameMessageHandler.cs" />
     <Compile Include="MessageHandlers\GameMessageHandler.cs" />
     <Compile Include="MessageHandlers\RegisterGameMessageHandler.cs" />
