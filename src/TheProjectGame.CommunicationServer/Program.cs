@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Autofac;
+using AutoMapper;
 using TheProjectGame.Client;
 using TheProjectGame.Network;
 using TheProjectGame.Settings;
@@ -26,6 +27,11 @@ namespace TheProjectGame.CommunicationServer
             builder.RegisterOptions<CommunicationServerOptions>();
 
             return base.ConfigureContainer(builder);
+        }
+
+        protected override MapperConfiguration ConfigureMapper()
+        {
+            return new MapperConfiguration(cfg => { });
         }
     }
 }

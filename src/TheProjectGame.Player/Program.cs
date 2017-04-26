@@ -7,6 +7,8 @@ using TheProjectGame.Client;
 using TheProjectGame.Player.Game;
 using TheProjectGame.Settings;
 using TheProjectGame.Settings.Options;
+using System;
+using AutoMapper;
 
 namespace TheProjectGame.Player
 {
@@ -34,6 +36,13 @@ namespace TheProjectGame.Player
             builder.RegisterType<SimplePlayerLogic>().As<IPlayerLogic>().SingleInstance();
 
             return base.ConfigureContainer(builder);
+        }
+
+        protected override MapperConfiguration ConfigureMapper()
+        {
+            return new MapperConfiguration(cfg => {
+                cfg.AddProfile(new ClientProfile(false));
+            });
         }
     }
 }

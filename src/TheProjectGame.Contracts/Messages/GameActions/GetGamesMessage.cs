@@ -2,7 +2,7 @@
 
 namespace TheProjectGame.Contracts.Messages.GameActions
 {
-    [XmlRoot(ElementName = "GetGames")]
+    [XmlRoot("GetGames")]
     public class GetGamesMessage : IMessage
     { }
 }

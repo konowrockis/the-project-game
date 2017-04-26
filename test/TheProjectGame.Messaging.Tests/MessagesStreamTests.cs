@@ -99,7 +99,7 @@ namespace TheProjectGame.Messaging.Tests
         {
             var stream = getMessageStream("Game.xml");
 
-            var message = stream.Read() as GameMessage;
+            var message = stream.Read() as GameStartedMessage;
 
             Assert.IsNotNull(message);
             Assert.AreEqual<ulong>(2, message.PlayerId);

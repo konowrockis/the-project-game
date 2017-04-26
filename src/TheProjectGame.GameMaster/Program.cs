@@ -8,6 +8,8 @@ using TheProjectGame.Settings;
 using TheProjectGame.Settings.Options;
 using TheProjectGame.GameMaster.Logging;
 using TheProjectGame.GameMaster.Games;
+using AutoMapper;
+using System;
 
 namespace TheProjectGame.GameMaster
 {
@@ -41,6 +43,13 @@ namespace TheProjectGame.GameMaster
             builder.RegisterType<CurrentGame>().As<ICurrentGame>().As<IGameCreator>().SingleInstance();
             builder.RegisterType<ActionCostsOptions>().AsSelf().SingleInstance();
             return base.ConfigureContainer(builder);
+        }
+
+        protected override MapperConfiguration ConfigureMapper()
+        {
+            return new MapperConfiguration(cfg => {
+                cfg.AddProfile(new ClientProfile(true));
+            });
         }
     }
 }

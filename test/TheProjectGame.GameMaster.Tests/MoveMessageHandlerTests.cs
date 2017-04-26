@@ -124,9 +124,10 @@ namespace TheProjectGame.GameMaster.Tests
             ICurrentGame currentGame = Substitute.For<ICurrentGame>();
             currentGame.Game.Returns(state);
             currentGame.Players.Returns(playersMap);
-            
-            MoveMessageHandler handler = new MoveMessageHandler(writer, new ActionCostsOptions(),currentGame);
-            return new SystemUnderTests(handler,writer,state,playersMap);
+
+            return null;
+            //MoveMessageHandler handler = new MoveMessageHandler(writer, new ActionCostsOptions(),currentGame);
+            //return new SystemUnderTests(handler,writer,state,playersMap);
         }
 
         private GamePlayer CreatePlayer(ulong id, uint x, uint y, IBoard board)

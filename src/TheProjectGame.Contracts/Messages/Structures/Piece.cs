@@ -4,7 +4,7 @@ using TheProjectGame.Contracts.Enums;
 
 namespace TheProjectGame.Contracts.Messages.Structures
 {
-    public class Piece
+    public class Piece : ITimestamped
     {
         [XmlAttribute("id")]
         public ulong Id { get; set; }

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using TheProjectGame.Contracts.Messages.PlayerActions;
 using TheProjectGame.Contracts.Messages.Structures;
 using TheProjectGame.Game;
 using TheProjectGame.GameMaster.Games;
 using TheProjectGame.Messaging;
 using TheProjectGame.Settings.Options;
-using static TheProjectGame.Game.Builders.ObjectMapper;
 
 namespace TheProjectGame.GameMaster.MessageHandlers
 {
@@ -17,13 +17,19 @@ namespace TheProjectGame.GameMaster.MessageHandlers
         private readonly ActionCostsOptions actionCosts;
         private readonly IGameState game;
         private readonly IPlayersMap players;
+        private readonly IMapper mapper;
 
-        public DiscoverMessageHandler(IMessageWriter messageWriter, ActionCostsOptions actionCosts, ICurrentGame currentGame)
+        public DiscoverMessageHandler(
+            IMessageWriter messageWriter, 
+            GameMasterOptions gameMasterOptions, 
+            ICurrentGame currentGame,
+            IMapper mapper)
         {
             this.messageWriter = messageWriter;
-            this.actionCosts = actionCosts;
+            this.actionCosts = gameMasterOptions.ActionCosts;
             this.game = currentGame.Game;
             this.players = currentGame.Players;
+            this.mapper = mapper;
         }
 
         public override void Handle(DiscoverMessage message)
@@ -83,7 +89,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers
                 }).ToList(),
                 GameFinished = false,
                 PlayerId = player.Id,
-                PlayerLocation = Map(player.Position),
+                PlayerLocation = mapper.Map<Location>(player.Position),
                 Pieces = pieces.Select(p => new Piece()
                 {
                     Id = p.Id,

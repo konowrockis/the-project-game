@@ -24,13 +24,19 @@ namespace TheProjectGame.GameMaster.MessageHandlers
         private readonly ActionCostsOptions actionCosts;
         private readonly IGameState game;
         private readonly IPlayersMap players;
+        private readonly Func<DataBuilder> dataBuilder;
 
-        public PlacePieceMessageHandler(IMessageWriter messageWriter, ActionCostsOptions actionCosts, ICurrentGame currentGame)
+        public PlacePieceMessageHandler(
+            IMessageWriter messageWriter,
+            ActionCostsOptions actionCosts,
+            ICurrentGame currentGame,
+            Func<DataBuilder> dataBuilder)
         {
             this.messageWriter = messageWriter;
             this.actionCosts = actionCosts;
             this.game = currentGame.Game;
             this.players = currentGame.Players;
+            this.dataBuilder = dataBuilder;
         }
 
         public override void Handle(PlacePieceMessage message)
@@ -38,13 +44,13 @@ namespace TheProjectGame.GameMaster.MessageHandlers
             var board = game.Board;
             var player = players.GetPlayer(message.PlayerGuid);
 
-            var builder = new DataBuilder()
+            var builder = dataBuilder()
                 .GameFinished(false)
                 .PlayerId(player.Id);
 
             var piece = board.Pieces.FirstOrDefault(p => p.Player == player);
 
-            if (!board.IsInGoalArea(player.Position) && piece!=null)
+            if (!board.IsInGoalArea(player.Position) && piece != null)
             {
                 board.Pieces.Add(piece);
                 bool result = board.DropPiece(piece, player.Position);
@@ -72,7 +78,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers
                 messageWriter.Write(builder.Build(), actionCosts.PlacingDelay);
                 return;
             }
-            
+
             var goalTile = board.Fields[player.Position.X, player.Position.Y] as GoalTile;
             goalTile.Discovered = true;
 

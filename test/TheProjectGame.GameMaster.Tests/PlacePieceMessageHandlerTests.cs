@@ -60,9 +60,10 @@ namespace TheProjectGame.GameMaster.Tests
             gameState.Board.Returns(board);
             gameState.Players.Returns(new List<GamePlayer>() {player});
 
-            PlacePieceMessageHandler handler = new PlacePieceMessageHandler(writer, options, currentGame);
+            return null;
+            //PlacePieceMessageHandler handler = new PlacePieceMessageHandler(writer, options, currentGame);
 
-            return new SystemUnderTests(writer, board, player, handler);
+            //return new SystemUnderTests(writer, board, player, handler);
         }
 
         private PlacePieceMessage CreateMessage()

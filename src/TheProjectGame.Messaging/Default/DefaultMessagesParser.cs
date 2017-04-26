@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
@@ -15,10 +16,12 @@ namespace TheProjectGame.Messaging.Default
         private const byte ETB = 0x17;
 
         private readonly Dictionary<string, XmlSerializer> messageSerializers;
+        private readonly Dictionary<Type, XmlSerializer> messageSerializersByType;
 
         public DefaultMessagesParser()
         {
             messageSerializers = new Dictionary<string, XmlSerializer>();
+            messageSerializersByType = new Dictionary<Type, XmlSerializer>();
 
             initMessageSerializers();
         }
@@ -31,9 +34,10 @@ namespace TheProjectGame.Messaging.Default
             addMessageSerializer<RegisteredGamesMessage>("RegisteredGames");
             addMessageSerializer<JoinGameMessage>("JoinGame");
             addMessageSerializer<ConfirmJoiningGameMessage>("ConfirmJoiningGame");
-            addMessageSerializer<GameMessage>("Game");
+            addMessageSerializer<GameStartedMessage>("Game");
             addMessageSerializer<GameFinished>("GameFinished");
             addMessageSerializer<RejectGameRegistrationMessage>("RejectGameRegistration");
+            addMessageSerializer<RejectJoiningGameMessage>("RejectJoiningGame");
 
             addMessageSerializer<DiscoverMessage>("Discover");
             addMessageSerializer<MoveMessage>("Move");
@@ -49,10 +53,12 @@ namespace TheProjectGame.Messaging.Default
             addMessageSerializer<RejectKnowledgeExchangeMessage>("RejectKnowledgeExchange");
         }
 
-        private void addMessageSerializer<T>(string name) where T: IMessage
+        private void addMessageSerializer<T>(string name) where T : IMessage
         {
             var t = typeof(T);
-            messageSerializers[name] = new XmlSerializer(t, DefaultNamespace);
+            var serializer = new XmlSerializer(t, DefaultNamespace);
+            messageSerializers[name] = serializer;
+            messageSerializersByType[t] = serializer;
         }
 
         public IMessage Parse(string messageName, XmlReader reader)
@@ -64,10 +70,10 @@ namespace TheProjectGame.Messaging.Default
         {
             var t = message.GetType();
             MemoryStream buffer = new MemoryStream();
-            messageSerializers[t.Name].Serialize(buffer, message);
+            messageSerializersByType[t].Serialize(buffer, message);
             buffer.WriteByte(ETB);
             var bytes = buffer.ToArray();
-            stream.Write(bytes,0,bytes.Length);
+            stream.Write(bytes, 0, bytes.Length);
         }
     }
 }

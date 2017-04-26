@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using AutoMapper;
 using TheProjectGame.Contracts.Enums;
 using TheProjectGame.Contracts.Messages.PlayerActions;
 using TheProjectGame.Contracts.Messages.Structures;
@@ -7,10 +8,13 @@ namespace TheProjectGame.Game.Builders
 {
     public class DataBuilder
     {
+        private readonly IMapper mapper;
         private readonly DataMessage data;
 
-        public DataBuilder()
+        public DataBuilder(IMapper mapper)
         {
+            this.mapper = mapper;
+
             data = new DataMessage();
         }
 
@@ -26,10 +30,15 @@ namespace TheProjectGame.Game.Builders
             return this;
         }
 
-        public DataBuilder PlayerLocation(Location val)
+        public DataBuilder PlayerLocation(Location location)
         {
-            data.PlayerLocation = val;
+            data.PlayerLocation = location;
             return this;
+        }
+
+        public DataBuilder PlayerLocation(Position position)
+        {
+            return PlayerLocation(mapper.Map<Location>(position));
         }
 
         public DataBuilder Fields(params Tile[] tiles)
@@ -41,21 +50,21 @@ namespace TheProjectGame.Game.Builders
 
             var goalFields = gameTiles
                 .Where(tile => tile.Discovered)
-                .Select(ObjectMapper.Map).ToList();
+                .Select(mapper.Map<GoalField>).ToList();
 
             var nonDiscoveredGoalFields = gameTiles
                 .Where(tile => !tile.Discovered)
-                .Select(ObjectMapper.Map).ToList();
+                .Select(mapper.Map<GoalField>).ToList();
 
             var pieces = taskTiles
                 .Where(tile => tile.Piece != null)
                 .Select(tile => tile.Piece)
-                .Select(ObjectMapper.Map).ToList();
+                .Select(mapper.Map<Piece>).ToList();
 
             nonDiscoveredGoalFields.ForEach(field => field.Type = GoalFieldType.Unknown);
             goalFields.AddRange(nonDiscoveredGoalFields);
 
-            var taskFields = taskTiles.Select(ObjectMapper.Map).ToList();
+            var taskFields = taskTiles.Select(mapper.Map<TaskField>).ToList();
 
             data.GoalFields = goalFields;
             data.TaskFields = taskFields;
@@ -72,11 +81,11 @@ namespace TheProjectGame.Game.Builders
         {
             if (data.Pieces != null)
             {
-                data.Pieces.AddRange(pieces.ToList().Select(ObjectMapper.Map).ToList());
+                data.Pieces.AddRange(pieces.ToList().Select(mapper.Map<Piece>).ToList());
             }
             else
             {
-                data.Pieces = pieces.ToList().Select(ObjectMapper.Map).ToList();
+                data.Pieces = pieces.ToList().Select(mapper.Map<Piece>).ToList();
             }
             return this;
         }

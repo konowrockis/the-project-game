@@ -6,7 +6,7 @@ using TheProjectGame.Player.Game;
 
 namespace TheProjectGame.Player.MessageHandlers
 {
-    class GameMessageHandler : MessageHandler<Contracts.Messages.GameActions.GameMessage>
+    class GameMessageHandler : MessageHandler<Contracts.Messages.GameActions.GameStartedMessage>
     {
         private ILogger logger = Log.ForContext<GameMessageHandler>();
 
@@ -24,7 +24,7 @@ namespace TheProjectGame.Player.MessageHandlers
             this.playerLogic = playerLogic;
         }
 
-        public override void Handle(Contracts.Messages.GameActions.GameMessage message)
+        public override void Handle(Contracts.Messages.GameActions.GameStartedMessage message)
         {
             var position = new Position(message.PlayerLocation.X, message.PlayerLocation.Y);
             playerKnowledge.Player.Position = position;

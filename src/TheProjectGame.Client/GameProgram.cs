@@ -1,8 +1,10 @@
 ﻿using System.Reflection;
 using Autofac;
 using Autofac.Features.Variance;
+using AutoMapper;
 using Serilog;
 using Serilog.Events;
+using TheProjectGame.Game.Builders;
 using TheProjectGame.Messaging;
 using TheProjectGame.Network;
 using TheProjectGame.Settings;
@@ -33,10 +35,25 @@ namespace TheProjectGame.Client
             builder.RegisterModule<TNetworkModule>();
             builder.RegisterModule<MessagingModule>();
 
-            builder.RegisterAssemblyTypes(messageHandlersAssemblies).AsClosedTypesOf(typeof(IMessageHandler<>)).InstancePerLifetimeScope();
+            builder.RegisterAssemblyTypes(messageHandlersAssemblies).AsClosedTypesOf(typeof(IMessageHandler<>));
+
+            builder.RegisterType<DataBuilder>().AsSelf();
+
+            RegisterMapper(builder);
 
             return builder.Build();
         }
+
+        private void RegisterMapper(ContainerBuilder builder)
+        {
+            var mapperCfg = ConfigureMapper();
+
+            mapperCfg.AssertConfigurationIsValid();
+            builder.RegisterInstance(mapperCfg).AsSelf().As<IConfigurationProvider>();
+            builder.Register(ctx => ctx.Resolve<MapperConfiguration>().CreateMapper(ctx.Resolve)).As<IMapper>().InstancePerLifetimeScope();
+        }
+
+        protected abstract MapperConfiguration ConfigureMapper();
 
         protected void InitializeLogger(bool verbose = false)
         {

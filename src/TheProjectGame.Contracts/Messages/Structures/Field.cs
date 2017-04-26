@@ -3,7 +3,7 @@ using System.Xml.Serialization;
 
 namespace TheProjectGame.Contracts.Messages.Structures
 {
-    public class Field : Location
+    public class Field : Location, ITimestamped
     {
         [XmlAttribute("timestamp")]
         public DateTime Timestamp { get; set; }
@@ -15,3 +15,4 @@ namespace TheProjectGame.Contracts.Messages.Structures
         public bool PlayerIdSpecified { get; set; }
     }
 }
+
