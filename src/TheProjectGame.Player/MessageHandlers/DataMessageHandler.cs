@@ -33,20 +33,15 @@ namespace TheProjectGame.Player.MessageHandlers
             this.writer = writer;
             this.knowledge = playerKnowledge;
             this.playerOptions = playerOptions;
-        }
-
-        private bool rejoined = false;
+        }        
 
         public override void Handle(Data message)
         {
-            if (gameFinished && !rejoined)
+            if (gameFinished)
             {
-                logger.Debug("Rejoining for a rematch...");
-                writer.Write(new GetGames(), playerOptions.RetryJoinGameInterval);
-                rejoined = true;
+                logger.Debug("Received message after game finished");
                 return;
             }
-            rejoined = false;
 
             var messagePlayerLocation = message.PlayerLocation;
             var messageGoalFields = message.GoalFields;
@@ -57,6 +52,7 @@ namespace TheProjectGame.Player.MessageHandlers
             if (messageGameFinished)
             {
                 // todo: display game state
+                writer.Write(new GetGames(), playerOptions.RetryJoinGameInterval);
                 gameFinished = true;
                 return;
             }
