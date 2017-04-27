@@ -26,140 +26,137 @@ namespace TheProjectGame.Player.Game
         public IMessage GetNextMove()
         {
             var board = knowledge.GameState.Board;
-            // algorithm
-            // 1. if on goal field and not carrying piece
-            // 2. go in straight line to task fields
-            // 3. after reaching every task field use discover
-            // 4. then go to closest piece
-            // 5. pick up piece
-            // 6. check for sham
-            // 7. if sham go back to 3.
-            // 8. if not sham go to first non discovered goal starting from top left goal tiles (!!! deadlocks of characters possible)
-            // 9. discover goal and go back to 1.
-            var playerPos = knowledge.Player.Position;
+            var player = knowledge.Player;
+            var position = player.Position;
+            var piece = knowledge.CarriedPiece;
+            var tile = board.Fields[position.X, position.Y];
+            var taskTile = tile as TaskTile;
+            var goalTile = tile as GoalTile;
 
-            if (knowledge.CarriedPiece != null)
+            var playerState = ResolvePlayerState();
+
+            switch (playerState.PieceState)
             {
-                // has piece
-                if (knowledge.CarriedPiece.Type == PieceType.Unknown)
-                {
-                    // piece unknown, test it
-                    knowledge.ClearCarriedPiece();
-                    TestPieceMessage testPiece = new TestPieceMessage()
+                case PlayerPieceState.HasUnknownPiece:
+                    return ActionTestPiece();
+                case PlayerPieceState.HasNormalPiece:
+                    if (playerState.PositionState == PlayerPositionState.IsOnOwnGoalField &&
+                        goalTile.Type == GoalFieldType.Unknown)
                     {
-                        PlayerGuid = knowledge.MyGuid,
-                        GameId = knowledge.GameState.Id
-                    };
-
-                    logger.Debug("Testing piece {@Message}", testPiece);
-                    return testPiece;
-                }
-
-                if (board.IsInGoalArea(playerPos))
-                {
-                    // is in goal area and on unknown goal tile, place piece
-                    var tile = board.Fields[playerPos.X, playerPos.Y] as GoalTile;
-                    if (tile.Type == GoalFieldType.Unknown && tile.Team == knowledge.Player.Team)
-                    {
-                        knowledge.ClearCarriedPiece();
-                        PlacePieceMessage placePiece = new PlacePieceMessage()
-                        {
-                            PlayerGuid = knowledge.MyGuid,
-                            GameId = knowledge.GameState.Id
-                        };
-                        logger.Debug("Placing piece {@Message}", placePiece);
-
-                        return placePiece;
-                    }
-                }
-                // not on undiscovered goal
-                // go straight to first non-discovered goal
-                return MoveToAnyNonDiscoveredGoal();
-            }
-            else
-            {
-                // doesnt have piece
-                if (!board.IsInGoalArea(playerPos))
-                {
-                    // is in task area
-                    var tile = board.Fields[playerPos.X, playerPos.Y] as TaskTile;
-                    if (tile.Piece != null)
-                    {
-                        // task tile has piece, pick it up
-                        PickUpPieceMessage pickup = new PickUpPieceMessage()
-                        {
-                            PlayerGuid = knowledge.MyGuid,
-                            GameId = knowledge.GameState.Id
-                        };
-
-                        logger.Debug("Picking up piece {@Message}", pickup);
-                        return pickup;
+                        return ActionPlacePiece();
                     }
                     else
                     {
-                        // task tile has no piece
-                        if (lastDiscovered)
-                        {
-                            // if previously used discover go to tile with lowest distance to piece
-                            lastDiscovered = false;
-                            var tiles = board.GetNeighbourhood(playerPos.X, playerPos.Y).ToList().OfType<TaskTile>().OrderBy(t => t.DistanceToPiece, Comparer<int>.Default).ToList();
-                            var dest = tiles[random.Next(tiles.Count())];
-                            return MoveToward(new Position(dest.X, dest.Y));
-                        }
-                        else
-                        {
-                            // if discover not used previously use discover
-                            DiscoverMessage discover = new DiscoverMessage()
+                        return ActionMove(DirectionToAnyNonDiscoveredGoal());
+                    }
+                case PlayerPieceState.HasNoPiece:
+                    switch (playerState.PositionState)
+                    {
+                        case PlayerPositionState.IsOnEnemyGoalField:
+                            return ActionMove(player.Team == TeamColor.Blue ? MoveType.Down : MoveType.Up);
+                        case PlayerPositionState.IsOnOwnGoalField:
+                            return ActionMove(player.Team == TeamColor.Blue ? MoveType.Up : MoveType.Down);
+                        case PlayerPositionState.IsOnTaskField:
+                            if (taskTile.Piece != null)
                             {
-                                PlayerGuid = knowledge.MyGuid,
-                                GameId = knowledge.GameState.Id
-                            };
-                            lastDiscovered = true;
-                            logger.Debug("Discovering... {@Message}", discover);
-                            return discover;
-                        }
+                                return ActionPickUpPiece();
+                            }
+                            else if (lastDiscovered)
+                            {
+                                lastDiscovered = false;
+                                var tiles =
+                                    board.GetNeighbourhood(position.X, position.Y)
+                                        .ToList()
+                                        .OfType<TaskTile>()
+                                        .OrderBy(t => t.DistanceToPiece, Comparer<int>.Default)
+                                        .ToList();
+                                var dest = tiles[random.Next(tiles.Count())];
+                                return ActionMove(DirectionTowards(new Position(dest.X, dest.Y)));
+                            }
+                            else
+                            {
+                                return ActionDiscover();
+                            }
                     }
-                }
-                else
-                {
-                    // is in goal area
-                    // go to task area immediately!
-                    MoveType direction = knowledge.Player.Team == TeamColor.Red ? MoveType.Down : MoveType.Up;
-
-                    var otherTeam = knowledge.Player.Team == TeamColor.Blue ? TeamColor.Red : TeamColor.Blue;
-
-                    var otherTeamGoalTilePositions = board.GetGoalTiles(otherTeam).Select(t => new Position(t.X, t.Y)).ToList();
-                    if (otherTeamGoalTilePositions.Find(p => p.X == playerPos.X && p.Y == playerPos.Y) != null)
-                    {
-                        // player is in enemy goal area
-                        if (direction == MoveType.Up) direction = MoveType.Down;
-                        else if (direction == MoveType.Down) direction = MoveType.Up;
-                    }
-
-                    MoveMessage move = new MoveMessage()
-                    {
-                        Direction = CheckMove(direction),
-                        PlayerGuid = knowledge.MyGuid,
-                        GameId = knowledge.GameState.Id
-                    };
-                    logger.Debug("Moving to task area {@Message}", move);
-
-                    return move;
-                }
+                    break;
             }
+            logger.Error("Invalid player state");
+            return null;
         }
 
-        private MoveType CheckMove(MoveType dir)
+        private IMessage ActionTestPiece()
+        {
+            knowledge.ClearCarriedPiece();
+            TestPieceMessage testPiece = new TestPieceMessage()
+            {
+                PlayerGuid = knowledge.MyGuid,
+                GameId = knowledge.GameState.Id
+            };
+            logger.Debug("Testing piece {@Message}", testPiece);
+            return testPiece;
+        }
+
+        private IMessage ActionPlacePiece()
+        {
+            knowledge.ClearCarriedPiece();
+            PlacePieceMessage placePiece = new PlacePieceMessage()
+            {
+                PlayerGuid = knowledge.MyGuid,
+                GameId = knowledge.GameState.Id
+            };
+            logger.Debug("Placing piece {@Message}", placePiece);
+
+            return placePiece;
+        }
+
+        private IMessage ActionMove(MoveType direction)
+        {
+            MoveMessage move = new MoveMessage()
+            {
+                GameId = knowledge.GameState.Id,
+                Direction = CheckMoveDirection(direction),
+                PlayerGuid = knowledge.MyGuid
+            };
+            logger.Debug("Moving {@Message}", move);
+            return move;
+        }
+
+        private IMessage ActionPickUpPiece()
+        {
+            PickUpPieceMessage pickup = new PickUpPieceMessage()
+            {
+                PlayerGuid = knowledge.MyGuid,
+                GameId = knowledge.GameState.Id
+            };
+
+            logger.Debug("Picking up piece {@Message}", pickup);
+            return pickup;
+        }
+
+        private IMessage ActionDiscover()
+        {
+            DiscoverMessage discover = new DiscoverMessage()
+            {
+                PlayerGuid = knowledge.MyGuid,
+                GameId = knowledge.GameState.Id
+            };
+            lastDiscovered = true;
+            logger.Debug("Discovering... {@Message}", discover);
+            return discover;
+        }
+
+        private MoveType CheckMoveDirection(MoveType dir)
         {
             var position = knowledge.Player.Position.Move(dir);
-            if (knowledge.GameState.Board.IsValid(position) && knowledge.GameState.Board.Fields[position.X, position.Y].Player != null)
+            if (knowledge.GameState.Board.IsValid(position) &&
+                knowledge.GameState.Board.Fields[position.X, position.Y].Player != null)
             {
                 return RandomMoveDirection();
             }
             return dir;
         }
 
-        private MoveMessage MoveToward(Position destination)
+        private MoveType DirectionTowards(Position destination)
         {
             Position current = knowledge.Player.Position;
             MoveType direction = MoveType.Down;
@@ -172,19 +169,10 @@ namespace TheProjectGame.Player.Game
             {
                 direction = current.Y > destination.Y ? MoveType.Up : MoveType.Down;
             }
-
-            MoveMessage move = new MoveMessage()
-            {
-                GameId = knowledge.GameState.Id,
-                Direction = CheckMove(direction),
-                PlayerGuid = knowledge.MyGuid
-            };
-
-            logger.Debug("Moving to {@Message}",move);
-            return move;
+            return direction;
         }
 
-        private MoveMessage MoveToAnyNonDiscoveredGoal()
+        private MoveType DirectionToAnyNonDiscoveredGoal()
         {
             var playerPos = knowledge.Player.Position;
             var board = knowledge.GameState.Board;
@@ -206,29 +194,7 @@ namespace TheProjectGame.Player.Game
                 direction = playerPos.Y > y ? MoveType.Up : MoveType.Down;
             }
 
-            direction = CheckMove(direction);
-
-            MoveMessage move = new MoveMessage()
-            {
-                GameId = knowledge.GameState.Id,
-                Direction = direction,
-                PlayerGuid = knowledge.MyGuid
-            };
-            logger.Debug("Moving to nondiscovered goal {@Message}",move);
-
-            return move;
-
-        }
-
-        private MoveMessage RandomMove(PlayerKnowledge knowledge)
-        {
-            MoveMessage move = new MoveMessage()
-            {
-                GameId = knowledge.GameState.Id,
-                Direction = RandomMoveDirection(),
-                PlayerGuid = knowledge.MyGuid
-            };
-            return move;
+            return direction;
         }
 
         private MoveType RandomMoveDirection()
@@ -236,15 +202,15 @@ namespace TheProjectGame.Player.Game
             switch (random.Next(4))
             {
                 case 0:
-                return MoveType.Down;
+                    return MoveType.Down;
                 case 1:
-                return MoveType.Up;
+                    return MoveType.Up;
                 case 2:
-                return MoveType.Left;
+                    return MoveType.Left;
                 case 3:
-                return MoveType.Right;
+                    return MoveType.Right;
                 default:
-                return MoveType.Down;
+                    return MoveType.Down;
             }
         }
 
@@ -256,6 +222,69 @@ namespace TheProjectGame.Player.Game
             }
 
             return random.Next(100) < 70; // 70% chance to accept the request
+        }
+
+
+        private PlayerState ResolvePlayerState()
+        {
+            var board = knowledge.GameState.Board;
+            var player = knowledge.Player;
+            var position = player.Position;
+            var piece = knowledge.CarriedPiece;
+
+            PlayerPieceState pieceState = PlayerPieceState.HasNoPiece;
+            PlayerPositionState positionState = PlayerPositionState.IsOnTaskField;
+
+            if (piece != null)
+            {
+                pieceState = piece.Type != PieceType.Unknown
+                    ? PlayerPieceState.HasNormalPiece
+                    : PlayerPieceState.HasUnknownPiece;
+            }
+
+            if (board.IsInGoalArea(position))
+            {
+                var otherTeam = knowledge.Player.Team == TeamColor.Blue ? TeamColor.Red : TeamColor.Blue;
+                var otherTeamGoalTilePositions =
+                    board.GetGoalTiles(otherTeam).Select(t => new Position(t.X, t.Y)).ToList();
+
+                if (otherTeamGoalTilePositions.Find(p => p.X == position.X && p.Y == position.Y) != null)
+                {
+                    positionState = PlayerPositionState.IsOnEnemyGoalField;
+                }
+                else
+                {
+                    positionState = PlayerPositionState.IsOnOwnGoalField;
+                }
+            }
+
+            return new PlayerState(pieceState, positionState);
+        }
+    }
+
+    enum PlayerPositionState
+    {
+        IsOnTaskField,
+        IsOnOwnGoalField,
+        IsOnEnemyGoalField
+    }
+
+    enum PlayerPieceState
+    {
+        HasNoPiece,
+        HasUnknownPiece,
+        HasNormalPiece
+    }
+
+    class PlayerState
+    {
+        public PlayerPieceState PieceState { get; }
+        public PlayerPositionState PositionState { get; }
+
+        public PlayerState(PlayerPieceState pieceState, PlayerPositionState positionState)
+        {
+            PieceState = pieceState;
+            PositionState = positionState;
         }
     }
 }
