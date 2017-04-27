@@ -54,6 +54,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="AcceptKnowledgeExchangeMessageHandlerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegisteredGamesMessageHandlerTests.cs" />
     <Compile Include="RejectJoiningGameMessageHandlerTests.cs" />
@@ -62,6 +63,10 @@
     <ProjectReference Include="..\..\src\TheProjectGame.Contracts\TheProjectGame.Contracts.csproj">
       <Project>{f91c87f2-0417-4882-8312-c2f8ca3590cf}</Project>
       <Name>TheProjectGame.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\TheProjectGame.Game\TheProjectGame.Game.csproj">
+      <Project>{7fe25049-8897-40de-8b95-8cf4b7d8032e}</Project>
+      <Name>TheProjectGame.Game</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\src\TheProjectGame.Messaging\TheProjectGame.Messaging.csproj">
       <Project>{eda1f6bb-a74b-4678-b070-89b3fcca10e0}</Project>
