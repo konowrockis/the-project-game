@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
+using TheProjectGame.Client;
 using TheProjectGame.Contracts.Messages.PlayerActions;
-using TheProjectGame.Contracts.Messages.Structures;
 using TheProjectGame.Game;
+using TheProjectGame.Game.Builders;
 using TheProjectGame.GameMaster.Games;
 using TheProjectGame.GameMaster.MessageHandlers;
 using TheProjectGame.Messaging;
@@ -18,55 +17,73 @@ namespace TheProjectGame.GameMaster.Tests
     [TestClass]
     public class PlacePieceMessageHandlerTests
     {
-        private const uint PlacingDelay = 100;
+        private const uint PlacingDelay = 5987;
         private const ulong GameId = 1;
         private const ulong PlayerId = 1;
 
         private readonly string PlayerGuid = Guid.NewGuid().ToString();
 
-        [TestMethod]
-        public void Player_not_holding_any_piece()
+        private readonly IMessageWriter writer;
+        private readonly IBoard board;
+        private readonly GamePlayer player;
+        private readonly PlacePieceMessageHandler handler;
+
+        public PlacePieceMessageHandlerTests()
         {
-            var systemUnderTests = Setup();
-            var board = systemUnderTests.Board;
-            var writer = systemUnderTests.Writer;
-            board.Pieces.Returns(new List<BoardPiece>());
+            writer = Substitute.For<IMessageWriter>();
+            player = new GamePlayer(PlayerId);
+            board = Substitute.For<IBoard>();
 
-            systemUnderTests.Handler.Handle(CreateMessage());
-
-            writer.Received()
-                .Write(
-                    Arg.Is<DataMessage>(
-                        data =>
-                            !data.GameFinished && data.PlayerId == PlayerId && data.GoalFields == null &&
-                            data.PlayerLocation == null && data.TaskFields == null && data.Pieces == null),
-                    Arg.Is<double>(PlacingDelay));
-        }
-
-        private SystemUnderTests Setup()
-        {
-            IMessageWriter writer = Substitute.For<IMessageWriter>();
-            ActionCostsOptions options = new ActionCostsOptions();
+            ICurrentGame currentGame = Substitute.For<ICurrentGame>();
             IPlayersMap playersMap = Substitute.For<IPlayersMap>();
             IGameState gameState = Substitute.For<IGameState>();
-            GamePlayer player = new GamePlayer(PlayerId);
-            IBoard board = Substitute.For<IBoard>();
-            ICurrentGame currentGame = Substitute.For<ICurrentGame>();
+            GameMasterOptions options = new GameMasterOptions()
+            {
+                ActionCosts = new ActionCostsOptions()
+                {
+                    PlacingDelay = PlacingDelay
+                }
+            };
 
             currentGame.Game.Returns(gameState);
             currentGame.Players.Returns(playersMap);
             playersMap.GetPlayer(PlayerGuid).Returns(player);
             gameState.Id.Returns(GameId);
             gameState.Board.Returns(board);
-            gameState.Players.Returns(new List<GamePlayer>() {player});
+            gameState.Players.Returns(new List<GamePlayer>() { player });
 
-            //PlacePieceMessageHandler handler = new PlacePieceMessageHandler(writer, options, currentGame,null);
-            //return new SystemUnderTests(writer, board, player, handler);
-
-            // TODO: Fix tests
-            return null;
+            handler = new PlacePieceMessageHandler(writer, options, currentGame, () => GetDataBuilder());
         }
 
+        [TestMethod]
+        public void Player_not_holding_any_piece()
+        {
+            board.Pieces.Returns(new List<BoardPiece>());
+
+            handler.Handle(CreateMessage());
+
+            writer.Received()
+                .Write(
+                    Arg.Is<DataMessage>(
+                        data =>
+                            !data.GameFinished && 
+                            data.PlayerId == PlayerId && 
+                            data.GoalFields == null &&
+                            data.PlayerLocation == null && 
+                            data.TaskFields == null && 
+                            data.Pieces == null),
+                    Arg.Is<double>(PlacingDelay));
+        }
+
+        private DataBuilder GetDataBuilder()
+        {
+            return new DataBuilder(
+                new MapperConfiguration(cfg => 
+                    cfg.AddProfile(new ClientProfile(true)))
+                .CreateMapper()
+            );
+        }
+        
         private PlacePieceMessage CreateMessage()
         {
             return new PlacePieceMessage()
@@ -74,23 +91,6 @@ namespace TheProjectGame.GameMaster.Tests
                 GameId = GameId,
                 PlayerGuid = PlayerGuid
             };
-        }
-
-        private class SystemUnderTests
-        {
-            public IMessageWriter Writer { get; private set; }
-            public IBoard Board { get; private set; }
-            public GamePlayer Player { get; private set; }
-            public PlacePieceMessageHandler Handler { get; private set; }
-
-            public SystemUnderTests(IMessageWriter writer, IBoard board, GamePlayer player,
-                PlacePieceMessageHandler handler)
-            {
-                Writer = writer;
-                Board = board;
-                Player = player;
-                Handler = handler;
-            }
         }
     }
 }

@@ -24,7 +24,7 @@ namespace TheProjectGame.Player.MessageHandlers
             if (games.FirstOrDefault(g => g.Name == playerOptions.NameOfTheGame) == null)
             {
                 logger.Debug("Game not found");
-                messageWriter.Write(new GetGamesMessage(),playerOptions.RetryJoinGameInterval);
+                messageWriter.Write(new GetGamesMessage(), playerOptions.RetryJoinGameInterval);
                 return;
             }
             var response = new JoinGameMessage()

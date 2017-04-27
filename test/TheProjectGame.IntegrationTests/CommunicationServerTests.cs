@@ -51,7 +51,7 @@ namespace TheProjectGame.IntegrationTests
             byte[] buffer = new byte[10240];
 
             socket.Connect(endPoint);
-            socket.Send(GetGetGamesMessage());
+            socket.Send(GetMessage());
             socket.Receive(buffer);
 
             Assert.IsTrue(socket.Connected);
@@ -87,9 +87,12 @@ namespace TheProjectGame.IntegrationTests
             sockets.TrueForAll(socket => socket.Connected);
         }
 
-        private byte[] GetGetGamesMessage()
+        private byte[] GetMessage()
         {
-            return Encoding.UTF8.GetBytes("<?xml version=\"1.0\" encoding=\"utf-8\" ?><GetGames xmlns=\"http://theprojectgame.mini.pw.edu.pl/\" />");
+            return Encoding.UTF8
+                .GetBytes("<?xml version=\"1.0\" encoding=\"utf-8\" ?><GetGames xmlns=\"http://theprojectgame.mini.pw.edu.pl/\" />")
+                .Concat(new List<byte> { 0x17 })
+                .ToArray();
         }
 
         [TestCleanup]

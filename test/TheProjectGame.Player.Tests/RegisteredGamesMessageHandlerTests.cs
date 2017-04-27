@@ -19,43 +19,56 @@ namespace TheProjectGame.Player.Tests
     [TestClass]
     public class RegisteredGamesMessageHandlerTests
     {
+        private const string NameOfTheGame = nameof(NameOfTheGame);
+        private const uint RetryJoinGameInterval = 12380;
+
+        private readonly IMessageWriter writer;
+        private readonly RegisteredGamesMessageHandler handler;
+
+        public RegisteredGamesMessageHandlerTests()
+        {
+            writer = Substitute.For<IMessageWriter>();
+
+            var options = new PlayerOptions()
+            {
+                NameOfTheGame = NameOfTheGame,
+                TeamColor = "blue",
+                Role = "leader",
+                RetryJoinGameInterval = RetryJoinGameInterval
+            };
+
+            handler = new RegisteredGamesMessageHandler(writer, options);
+        }
+
         [TestMethod]
         public void Resend_GetGames_when_received_empty_list()
         {
-            IMessageWriter writer = Substitute.For<IMessageWriter>();
-            GetGamesMessage response = null;
-            writer.When(w => w.Write(Arg.Any<GetGamesMessage>(), Arg.Any<double>())).Do(c => response = c.Arg<GetGamesMessage>());
+            var message = GetMessage();
 
-            new RegisteredGamesMessageHandler(writer, null).Handle(new RegisteredGamesMessage()
-            {
-                GameInfo = new List<GameInfo>()
-            });
+            handler.Handle(message);
 
-            Assert.IsNotNull(response);
+            writer.Received().Write(Arg.Any<GetGamesMessage>(), Arg.Is<double>(RetryJoinGameInterval));
         }
 
         [TestMethod]
         public void Send_proper_JoinGame_message_after_receiving_game_list()
         {
-            IMessageWriter writer = Substitute.For<IMessageWriter>();
-            PlayerOptions options = new PlayerOptions
+            var message = GetMessage(NameOfTheGame);
+
+            handler.Handle(message);
+
+            writer.Received().Write(Arg.Is<JoinGameMessage>(m =>
+                m.GameName == NameOfTheGame &&
+                m.PreferedRole == PlayerType.Leader &&
+                m.PreferedTeam == TeamColor.Blue));
+        }
+
+        private RegisteredGamesMessage GetMessage(params string[] gameNames)
+        {
+            return new RegisteredGamesMessage()
             {
-                TeamColor = "blue",
-                Role = "leader"
+                GameInfo = gameNames.Select(game => new GameInfo() { Name = game }).ToList()
             };
-            GameInfo info = new GameInfo {Name = "test"};
-            JoinGameMessage response = null;
-            writer.When(w => w.Write(Arg.Any<JoinGameMessage>())).Do(c => response = c.Arg<JoinGameMessage>());
-
-            new RegisteredGamesMessageHandler(writer, options).Handle(new RegisteredGamesMessage()
-            {
-                GameInfo = new List<GameInfo>() {info}
-            });
-
-            Assert.IsNotNull(response);
-            Assert.IsTrue(response.GameName=="test");
-            Assert.IsTrue(response.PreferedRole==PlayerType.Leader);
-            Assert.IsTrue(response.PreferedTeam == TeamColor.Blue);
         }
     }
 }

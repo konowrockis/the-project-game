@@ -9,7 +9,7 @@ namespace TheProjectGame.GameMaster.Games
         IPlayersMap Players { get; }
     }
 
-    interface IGameCreator
+    public interface IGameCreator
     {
         void SetCurrentGame(IGameState game);
     }
