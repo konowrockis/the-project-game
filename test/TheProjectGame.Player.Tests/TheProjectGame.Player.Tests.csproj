@@ -54,6 +54,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="AcceptKnowledgeExchangeMessageHandlerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegisteredGamesMessageHandlerTests.cs" />
     <Compile Include="RejectJoiningGameMessageHandlerTests.cs" />

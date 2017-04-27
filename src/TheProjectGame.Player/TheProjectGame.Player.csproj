@@ -85,6 +85,7 @@
     <Compile Include="Game\IPlayerKnowledge.cs" />
     <Compile Include="Game\PlayerKnowledge.cs" />
     <Compile Include="Game\SimplePlayerLogic.cs" />
+    <Compile Include="MessageHandlers\AcceptKnowlegdeExchangeMessageHandler.cs" />
     <Compile Include="MessageHandlers\DataMessageHandler.cs" />
     <Compile Include="MessageHandlers\GameMessageHandler.cs" />
     <Compile Include="MessageHandlers\KnowledgeExchangeRequestMessageHandler.cs" />

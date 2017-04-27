@@ -11,16 +11,13 @@ namespace TheProjectGame.Player.MessageHandlers
     class AcceptKnowlegdeExchangeMessageHandler : MessageHandler<AcceptExchangeRequestMessage>
     {
         private readonly IMessageWriter messageWriter;
-        private readonly IPlayerLogic playerLogic;
         private readonly IPlayerKnowledge playerKnowledge;
 
         public AcceptKnowlegdeExchangeMessageHandler(
             IMessageWriter messageWriter,
-            IPlayerKnowledge playerKnowledge,
-            IPlayerLogic playerLogic)
+            IPlayerKnowledge playerKnowledge)
         {
             this.messageWriter = messageWriter;
-            this.playerLogic = playerLogic;
             this.playerKnowledge = playerKnowledge;
         }
         public override void Handle(AcceptExchangeRequestMessage message)
