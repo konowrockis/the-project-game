@@ -27,6 +27,10 @@ namespace TheProjectGame.Network
                     messageBuffer.Position = 0;
                     return;
                 }
+                else
+                {
+                    WriteByte(ETB);
+                }
             }
         }
 
