@@ -38,47 +38,47 @@ namespace TheProjectGame.Player.Game
             switch (playerState.PieceState)
             {
                 case PlayerPieceState.HasUnknownPiece:
-                    return ActionTestPiece();
+                return ActionTestPiece();
                 case PlayerPieceState.HasNormalPiece:
-                    if (playerState.PositionState == PlayerPositionState.IsOnOwnGoalField &&
-                        goalTile.Type == GoalFieldType.Unknown)
+                if (playerState.PositionState == PlayerPositionState.IsOnOwnGoalField &&
+                    goalTile.Type == GoalFieldType.Unknown)
+                {
+                    return ActionPlacePiece();
+                }
+                else
+                {
+                    return ActionMove(DirectionToAnyNonDiscoveredGoal());
+                }
+                case PlayerPieceState.HasNoPiece:
+                switch (playerState.PositionState)
+                {
+                    case PlayerPositionState.IsOnEnemyGoalField:
+                    return ActionMove(player.Team == TeamColor.Blue ? MoveType.Down : MoveType.Up);
+                    case PlayerPositionState.IsOnOwnGoalField:
+                    return ActionMove(player.Team == TeamColor.Blue ? MoveType.Up : MoveType.Down);
+                    case PlayerPositionState.IsOnTaskField:
+                    if (taskTile.Piece != null)
                     {
-                        return ActionPlacePiece();
+                        return ActionPickUpPiece();
+                    }
+                    else if (lastDiscovered)
+                    {
+                        lastDiscovered = false;
+                        var tiles =
+                            board.GetNeighbourhood(position.X, position.Y)
+                                .ToList()
+                                .OfType<TaskTile>()
+                                .OrderBy(t => t.DistanceToPiece, Comparer<int>.Default)
+                                .ToList();
+                        var dest = tiles[random.Next(tiles.Count())];
+                        return ActionMove(DirectionTowards(new Position(dest.X, dest.Y)));
                     }
                     else
                     {
-                        return ActionMove(DirectionToAnyNonDiscoveredGoal());
+                        return ActionDiscover();
                     }
-                case PlayerPieceState.HasNoPiece:
-                    switch (playerState.PositionState)
-                    {
-                        case PlayerPositionState.IsOnEnemyGoalField:
-                            return ActionMove(player.Team == TeamColor.Blue ? MoveType.Down : MoveType.Up);
-                        case PlayerPositionState.IsOnOwnGoalField:
-                            return ActionMove(player.Team == TeamColor.Blue ? MoveType.Up : MoveType.Down);
-                        case PlayerPositionState.IsOnTaskField:
-                            if (taskTile.Piece != null)
-                            {
-                                return ActionPickUpPiece();
-                            }
-                            else if (lastDiscovered)
-                            {
-                                lastDiscovered = false;
-                                var tiles =
-                                    board.GetNeighbourhood(position.X, position.Y)
-                                        .ToList()
-                                        .OfType<TaskTile>()
-                                        .OrderBy(t => t.DistanceToPiece, Comparer<int>.Default)
-                                        .ToList();
-                                var dest = tiles[random.Next(tiles.Count())];
-                                return ActionMove(DirectionTowards(new Position(dest.X, dest.Y)));
-                            }
-                            else
-                            {
-                                return ActionDiscover();
-                            }
-                    }
-                    break;
+                }
+                break;
             }
             logger.Error("Invalid player state");
             return null;
@@ -202,15 +202,15 @@ namespace TheProjectGame.Player.Game
             switch (random.Next(4))
             {
                 case 0:
-                    return MoveType.Down;
+                return MoveType.Down;
                 case 1:
-                    return MoveType.Up;
+                return MoveType.Up;
                 case 2:
-                    return MoveType.Left;
+                return MoveType.Left;
                 case 3:
-                    return MoveType.Right;
+                return MoveType.Right;
                 default:
-                    return MoveType.Down;
+                return MoveType.Down;
             }
         }
 
