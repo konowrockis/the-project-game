@@ -81,7 +81,9 @@ These are versions of the applications built and published by our Continuous Int
     * Unit tests - Message parser
     * Integration tests
 
-* Tasks completed during the second sprint, which was extended (as of 12.04):
+* Tasks completed during the second sprint (as of 07.04):
+
+* Tasks completed during the third sprint (as of 12.04):
     * Create and manage games
     * Player logic interface
     * Game object holding state of the current game
@@ -90,10 +92,21 @@ These are versions of the applications built and published by our Continuous Int
     * Move message handler
     * Discover message handler
 
-* Tasks completed during the third sprint (as of 21.04):
+* Tasks completed during the fourth sprint (as of 21.04):
     * Simple player logic implementation
     * PickupPiece message handler
     * CheckPiece message handler
     * Data message handler
     * Game message handler
     * Ending game and proper gameplay
+
+* Tasks completed during the fifth sprint (as of 28.04):
+    * Test piece message handler
+    * Handle keepalive
+    * BetweenPlayerMessage message handler
+    * AcceptExchangeRequest message handler
+    * RejectKnowledgeExchange message handler
+    * KnowledgeExchangeRequest message handler
+    * Improved player logic
+    * Rematch after a finished game
+    * Unit tests (gameplay)
