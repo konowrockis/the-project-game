@@ -70,7 +70,7 @@ namespace TheProjectGame.Player.Game
                                 .OfType<TaskTile>()
                                 .OrderBy(t => t.DistanceToPiece, Comparer<int>.Default)
                                 .ToList();
-                        var dest = tiles[random.Next(tiles.Count())];
+                        var dest = tiles.First();
                         return ActionMove(DirectionTowards(new Position(dest.X, dest.Y)));
                     }
                     else
