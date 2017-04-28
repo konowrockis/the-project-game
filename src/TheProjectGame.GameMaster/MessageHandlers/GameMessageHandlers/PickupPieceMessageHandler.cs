@@ -19,6 +19,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers.GameMessageHandlers
         private readonly IGameState game;
         private readonly IPlayersMap players;
         private readonly Func<DataBuilder> dataBuilder;
+        private readonly ICurrentGame currentGame;
 
         public PickupPieceMessageHandler(
             IMessageWriter messageWriter,
@@ -31,6 +32,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers.GameMessageHandlers
             this.game = currentGame.Game;
             this.players = currentGame.Players;
             this.dataBuilder = dataBuilder;
+            this.currentGame = currentGame;
         }
 
         public override void Handle(PickUpPieceMessage message)
@@ -70,6 +72,8 @@ namespace TheProjectGame.GameMaster.MessageHandlers.GameMessageHandlers
             var responsePieces = response.Pieces;
 
             messageWriter.Write(response, actionCosts.PickUpDelay);
+
+            currentGame.UpdateGame();
         }
 
         public IMessage EmptyData(Tile tile, GamePlayer player)

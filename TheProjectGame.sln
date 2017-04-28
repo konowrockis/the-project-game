@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26228.9
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheProjectGame.GameMaster", "src\TheProjectGame.GameMaster\TheProjectGame.GameMaster.csproj", "{D94B8329-B008-4548-9285-CC34DFD7D53C}"
 EndProject
@@ -36,6 +36,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheProjectGame.IntegrationTests", "test\TheProjectGame.IntegrationTests\TheProjectGame.IntegrationTests.csproj", "{3404D6F4-0910-4865-B1D3-3AED111CF3AE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheProjectGame.Game", "src\TheProjectGame.Game\TheProjectGame.Game.csproj", "{7FE25049-8897-40DE-8B95-8CF4B7D8032E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheProjectGame.GameMaster.Display", "src\TheProjectGame.GameMaster.Display\TheProjectGame.GameMaster.Display.csproj", "{3F5EDBF5-64F1-4C28-B5F3-8D3EF509C3B0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -103,6 +105,10 @@ Global
 		{7FE25049-8897-40DE-8B95-8CF4B7D8032E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7FE25049-8897-40DE-8B95-8CF4B7D8032E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7FE25049-8897-40DE-8B95-8CF4B7D8032E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F5EDBF5-64F1-4C28-B5F3-8D3EF509C3B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F5EDBF5-64F1-4C28-B5F3-8D3EF509C3B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F5EDBF5-64F1-4C28-B5F3-8D3EF509C3B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F5EDBF5-64F1-4C28-B5F3-8D3EF509C3B0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

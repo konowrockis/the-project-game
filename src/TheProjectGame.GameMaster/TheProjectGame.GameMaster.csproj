@@ -97,6 +97,10 @@
       <Project>{F91C87F2-0417-4882-8312-C2F8CA3590CF}</Project>
       <Name>TheProjectGame.Contracts</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TheProjectGame.GameMaster.Display\TheProjectGame.GameMaster.Display.csproj">
+      <Project>{3f5edbf5-64f1-4c28-b5f3-8d3ef509c3b0}</Project>
+      <Name>TheProjectGame.GameMaster.Display</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TheProjectGame.Game\TheProjectGame.Game.csproj">
       <Project>{7fe25049-8897-40de-8b95-8cf4b7d8032e}</Project>
       <Name>TheProjectGame.Game</Name>

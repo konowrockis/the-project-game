@@ -20,6 +20,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers
         private readonly IPlayersMap players;
         private readonly GameOptions gameOptions;
         private readonly IMapper mapper;
+        private readonly ICurrentGame currentGame;
 
         public JoinGameMessageHandler(
             IMessageWriter messageWriter, 
@@ -32,6 +33,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers
             this.players = currentGame.Players;
             this.gameOptions = gameOptions.GameDefinition;
             this.mapper = mapper;
+            this.currentGame = currentGame;
         }
 
         public override void Handle(JoinGameMessage message)

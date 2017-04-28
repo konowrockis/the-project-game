@@ -20,6 +20,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers.GameMessageHandlers
         private readonly IGameState game;
         private readonly IPlayersMap players;
         private readonly Func<DataBuilder> dataBuilder;
+        private readonly ICurrentGame currentGame;
 
         public TestPieceMessageHandler(
             IMessageWriter messageWriter, 
@@ -32,6 +33,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers.GameMessageHandlers
             this.game = currentGame.Game;
             this.players = currentGame.Players;
             this.dataBuilder = dataBuilder;
+            this.currentGame = currentGame;
         }
 
         public override void Handle(TestPieceMessage message)
@@ -64,5 +66,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers.GameMessageHandlers
             var response = builder.Pieces(true, piece).Build();
 
             messageWriter.Write(response, actionCosts.TestDelay);
+
+            currentGame.UpdateGame();
         }
     }}

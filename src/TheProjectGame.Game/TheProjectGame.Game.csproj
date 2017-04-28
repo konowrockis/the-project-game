@@ -49,6 +49,7 @@
     <Compile Include="Board.cs" />
     <Compile Include="GameState.cs" />
     <Compile Include="IBoard.cs" />
+    <Compile Include="ICurrentGame.cs" />
     <Compile Include="IGameState.cs" />
     <Compile Include="Position.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

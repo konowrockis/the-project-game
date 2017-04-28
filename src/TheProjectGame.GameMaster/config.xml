@@ -6,12 +6,12 @@
     <Goals team="red" x="0" y ="5" type="goal" />
     <Goals team="blue" x="0" y="0" type="goal" />
     <ShamProbability>0.33</ShamProbability>
-    <PlacingNewPiecesFrequency>2500</PlacingNewPiecesFrequency>
-    <InitialNumberOfPieces>1</InitialNumberOfPieces>
-    <BoardWidth>2</BoardWidth>
-    <TaskAreaLength>4</TaskAreaLength>
-    <GoalAreaLength>1</GoalAreaLength>
-    <NumberOfPlayersPerTeam>3</NumberOfPlayersPerTeam>
+    <PlacingNewPiecesFrequency>2000</PlacingNewPiecesFrequency>
+    <InitialNumberOfPieces>2</InitialNumberOfPieces>
+    <BoardWidth>10</BoardWidth>
+    <TaskAreaLength>10</TaskAreaLength>
+    <GoalAreaLength>2</GoalAreaLength>
+    <NumberOfPlayersPerTeam>5</NumberOfPlayersPerTeam>
     <GameName>Initial game</GameName>
   </GameDefinition>
   <ActionCosts>

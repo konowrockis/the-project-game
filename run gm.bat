@@ -1,0 +1,1 @@
+FOR /L %%x IN (1,1,4) DO start run-player.cmd
