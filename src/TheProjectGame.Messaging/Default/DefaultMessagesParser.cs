@@ -12,7 +12,7 @@ namespace TheProjectGame.Messaging.Default
 {
     class DefaultMessagesParser : IMessageParser
     {
-        private const string DefaultNamespace = "http://theprojectgame.mini.pw.edu.pl/";
+        private const string DefaultNamespace = "https://se2.mini.pw.edu.pl/17-results/";
         private const byte ETB = 0x17;
 
         private readonly Dictionary<string, XmlSerializer> messageSerializers;

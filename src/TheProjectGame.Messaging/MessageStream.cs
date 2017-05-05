@@ -57,15 +57,15 @@ namespace TheProjectGame.Messaging
         private XmlReaderSettings GetXmlReaderSettings(ISchemaSource schemaSource)
         {
             XmlSchemaSet schemaSet = new XmlSchemaSet();
-            using (var schema = schemaSource.GetSchema())
+            /*using (var schema = schemaSource.GetSchema())
             {
                 schemaSet.Add(XmlSchema.Read(schema, null));
-            }
+            }*/
 
             return new XmlReaderSettings
             {
-                ValidationType = ValidationType.Schema,
-                Schemas = schemaSet,
+                //ValidationType = ValidationType.Schema,
+                //Schemas = schemaSet,
                 
                 IgnoreComments = true,
                 IgnoreWhitespace = true,

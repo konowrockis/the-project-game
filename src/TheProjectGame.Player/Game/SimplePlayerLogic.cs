@@ -53,9 +53,9 @@ namespace TheProjectGame.Player.Game
                 switch (playerState.PositionState)
                 {
                     case PlayerPositionState.IsOnEnemyGoalField:
-                    return ActionMove(player.Team == TeamColor.Blue ? MoveType.Down : MoveType.Up);
+                    return ActionMove(player.Team == TeamColor.Red ? MoveType.Down : MoveType.Up);
                     case PlayerPositionState.IsOnOwnGoalField:
-                    return ActionMove(player.Team == TeamColor.Blue ? MoveType.Up : MoveType.Down);
+                    return ActionMove(player.Team == TeamColor.Red ? MoveType.Up : MoveType.Down);
                     case PlayerPositionState.IsOnTaskField:
                     if (taskTile.Piece != null)
                     {

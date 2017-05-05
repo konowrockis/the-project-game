@@ -39,5 +39,11 @@ namespace TheProjectGame.Network
             StreamMessage();
             return messageBuffer.Read(buffer, offset, size);
         }
+
+        public override void Write(byte[] buffer, int offset, int size)
+        {
+            base.Write(buffer, offset, size);
+            System.Console.WriteLine(System.Text.Encoding.UTF8.GetString(buffer));
+        }
     }
 }
