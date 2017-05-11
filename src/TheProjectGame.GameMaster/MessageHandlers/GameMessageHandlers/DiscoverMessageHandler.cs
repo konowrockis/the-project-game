@@ -36,9 +36,9 @@ namespace TheProjectGame.GameMaster.MessageHandlers
             var player = players.GetPlayer(message.PlayerGuid);
             if (player == null) return;
 
-            var tiles = board.GetNeighbourhood(player.Position.X, player.Position.Y).ToList();
+            Tile[] tiles = board.GetNeighbourhood(player.Position.X, player.Position.Y).OfType<TaskTile>().ToArray();
             var response = dataBuilder()
-                .Fields(tiles.ToArray())
+                .Fields(tiles)
                 .GameFinished(false)
                 .PlayerId(player.Id)
                 .PlayerLocation(player.Position)

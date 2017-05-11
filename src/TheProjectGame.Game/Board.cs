@@ -107,7 +107,7 @@ namespace TheProjectGame.Game
 
             foreach (var gamePlayer in players)
             {
-                var tiles = gamePlayer.Team == TeamColor.Blue ? blueGoalTiles : redGoalTiles;
+                var tiles = taskTiles;//gamePlayer.Team == TeamColor.Blue ? blueGoalTiles : redGoalTiles;
                 var freeTiles = tiles.Where(tile => tile.Player == null).ToList();
                 var selectedTile = freeTiles[random.Next(freeTiles.Count)];
                 selectedTile.Player = gamePlayer;
