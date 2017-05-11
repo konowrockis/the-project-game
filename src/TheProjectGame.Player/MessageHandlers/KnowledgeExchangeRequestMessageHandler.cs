@@ -51,7 +51,7 @@ namespace TheProjectGame.Player.MessageHandlers
 
         private void SendData(KnowledgeExchangeRequestMessage message)
         {
-            var taskTiles = playerKnowledge.GameState.Board.Fields.OfType<TaskTile>().ToList()
+            var taskTiles = playerKnowledge.Game.Board.Fields.OfType<TaskTile>().ToList()
                 .Select(t => new TaskField()
                 {
                     DistanceToPiece = t.DistanceToPiece,
@@ -65,7 +65,7 @@ namespace TheProjectGame.Player.MessageHandlers
                 })
                 .ToList();
 
-            var goalTiles = playerKnowledge.GameState.Board.Fields.OfType<GoalTile>().ToList()
+            var goalTiles = playerKnowledge.Game.Board.Fields.OfType<GoalTile>().ToList()
                 .Select(t => new GoalField()
                 {
                     Type = t.Type,
@@ -78,7 +78,7 @@ namespace TheProjectGame.Player.MessageHandlers
                 })
                 .ToList();
 
-            var pieces = playerKnowledge.GameState.Board.Pieces
+            var pieces = playerKnowledge.Game.Board.Pieces
                 .Select(p => new Piece()
                 {
                     Id = p.Id,
@@ -104,7 +104,7 @@ namespace TheProjectGame.Player.MessageHandlers
         {
             var response = new AuthorizeKnowledgeExchangeMessage()
             {
-                GameId = playerKnowledge.GameState.Id,
+                GameId = playerKnowledge.Game.Id,
                 PlayerGuid = playerKnowledge.MyGuid,
                 WithPlayerId = message.SenderPlayerId
             };

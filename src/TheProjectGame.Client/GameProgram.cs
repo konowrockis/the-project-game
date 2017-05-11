@@ -22,7 +22,7 @@ namespace TheProjectGame.Client
             var container = ConfigureContainer(containerBulder);
 
             GeneralOptions options = container.Resolve<GeneralOptions>();
-            InitializeLogger(options.Verbose);
+            InitializeLogger(container, options.Verbose);
 
             container.Resolve<INetworkHandler>().Run();
         }
@@ -55,7 +55,7 @@ namespace TheProjectGame.Client
 
         protected abstract MapperConfiguration ConfigureMapper();
 
-        protected void InitializeLogger(bool verbose = false)
+        protected void InitializeLogger(IContainer container, bool verbose = false)
         {
             LoggerConfiguration configuration = new LoggerConfiguration()
                 .MinimumLevel.Verbose()
@@ -63,11 +63,11 @@ namespace TheProjectGame.Client
                     verbose ? LogEventLevel.Verbose : LogEventLevel.Debug)
                 .WriteTo.RollingFile(@"Logs\log-{Date}.log", restrictedToMinimumLevel: LogEventLevel.Verbose);
 
-            ConfigureLogger(configuration);
+            ConfigureLogger(container, configuration);
             Log.Logger = configuration.CreateLogger();
         }
 
-        protected virtual void ConfigureLogger(LoggerConfiguration configuration)
+        protected virtual void ConfigureLogger(IContainer container, LoggerConfiguration configuration)
         {
 
         }

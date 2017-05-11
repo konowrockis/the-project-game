@@ -24,6 +24,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers
         private readonly GameMasterOptions options;
         private readonly Func<DataBuilder> dataBuilder;
         private readonly ActionCostsOptions actionCosts;
+        private readonly ICurrentGame currentGame;
 
         public PlacePieceMessageHandler(
             IMessageWriter messageWriter,
@@ -37,6 +38,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers
             this.players = currentGame.Players;
             this.options = gameMasterOptions;
             this.dataBuilder = dataBuilder;
+            this.currentGame = currentGame;
         }
 
         public override void Handle(PlacePieceMessage message)
@@ -55,6 +57,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers
                 board.Pieces.Remove(piece);
                 board.PlaceNewPiece();
                 messageWriter.Write(builder.Build(), actionCosts.PlacingDelay);
+                //TODO: check if this is necessary VVVV
                 /*board.Pieces.Add(piece);
                 bool result = board.DropPiece(piece, player.Position);
                 if (result)

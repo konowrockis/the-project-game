@@ -9,7 +9,7 @@ using TheProjectGame.Settings.Options;
 using TheProjectGame.GameMaster.Logging;
 using TheProjectGame.GameMaster.Games;
 using AutoMapper;
-using System;
+using TheProjectGame.Display;
 
 namespace TheProjectGame.GameMaster
 {
@@ -30,18 +30,27 @@ namespace TheProjectGame.GameMaster
             new Program().Start();
         }
 
-        protected override void ConfigureLogger(LoggerConfiguration configuration)
+        protected override void ConfigureLogger(IContainer container, LoggerConfiguration configuration)
         {
             configuration.WriteTo.File(new CsvMessageFormatter(), "gm-log.csv",
                 restrictedToMinimumLevel: LogEventLevel.Verbose);
+
+            var options = container.Resolve<GeneralOptions>();
+            if (options.Display)
+            {
+                GameStateDisplay.Run(container);
+            }
         }
 
         protected override IContainer ConfigureContainer(ContainerBuilder builder)
         {
             builder.RegisterOptions<GameMasterOptions>();
 
-            builder.RegisterType<CurrentGame>().As<ICurrentGame>().As<IGameCreator>().SingleInstance();
+            builder.RegisterType<CurrentGame>().AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<ActionCostsOptions>().AsSelf().SingleInstance();
+
+            builder.RegisterType<GameStateForm>().AsSelf();
+
             return base.ConfigureContainer(builder);
         }
 

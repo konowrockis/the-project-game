@@ -18,6 +18,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers
         private readonly ActionCostsOptions actionCosts;
         private readonly IGameState game;
         private readonly IPlayersMap players;
+        private readonly ICurrentGame currentGame;
         private readonly Func<DataBuilder> dataBuilder;
 
         public MoveMessageHandler(
@@ -31,6 +32,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers
             this.game = currentGame.Game;
             this.players = currentGame.Players;
             this.dataBuilder = dataBuilder;
+            this.currentGame = currentGame;
         }
 
         public override void Handle(MoveMessage message)

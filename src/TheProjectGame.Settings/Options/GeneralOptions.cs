@@ -20,5 +20,8 @@ namespace TheProjectGame.Settings.Options
         [Option('v', "verbose")]
         public bool Verbose { get; set; }
 
+        [Option('d', "display")]
+        public bool Display { get; set; }
+
     }
 }

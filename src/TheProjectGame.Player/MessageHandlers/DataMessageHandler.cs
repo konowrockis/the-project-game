@@ -52,7 +52,7 @@ namespace TheProjectGame.Player.MessageHandlers
             var messageGameFinished = message.GameFinished;
             var messageTaskFields = message.TaskFields;
 
-            var board = playerKnowledge.GameState.Board;
+            var board = playerKnowledge.Game.Board;
 
             if (messageGameFinished)
             {
@@ -78,13 +78,13 @@ namespace TheProjectGame.Player.MessageHandlers
 
         private void UpdateGoalField(GoalField field)
         {
-            var board = playerKnowledge.GameState.Board;
+            var board = playerKnowledge.Game.Board;
 
             var tile = board.Fields[field.X, field.Y] as GoalTile;
             tile.Timestamp = field.Timestamp;
             if (field.PlayerIdSpecified)
             {
-                var player = playerKnowledge.GameState.Players.Find(p => p.Id == field.PlayerId);
+                var player = playerKnowledge.Game.Players.Find(p => p.Id == field.PlayerId);
                 board.MovePlayer(player, new Position(field.X, field.Y));
             }
             if (field.Type != GoalFieldType.Unknown) tile.Type = field.Type;
@@ -92,13 +92,13 @@ namespace TheProjectGame.Player.MessageHandlers
 
         private void UpdateTaskField(TaskField field)
         {
-            var board = playerKnowledge.GameState.Board;
+            var board = playerKnowledge.Game.Board;
 
             var tile = board.Fields[field.X, field.Y] as TaskTile;
             tile.Timestamp = field.Timestamp;
             if (field.PlayerIdSpecified)
             {
-                var player = playerKnowledge.GameState.Players.Find(p => p.Id == field.PlayerId);
+                var player = playerKnowledge.Game.Players.Find(p => p.Id == field.PlayerId);
                 board.MovePlayer(player, new Position(field.X, field.Y));
             }
             if (field.PieceIdSpecified)
@@ -128,7 +128,7 @@ namespace TheProjectGame.Player.MessageHandlers
         private void UpdatePiece(Piece piece)
         {
             // find the board piece equivalent (must exist because it must have been discovered first)
-            var board = playerKnowledge.GameState.Board;
+            var board = playerKnowledge.Game.Board;
 
             var boardPiece = board.Pieces.Find(p => p.Id == piece.Id);
             // if its a sham forget about it
@@ -144,7 +144,7 @@ namespace TheProjectGame.Player.MessageHandlers
             // if players is carrying it remember that
             if (piece.PlayerIdSpecified)
             {
-                GamePlayer player = playerKnowledge.GameState.Players.Find(p => p.Id == piece.PlayerId);
+                GamePlayer player = playerKnowledge.Game.Players.Find(p => p.Id == piece.PlayerId);
                 boardPiece.SetPlayer(player);
                 if (piece.PlayerId == playerKnowledge.Player.Id)
                 {

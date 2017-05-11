@@ -1,11 +1,9 @@
 ﻿using TheProjectGame.Game;
-using TheProjectGame.GameMaster.MessageHandlers;
 
 namespace TheProjectGame.GameMaster.Games
 {
-    public interface ICurrentGame
+    public interface ICurrentGame : IGameHolder
     {
-        IGameState Game { get; }
         IPlayersMap Players { get; }
     }
 
