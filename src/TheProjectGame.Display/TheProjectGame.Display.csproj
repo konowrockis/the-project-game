@@ -54,6 +54,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GameStateDisplay.cs" />
+    <Compile Include="GameStateDisplayControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="GameStateForm.cs">
       <SubType>Form</SubType>
     </Compile>

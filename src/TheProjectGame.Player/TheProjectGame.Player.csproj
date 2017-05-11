@@ -110,6 +110,10 @@
       <Project>{F91C87F2-0417-4882-8312-C2F8CA3590CF}</Project>
       <Name>TheProjectGame.Contracts</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TheProjectGame.Display\TheProjectGame.Display.csproj">
+      <Project>{3F5EDBF5-64F1-4C28-B5F3-8D3EF509C3B0}</Project>
+      <Name>TheProjectGame.Display</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TheProjectGame.Game\TheProjectGame.Game.csproj">
       <Project>{7FE25049-8897-40DE-8B95-8CF4B7D8032E}</Project>
       <Name>TheProjectGame.Game</Name>

@@ -25,7 +25,7 @@ namespace TheProjectGame.Player.Game
 
         public IMessage GetNextMove()
         {
-            var board = knowledge.GameState.Board;
+            var board = knowledge.Game.Board;
             var player = knowledge.Player;
             var position = player.Position;
             var piece = knowledge.CarriedPiece;
@@ -90,7 +90,7 @@ namespace TheProjectGame.Player.Game
             TestPieceMessage testPiece = new TestPieceMessage()
             {
                 PlayerGuid = knowledge.MyGuid,
-                GameId = knowledge.GameState.Id
+                GameId = knowledge.Game.Id
             };
             logger.Debug("Testing piece {@Message}", testPiece);
             return testPiece;
@@ -102,7 +102,7 @@ namespace TheProjectGame.Player.Game
             PlacePieceMessage placePiece = new PlacePieceMessage()
             {
                 PlayerGuid = knowledge.MyGuid,
-                GameId = knowledge.GameState.Id
+                GameId = knowledge.Game.Id
             };
             logger.Debug("Placing piece {@Message}", placePiece);
 
@@ -113,7 +113,7 @@ namespace TheProjectGame.Player.Game
         {
             MoveMessage move = new MoveMessage()
             {
-                GameId = knowledge.GameState.Id,
+                GameId = knowledge.Game.Id,
                 Direction = CheckMoveDirection(direction),
                 PlayerGuid = knowledge.MyGuid
             };
@@ -126,7 +126,7 @@ namespace TheProjectGame.Player.Game
             PickUpPieceMessage pickup = new PickUpPieceMessage()
             {
                 PlayerGuid = knowledge.MyGuid,
-                GameId = knowledge.GameState.Id
+                GameId = knowledge.Game.Id
             };
 
             logger.Debug("Picking up piece {@Message}", pickup);
@@ -138,7 +138,7 @@ namespace TheProjectGame.Player.Game
             DiscoverMessage discover = new DiscoverMessage()
             {
                 PlayerGuid = knowledge.MyGuid,
-                GameId = knowledge.GameState.Id
+                GameId = knowledge.Game.Id
             };
             lastDiscovered = true;
             logger.Debug("Discovering... {@Message}", discover);
@@ -148,8 +148,8 @@ namespace TheProjectGame.Player.Game
         private MoveType CheckMoveDirection(MoveType dir)
         {
             var position = knowledge.Player.Position.Move(dir);
-            if (knowledge.GameState.Board.IsValid(position) &&
-                knowledge.GameState.Board.Fields[position.X, position.Y].Player != null)
+            if (knowledge.Game.Board.IsValid(position) &&
+                knowledge.Game.Board.Fields[position.X, position.Y].Player != null)
             {
                 return RandomMoveDirection();
             }
@@ -175,7 +175,7 @@ namespace TheProjectGame.Player.Game
         private MoveType DirectionToAnyNonDiscoveredGoal()
         {
             var playerPos = knowledge.Player.Position;
-            var board = knowledge.GameState.Board;
+            var board = knowledge.Game.Board;
             var goalTiles = board.GetGoalTiles(knowledge.Player.Team);
             var unknownTiles = goalTiles.Where(g => g.Type == GoalFieldType.Unknown).ToList();
             var selected = unknownTiles.First();
@@ -227,7 +227,7 @@ namespace TheProjectGame.Player.Game
 
         private PlayerState ResolvePlayerState()
         {
-            var board = knowledge.GameState.Board;
+            var board = knowledge.Game.Board;
             var player = knowledge.Player;
             var position = player.Position;
             var piece = knowledge.CarriedPiece;

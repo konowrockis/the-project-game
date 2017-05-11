@@ -1,13 +1,10 @@
-﻿using System;
-using TheProjectGame.Game;
+﻿using TheProjectGame.Game;
 
 namespace TheProjectGame.GameMaster.Games
 {
     public interface ICurrentGame : IGameHolder
     {
         IPlayersMap Players { get; }
-
-        void UpdateGame();
     }
 
     public interface IGameCreator
@@ -25,15 +22,6 @@ namespace TheProjectGame.GameMaster.Games
         {
             Game = game;
             Players = new PlayersMap();
-
-            UpdateGame();
         }
-
-        public void UpdateGame()
-        {
-            GameUpdated?.Invoke(Game, EventArgs.Empty);
-        }
-
-        public event EventHandler GameUpdated;
     }
 }

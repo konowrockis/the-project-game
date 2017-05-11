@@ -72,8 +72,6 @@ namespace TheProjectGame.GameMaster.MessageHandlers.GameMessageHandlers
             var responsePieces = response.Pieces;
 
             messageWriter.Write(response, actionCosts.PickUpDelay);
-
-            currentGame.UpdateGame();
         }
 
         public IMessage EmptyData(Tile tile, GamePlayer player)

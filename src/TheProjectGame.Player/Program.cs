@@ -1,14 +1,14 @@
 ﻿using System.Reflection;
 using System.Threading;
 using Serilog;
-using Serilog.Events;
 using Autofac;
 using TheProjectGame.Client;
 using TheProjectGame.Player.Game;
 using TheProjectGame.Settings;
 using TheProjectGame.Settings.Options;
-using System;
 using AutoMapper;
+using TheProjectGame.Game;
+using TheProjectGame.Display;
 
 namespace TheProjectGame.Player
 {
@@ -29,11 +29,24 @@ namespace TheProjectGame.Player
             new Program().Start();
         }
 
+        protected override void ConfigureLogger(IContainer container, LoggerConfiguration configuration)
+        {
+            base.ConfigureLogger(container, configuration);
+
+            var options = container.Resolve<GeneralOptions>();
+            if (options.Display)
+            {
+                GameStateDisplay.Run(container);
+            }
+        }
+
         protected override IContainer ConfigureContainer(ContainerBuilder builder)
         {
             builder.RegisterOptions<PlayerOptions>();
-            builder.RegisterType<PlayerKnowledge>().As<IPlayerKnowledge>().InstancePerLifetimeScope();
-            builder.RegisterType<SimplePlayerLogic>().As<IPlayerLogic>().InstancePerLifetimeScope();
+            builder.RegisterType<PlayerKnowledge>().As<IPlayerKnowledge>().As<IGameHolder>().SingleInstance();
+            builder.RegisterType<SimplePlayerLogic>().As<IPlayerLogic>().SingleInstance();
+
+            builder.RegisterType<GameStateForm>().AsSelf();
 
             return base.ConfigureContainer(builder);
         }

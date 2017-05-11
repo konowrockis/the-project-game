@@ -66,7 +66,5 @@ namespace TheProjectGame.GameMaster.MessageHandlers.GameMessageHandlers
             var response = builder.Pieces(true, piece).Build();
 
             messageWriter.Write(response, actionCosts.TestDelay);
-
-            currentGame.UpdateGame();
         }
     }}

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
@@ -10,7 +11,7 @@ namespace TheProjectGame.IntegrationTests
 {
     [TestClass]
     [TestCategory("Integration")]
-    public class CommunicationServerTests
+    public class CommunicationServerTests : IDisposable
     {
         private Process communicationServerProcess;
 
@@ -99,6 +100,11 @@ namespace TheProjectGame.IntegrationTests
         public void TestCleanup()
         {
             communicationServerProcess.Kill();
+        }
+
+        public void Dispose()
+        {
+            communicationServerProcess.Dispose();
         }
     }
 }

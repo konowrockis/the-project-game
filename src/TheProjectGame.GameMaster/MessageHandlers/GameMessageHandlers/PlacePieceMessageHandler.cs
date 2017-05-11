@@ -118,8 +118,6 @@ namespace TheProjectGame.GameMaster.MessageHandlers
                 var response = builder.Fields(goalTile).Build();
                 messageWriter.Write(response, actionCosts.PlacingDelay);
             }
-
-            currentGame.UpdateGame();
         }
     }
 }

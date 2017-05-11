@@ -59,8 +59,8 @@ namespace TheProjectGame.Player.MessageHandlers
 
             board.Fields[message.PlayerLocation.X, message.PlayerLocation.Y].Player = playerKnowledge.Player;
 
-            playerKnowledge.GameState.Players = players;
-            playerKnowledge.GameState.Board = board;
+            playerKnowledge.Game.Players = players;
+            playerKnowledge.Game.Board = board;
 
             var response = playerLogic.GetNextMove();
             messageWriter.Write(response);

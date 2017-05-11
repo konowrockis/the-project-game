@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.9
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheProjectGame.GameMaster", "src\TheProjectGame.GameMaster\TheProjectGame.GameMaster.csproj", "{D94B8329-B008-4548-9285-CC34DFD7D53C}"
 EndProject
@@ -37,7 +37,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheProjectGame.IntegrationT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheProjectGame.Game", "src\TheProjectGame.Game\TheProjectGame.Game.csproj", "{7FE25049-8897-40DE-8B95-8CF4B7D8032E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheProjectGame.GameMaster.Display", "src\TheProjectGame.GameMaster.Display\TheProjectGame.GameMaster.Display.csproj", "{3F5EDBF5-64F1-4C28-B5F3-8D3EF509C3B0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheProjectGame.Display", "src\TheProjectGame.Display\TheProjectGame.Display.csproj", "{3F5EDBF5-64F1-4C28-B5F3-8D3EF509C3B0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

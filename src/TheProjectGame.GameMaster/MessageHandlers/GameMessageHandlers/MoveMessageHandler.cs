@@ -61,8 +61,6 @@ namespace TheProjectGame.GameMaster.MessageHandlers
 
             var response = builder.Build();
             messageWriter.Write(response, actionCosts.MoveDelay);
-
-            currentGame.UpdateGame();
         }
 
         private MoveStatus CheckMove(Position destination, IBoard board)

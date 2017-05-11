@@ -9,8 +9,7 @@ using TheProjectGame.Settings.Options;
 using TheProjectGame.GameMaster.Logging;
 using TheProjectGame.GameMaster.Games;
 using AutoMapper;
-using TheProjectGame.GameMaster.Display;
-using TheProjectGame.Game;
+using TheProjectGame.Display;
 
 namespace TheProjectGame.GameMaster
 {

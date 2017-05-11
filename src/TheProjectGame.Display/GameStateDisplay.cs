@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Windows.Forms;
 
-namespace TheProjectGame.GameMaster.Display
+namespace TheProjectGame.Display
 {
     public static class GameStateDisplay
     {

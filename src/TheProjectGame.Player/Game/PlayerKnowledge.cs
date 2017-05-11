@@ -8,13 +8,13 @@ namespace TheProjectGame.Player.Game
         public GamePlayer Player { get; private set; }
         public BoardPiece CarriedPiece { get; private set; }
         public string MyGuid { get; private set; }
-        public IGameState GameState { get; private set; }
+        public IGameState Game { get; private set; }
 
         public void Init(GamePlayer player, string myGuid, IGameState gameState)
         {
             Player = player;
             MyGuid = myGuid;
-            GameState = gameState;
+            Game = gameState;
         }
 
         public void SetCarriedPiece(BoardPiece piece)
