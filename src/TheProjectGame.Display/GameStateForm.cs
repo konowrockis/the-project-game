@@ -10,8 +10,8 @@ namespace TheProjectGame.Display
         {
             InitializeComponent();
 
-            gameStateDisplayControl1.SetGameHolder(gameHolder);
-            gameStateDisplayControl1.DesiredGameSizeChanged += GameStateDisplayControl1_DesiredGameSizeChanged;
+            gameStateControl.SetGameHolder(gameHolder);
+            gameStateControl.DesiredGameSizeChanged += GameStateDisplayControl1_DesiredGameSizeChanged;
         }
 
         private void GameStateDisplayControl1_DesiredGameSizeChanged(object sender, EventArgs e)
@@ -28,7 +28,7 @@ namespace TheProjectGame.Display
 
         private void UpdateFormSize()
         {
-            ClientSize = gameStateDisplayControl1.DesiredGameSizeInPixels;
+            ClientSize = gameStateControl.DesiredGameSizeInPixels;
         }
 
         protected override CreateParams CreateParams

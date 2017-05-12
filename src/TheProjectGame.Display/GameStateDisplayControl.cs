@@ -104,15 +104,19 @@ namespace TheProjectGame.Display
             { 
                 var board = gameHolder.Game.Board;
 
-                board.Fields.Cast<Tile>()
-                    .Where(t => t.Player != null)
-                    .ToList().ForEach(DrawPlayer(e.Graphics));
+                try
+                {
+                    board.Fields.Cast<Tile>()
+                        .Where(t => t.Player != null)
+                        .ToList().ForEach(DrawPlayer(e.Graphics));
 
-                board.Fields.OfType<TaskTile>()
-                    .ToList().ForEach(DrawDistance(e.Graphics));
+                    board.Fields.OfType<TaskTile>()
+                        .ToList().ForEach(DrawDistance(e.Graphics));
 
-                board.Fields.OfType<GoalTile>()
-                    .ToList().ForEach(DrawGoal(e.Graphics));
+                    board.Fields.OfType<GoalTile>()
+                        .ToList().ForEach(DrawGoal(e.Graphics));
+                }
+                catch { }
             }
         }
 

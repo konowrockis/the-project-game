@@ -57,20 +57,6 @@ namespace TheProjectGame.GameMaster.MessageHandlers
                 board.Pieces.Remove(piece);
                 board.PlaceNewPiece();
                 messageWriter.Write(builder.Build(), actionCosts.PlacingDelay);
-                //TODO: check if this is necessary VVVV
-                /*board.Pieces.Add(piece);
-                bool result = board.DropPiece(piece, player.Position);
-                if (result)
-                {
-                    builder.Fields(board.Fields[player.Position.X, player.Position.Y]);
-                }
-                else
-                {
-                    builder.Pieces(false,piece);
-                }
-                board.RefreshBoardState();
-                messageWriter.Write(builder.Build(), actionCosts.PlacingDelay);
-                return;*/
             }
 
             if (piece != null)
