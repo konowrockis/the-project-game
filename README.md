@@ -110,3 +110,9 @@ These are versions of the applications built and published by our Continuous Int
     * Improved player logic
     * Rematch after a finished game
     * Unit tests (gameplay)
+	
+* Tasks completed during the sixth sprint (as of 05.05):
+    * Display implementation
+	
+* Tasks completed during the seventh sprint (as of 12.05):
+    * Implemented chagnes decided on with other groups
