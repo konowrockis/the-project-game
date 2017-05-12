@@ -64,12 +64,14 @@ namespace TheProjectGame.Player.Game
                     else if (lastDiscovered)
                     {
                         lastDiscovered = false;
-                        var tiles =
-                            board.GetNeighbourhood(position.X, position.Y)
-                                .ToList()
-                                .OfType<TaskTile>()
-                                .OrderBy(t => t.DistanceToPiece)
-                                .ToList();
+                        var tiles = Enum.GetValues(typeof(MoveType))
+                            .Cast<MoveType>()
+                            .Select(m => player.Position.Move(m))
+                            .Where(p => board.IsValid(p))
+                            .Select(p => board.Fields[p.X,p.Y])
+                            .OfType<TaskTile>()
+                            .OrderBy(t => t.DistanceToPiece)
+                            .ToList();
                         var smallest = tiles.FirstOrDefault()?.DistanceToPiece ?? -1;
 
                         tiles = tiles.Where(t => t.DistanceToPiece == smallest).ToList();
