@@ -30,7 +30,7 @@
   <xs:complexType name="TaskField">
     <xs:complexContent>
       <xs:extension base="Field">
-        <xs:attribute name="distanceToPiece" type="xs:unsignedInt" use="required" />
+        <xs:attribute name="distanceToPiece" type="xs:int" use="required" />
         <xs:attribute name="pieceId" type="xs:unsignedLong" use="optional" />
       </xs:extension>
     </xs:complexContent>

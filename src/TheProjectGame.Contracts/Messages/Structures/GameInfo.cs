@@ -5,7 +5,7 @@ namespace TheProjectGame.Contracts.Messages.Structures
 {
     public class GameInfo
     {
-        [XmlAttribute("name")]
+        [XmlAttribute("gameName")]
         public string Name { get; set; }
 
         [XmlAttribute("redTeamPlayers")]

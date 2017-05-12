@@ -68,9 +68,13 @@ namespace TheProjectGame.Player.Game
                             board.GetNeighbourhood(position.X, position.Y)
                                 .ToList()
                                 .OfType<TaskTile>()
-                                .OrderBy(t => t.DistanceToPiece, Comparer<int>.Default)
+                                .OrderBy(t => t.DistanceToPiece)
                                 .ToList();
-                        var dest = tiles.First();
+                        var smallest = tiles.FirstOrDefault()?.DistanceToPiece ?? -1;
+
+                        tiles = tiles.Where(t => t.DistanceToPiece == smallest).ToList();
+                        var dest = tiles[random.Next(tiles.Count)];
+
                         return ActionMove(DirectionTowards(new Position(dest.X, dest.Y)));
                     }
                     else
