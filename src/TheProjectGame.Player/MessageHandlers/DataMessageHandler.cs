@@ -23,6 +23,7 @@ namespace TheProjectGame.Player.MessageHandlers
         private readonly IMessageWriter writer;
         private readonly IPlayerKnowledge playerKnowledge;
         private readonly PlayerOptions playerOptions;
+        private readonly ITaskCanceller taskCanceller;
 
         private bool gameFinished = false;
 
@@ -30,12 +31,14 @@ namespace TheProjectGame.Player.MessageHandlers
             IMessageWriter writer,
             IPlayerLogic playerLogic,
             IPlayerKnowledge playerKnowledge,
-            PlayerOptions playerOptions)
+            PlayerOptions playerOptions,
+            ITaskCanceller taskCanceller)
         {
             this.playerLogic = playerLogic;
             this.writer = writer;
             this.playerKnowledge = playerKnowledge;
             this.playerOptions = playerOptions;
+            this.taskCanceller = taskCanceller;
         }
 
         public override void Handle(DataMessage message)
@@ -57,6 +60,8 @@ namespace TheProjectGame.Player.MessageHandlers
             if (messageGameFinished)
             {
                 // todo: display game state
+                taskCanceller.CancelTasks();
+
                 writer.Write(new GetGamesMessage(), playerOptions.RetryJoinGameInterval);
                 gameFinished = true;
                 return;
@@ -149,6 +154,12 @@ namespace TheProjectGame.Player.MessageHandlers
                 if (piece.PlayerId == playerKnowledge.Player.Id)
                 {
                     playerKnowledge.SetCarriedPiece(boardPiece);
+                }
+
+                var tile = board.Fields.OfType<TaskTile>().Where(t => t.Piece?.Id == piece.Id).FirstOrDefault();
+                if (tile != null)
+                {
+                    tile.Piece = null;
                 }
             }
         }

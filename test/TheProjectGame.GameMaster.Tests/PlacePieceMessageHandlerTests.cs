@@ -52,7 +52,7 @@ namespace TheProjectGame.GameMaster.Tests
             gameState.Board.Returns(board);
             gameState.Players.Returns(new List<GamePlayer>() { player });
 
-            handler = new PlacePieceMessageHandler(writer, options, currentGame, () => GetDataBuilder());
+            handler = new PlacePieceMessageHandler(writer, options, currentGame, () => GetDataBuilder(), null);
         }
 
         [TestMethod]

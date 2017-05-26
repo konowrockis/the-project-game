@@ -54,7 +54,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers
             }
             board.RefreshBoardState();
             builder.PlayerLocation(player.Position);
-            if (moveStatus != MoveStatus.Invalid)
+            if (moveStatus != MoveStatus.Invalid && board.Fields[destination.X, destination.Y] is TaskTile)
             {
                 builder.Fields(board.Fields[destination.X, destination.Y]);
             }

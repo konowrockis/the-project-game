@@ -31,7 +31,7 @@ namespace TheProjectGame.Game
             switch (direction)
             {
                 case MoveType.Down:
-                    destination = new Position(X, Y + 1);
+                    destination = new Position(X, Y - 1);
                     break;
                 case MoveType.Left:
                     destination = new Position(X - 1, Y);
@@ -40,7 +40,7 @@ namespace TheProjectGame.Game
                     destination = new Position(X + 1, Y);
                     break;
                 case MoveType.Up:
-                    destination = new Position(X, Y - 1);
+                    destination = new Position(X, Y + 1);
                     break;
             }
             return destination;

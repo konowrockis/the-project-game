@@ -116,7 +116,14 @@ namespace TheProjectGame.Player.Game
         }
 
         private IMessage ActionMove(MoveType direction)
-        {
+        {   
+            if (direction == MoveType.Down)
+            {
+                direction = MoveType.Up;
+            } else if (direction == MoveType.Up)
+            {
+                direction = MoveType.Down;
+            }
             MoveMessage move = new MoveMessage()
             {
                 GameId = knowledge.Game.Id,

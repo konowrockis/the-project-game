@@ -10,6 +10,8 @@ using TheProjectGame.GameMaster.Logging;
 using TheProjectGame.GameMaster.Games;
 using AutoMapper;
 using TheProjectGame.Display;
+using TheProjectGame.Game;
+using System;
 
 namespace TheProjectGame.GameMaster
 {
@@ -40,8 +42,26 @@ namespace TheProjectGame.GameMaster
             {
                 GameStateDisplay.Run(container);
             }
-        }
 
+            var opts = container.Resolve<GameMasterOptions>();
+            var gameHolder = container.Resolve<IGameHolder>();
+
+            new Thread(new ThreadStart(() =>
+            {
+                try
+                {
+                    while (true)
+                    {
+                        gameHolder?.Game?.Board?.PlaceNewPiece();
+
+                        Thread.Sleep((int)opts.GameDefinition.PlacingNewPiecesFrequency);
+                    }
+                }
+                catch (Exception)
+                { }
+            })).Start();
+        }
+        
         protected override IContainer ConfigureContainer(ContainerBuilder builder)
         {
             builder.RegisterOptions<GameMasterOptions>();
