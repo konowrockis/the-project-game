@@ -47,8 +47,8 @@ namespace TheProjectGame.Game
             {
                 for (uint y = 0; y < goalAreaHeight; y++)
                 {
-                    Fields[x, y] = new GoalTile(TeamColor.Red, x, y);
-                    Fields[x, BoardHeight - y - 1] = new GoalTile(TeamColor.Blue, x, BoardHeight - y - 1);
+                    Fields[x, y] = new GoalTile(TeamColor.Blue, x, y);
+                    Fields[x, BoardHeight - y - 1] = new GoalTile(TeamColor.Red, x, BoardHeight - y - 1);
                 }
 
                 for (uint y = goalAreaHeight; y < taskAreaHeight + goalAreaHeight; y++)
@@ -107,7 +107,7 @@ namespace TheProjectGame.Game
 
             foreach (var gamePlayer in players)
             {
-                var tiles = gamePlayer.Team == TeamColor.Blue ? blueGoalTiles : redGoalTiles;
+                var tiles = taskTiles;//gamePlayer.Team == TeamColor.Blue ? blueGoalTiles : redGoalTiles;
                 var freeTiles = tiles.Where(tile => tile.Player == null).ToList();
                 var selectedTile = freeTiles[random.Next(freeTiles.Count)];
                 selectedTile.Player = gamePlayer;
@@ -185,7 +185,7 @@ namespace TheProjectGame.Game
 
         public List<GoalTile> GetGoalTiles(TeamColor team)
         {
-            uint startHeight = team == TeamColor.Red ? 0 : BoardHeight - GoalAreaHeight;
+            uint startHeight = team == TeamColor.Blue ? 0 : BoardHeight - GoalAreaHeight;
             List<GoalTile> goalFields = new List<GoalTile>();
             for (int x = 0; x < BoardWidth; x++)
             {
@@ -199,7 +199,7 @@ namespace TheProjectGame.Game
 
         public bool CheckWinConditions(TeamColor team)
         {
-            uint startHeight = team == TeamColor.Red ? 0 : BoardHeight - GoalAreaHeight;
+            uint startHeight = team == TeamColor.Blue ? 0 : BoardHeight - GoalAreaHeight;
             List<GoalTile> goalFields = new List<GoalTile>();
             for (int x = 0; x < BoardWidth; x++)
             {

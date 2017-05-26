@@ -7,7 +7,7 @@ namespace TheProjectGame.Contracts.Enums
         [XmlEnum("leader")]
         Leader,
 
-        [XmlEnum("player")]
+        [XmlEnum("member")]
         Player
     }
 }

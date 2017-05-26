@@ -28,23 +28,24 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.gameStateDisplayControl1 = new TheProjectGame.Display.GameStateDisplayControl();
+            this.gameStateControl = new TheProjectGame.Display.GameStateDisplayControl();
             this.SuspendLayout();
             // 
-            // gameStateDisplayControl1
+            // gameStateControl
             // 
-            this.gameStateDisplayControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gameStateDisplayControl1.Location = new System.Drawing.Point(0, 0);
-            this.gameStateDisplayControl1.Name = "gameStateDisplayControl1";
-            this.gameStateDisplayControl1.Size = new System.Drawing.Size(284, 262);
-            this.gameStateDisplayControl1.TabIndex = 0;
+            this.gameStateControl.DesiredGameSizeInPixels = new System.Drawing.Size(0, 0);
+            this.gameStateControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gameStateControl.Location = new System.Drawing.Point(0, 0);
+            this.gameStateControl.Name = "gameStateControl";
+            this.gameStateControl.Size = new System.Drawing.Size(284, 262);
+            this.gameStateControl.TabIndex = 0;
             // 
             // GameStateForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 262);
-            this.Controls.Add(this.gameStateDisplayControl1);
+            this.Controls.Add(this.gameStateControl);
             this.DoubleBuffered = true;
             this.Name = "GameStateForm";
             this.Text = "Game State";
@@ -54,7 +55,7 @@
 
         #endregion
 
-        private GameStateDisplayControl gameStateDisplayControl1;
+        private GameStateDisplayControl gameStateControl;
     }
 }
 

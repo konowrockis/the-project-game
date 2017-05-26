@@ -42,7 +42,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers
             var direction = message.Direction;
             var position = player.Position;
             var destination = position.Move(direction);
-            var moveStatus = CheckMove(destination, board);
+            var moveStatus = CheckMove(destination, board,player);
 
             var builder = dataBuilder()
                 .GameFinished(false)
@@ -63,10 +63,17 @@ namespace TheProjectGame.GameMaster.MessageHandlers
             messageWriter.Write(response, actionCosts.MoveDelay);
         }
 
-        private MoveStatus CheckMove(Position destination, IBoard board)
+        private MoveStatus CheckMove(Position destination, IBoard board, GamePlayer player)
         {
             if (!board.IsValid(destination)) return MoveStatus.Invalid;
             if (board.IsOccupied(destination)) return MoveStatus.Occupied;
+            var otherTeam = player.Team == Contracts.Enums.TeamColor.Blue ? 
+                Contracts.Enums.TeamColor.Red : Contracts.Enums.TeamColor.Blue;
+            var tiles = board.GetGoalTiles(otherTeam);
+            foreach (var tile in tiles)
+            {
+                if (tile.X == destination.X && tile.Y == destination.Y) return MoveStatus.Invalid;
+            }
             return MoveStatus.Valid;
         }
 

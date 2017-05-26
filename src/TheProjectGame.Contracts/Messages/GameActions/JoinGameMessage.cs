@@ -9,10 +9,10 @@ namespace TheProjectGame.Contracts.Messages.GameActions
         [XmlAttribute("gameName")]
         public string GameName { get; set; }
 
-        [XmlAttribute("preferedTeam")]
+        [XmlAttribute("preferredTeam")]
         public TeamColor PreferedTeam { get; set; }
 
-        [XmlAttribute("preferedRole")]
+        [XmlAttribute("preferredRole")]
         public PlayerType PreferedRole { get; set; }
 
         [XmlAttribute("playerId")]

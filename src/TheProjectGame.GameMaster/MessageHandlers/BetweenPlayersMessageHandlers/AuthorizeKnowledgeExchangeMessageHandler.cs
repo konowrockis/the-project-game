@@ -33,7 +33,8 @@ namespace TheProjectGame.GameMaster.MessageHandlers.BetweenPlayersMessageHandler
 
             var receiver = currentGame.Game.Players.FirstOrDefault(p => p.Id == message.WithPlayerId);
 
-            IMessage response = receiver == null ? RejectKnowledgeExchange(message, player) : PassRequest(message, player);
+            // TODO: implement
+            IMessage response = true ? RejectKnowledgeExchange(message, player) : PassRequest(message, player);
 
             messageWriter.Write(response, actionCosts.KnowledgeExchangeDelay);
         }

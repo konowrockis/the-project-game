@@ -45,6 +45,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers
         {
             var board = game.Board;
             var player = players.GetPlayer(message.PlayerGuid);
+            var position = player.Position;
 
             var builder = dataBuilder()
                 .GameFinished(false)
@@ -54,29 +55,27 @@ namespace TheProjectGame.GameMaster.MessageHandlers
 
             if (!board.IsInGoalArea(player.Position) && piece != null)
             {
-                board.Pieces.Remove(piece);
-                board.PlaceNewPiece();
-                messageWriter.Write(builder.Build(), actionCosts.PlacingDelay);
-                //TODO: check if this is necessary VVVV
-                /*board.Pieces.Add(piece);
-                bool result = board.DropPiece(piece, player.Position);
-                if (result)
+                var taskTile = board.Fields[position.X, position.Y] as TaskTile;
+                if (taskTile.Piece != null)
                 {
-                    builder.Fields(board.Fields[player.Position.X, player.Position.Y]);
-                }
-                else
+                    // pass
+                } else
                 {
-                    builder.Pieces(false,piece);
+                    piece.Player = null;
+                    taskTile.Piece = piece;
+                    board.RefreshBoardState();
                 }
-                board.RefreshBoardState();
+                builder.Pieces(false, piece);
+                builder.Fields(taskTile);
                 messageWriter.Write(builder.Build(), actionCosts.PlacingDelay);
-                return;*/
             }
 
             if (piece != null)
             {
                 board.Pieces.Remove(piece);
                 board.PlaceNewPiece();
+                piece.Player = null;
+                builder.Pieces(false,piece);
             }
 
             if (piece == null || piece.Type == PieceType.Sham)

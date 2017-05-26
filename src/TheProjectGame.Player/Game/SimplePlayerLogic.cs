@@ -53,9 +53,9 @@ namespace TheProjectGame.Player.Game
                 switch (playerState.PositionState)
                 {
                     case PlayerPositionState.IsOnEnemyGoalField:
-                    return ActionMove(player.Team == TeamColor.Blue ? MoveType.Down : MoveType.Up);
+                    return ActionMove(player.Team == TeamColor.Red ? MoveType.Down : MoveType.Up);
                     case PlayerPositionState.IsOnOwnGoalField:
-                    return ActionMove(player.Team == TeamColor.Blue ? MoveType.Up : MoveType.Down);
+                    return ActionMove(player.Team == TeamColor.Red ? MoveType.Up : MoveType.Down);
                     case PlayerPositionState.IsOnTaskField:
                     if (taskTile.Piece != null)
                     {
@@ -64,13 +64,19 @@ namespace TheProjectGame.Player.Game
                     else if (lastDiscovered)
                     {
                         lastDiscovered = false;
-                        var tiles =
-                            board.GetNeighbourhood(position.X, position.Y)
-                                .ToList()
-                                .OfType<TaskTile>()
-                                .OrderBy(t => t.DistanceToPiece, Comparer<int>.Default)
-                                .ToList();
-                        var dest = tiles.First();
+                        var tiles = Enum.GetValues(typeof(MoveType))
+                            .Cast<MoveType>()
+                            .Select(m => player.Position.Move(m))
+                            .Where(p => board.IsValid(p))
+                            .Select(p => board.Fields[p.X,p.Y])
+                            .OfType<TaskTile>()
+                            .OrderBy(t => t.DistanceToPiece)
+                            .ToList();
+                        var smallest = tiles.FirstOrDefault()?.DistanceToPiece ?? -1;
+
+                        tiles = tiles.Where(t => t.DistanceToPiece == smallest).ToList();
+                        var dest = tiles[random.Next(tiles.Count)];
+
                         return ActionMove(DirectionTowards(new Position(dest.X, dest.Y)));
                     }
                     else
