@@ -5,18 +5,18 @@
   <GameDefinition>
     <Goals team="red" x="0" y ="5" type="goal" />
     <Goals team="blue" x="0" y="0" type="goal" />
-    <ShamProbability>0.33</ShamProbability>
+    <ShamProbability>0.9</ShamProbability>
     <PlacingNewPiecesFrequency>2000</PlacingNewPiecesFrequency>
-    <InitialNumberOfPieces>2</InitialNumberOfPieces>
+    <InitialNumberOfPieces>10</InitialNumberOfPieces>
     <BoardWidth>10</BoardWidth>
-    <TaskAreaLength>10</TaskAreaLength>
-    <GoalAreaLength>2</GoalAreaLength>
+    <TaskAreaLength>8</TaskAreaLength>
+    <GoalAreaLength>4</GoalAreaLength>
     <NumberOfPlayersPerTeam>5</NumberOfPlayersPerTeam>
     <GameName>Initial game</GameName>
   </GameDefinition>
   <ActionCosts>
     <MoveDelay>100</MoveDelay>
-    <DiscoverDelay>450</DiscoverDelay>
+    <DiscoverDelay>50</DiscoverDelay>
     <TestDelay>500</TestDelay>
     <PickUpDelay>100</PickUpDelay>
     <PlacingDelay>100</PlacingDelay>
