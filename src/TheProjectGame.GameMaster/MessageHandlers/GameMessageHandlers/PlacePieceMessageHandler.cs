@@ -25,12 +25,14 @@ namespace TheProjectGame.GameMaster.MessageHandlers
         private readonly Func<DataBuilder> dataBuilder;
         private readonly ActionCostsOptions actionCosts;
         private readonly ICurrentGame currentGame;
+        private readonly ITaskCanceller taskCanceller;
 
         public PlacePieceMessageHandler(
             IMessageWriter messageWriter,
             GameMasterOptions gameMasterOptions,
             ICurrentGame currentGame,
-            Func<DataBuilder> dataBuilder)
+            Func<DataBuilder> dataBuilder,
+            ITaskCanceller taskCanceller)
         {
             this.messageWriter = messageWriter;
             this.actionCosts = gameMasterOptions.ActionCosts;
@@ -39,6 +41,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers
             this.options = gameMasterOptions;
             this.dataBuilder = dataBuilder;
             this.currentGame = currentGame;
+            this.taskCanceller = taskCanceller;
         }
 
         public override void Handle(PlacePieceMessage message)
@@ -55,6 +58,12 @@ namespace TheProjectGame.GameMaster.MessageHandlers
 
             if (!board.IsInGoalArea(player.Position) && piece != null)
             {
+                board.Pieces.Remove(piece);
+                board.PlaceNewPiece();
+                messageWriter.Write(builder.Build(), actionCosts.PlacingDelay);
+                return;
+                /*
+                
                 var taskTile = board.Fields[position.X, position.Y] as TaskTile;
                 if (taskTile.Piece != null)
                 {
@@ -67,7 +76,7 @@ namespace TheProjectGame.GameMaster.MessageHandlers
                 }
                 builder.Pieces(false, piece);
                 builder.Fields(taskTile);
-                messageWriter.Write(builder.Build(), actionCosts.PlacingDelay);
+                messageWriter.Write(builder.Build(), actionCosts.PlacingDelay);*/
             }
 
             if (piece != null)
@@ -89,6 +98,8 @@ namespace TheProjectGame.GameMaster.MessageHandlers
 
             if (board.CheckWinConditions(player.Team))
             {
+                taskCanceller.CancelTasks();
+
                 foreach (var gamePlayer in game.Players)
                 {
                     logger.GameEvent(gamePlayer.Team == player.Team
@@ -100,7 +111,8 @@ namespace TheProjectGame.GameMaster.MessageHandlers
                         GameFinished = true,
                         PlayerId = gamePlayer.Id
                     });
-                }
+                } 
+
                 var registerGame = new RegisterGameMessage()
                 {
                     NewGameInfo = new GameInfo()

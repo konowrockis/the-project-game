@@ -13,6 +13,7 @@ namespace TheProjectGame.Messaging
             builder.RegisterType<DefaultMessagesParser>().As<IMessageParser>().SingleInstance();
             builder.RegisterType<DefaultSchemaSource>().As<ISchemaSource>().InstancePerDependency();
             builder.RegisterType<DefaultMessageExecutor>().As<IMessageExecutor>().InstancePerLifetimeScope();
+            builder.RegisterType<TaskCancellation>().As<ITaskCancellationTokenProvider>().As<ITaskCanceller>().SingleInstance();
 
             builder.RegisterType<MessageStream>();
             builder.RegisterType<MessageProxy>().AsImplementedInterfaces().InstancePerLifetimeScope();

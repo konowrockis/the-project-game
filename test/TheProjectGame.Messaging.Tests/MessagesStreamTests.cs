@@ -348,7 +348,7 @@ namespace TheProjectGame.Messaging.Tests
             var messageSource = Substitute.For<ISchemaSource>();
             messageSource.GetSchema().Returns(getSchemaStream());
 
-            return new MessageStream(messageContent, new DefaultMessagesParser(), messageSource);
+            return new MessageStream(messageContent, new DefaultMessagesParser(), messageSource, null);
         }
 
         private Stream getMessageFromResource(string message)

@@ -17,13 +17,15 @@ namespace TheProjectGame.Messaging
         private readonly XmlDocument document;
         private readonly IMessageParser messageParser;
         private readonly XmlReaderSettings readerSettings;
+        private readonly ITaskCancellationTokenProvider tokenProvider;
 
         public delegate MessageStream Factory(Stream stream);
 
-        public MessageStream(Stream stream, IMessageParser messageParser, ISchemaSource schemaSource)
+        public MessageStream(Stream stream, IMessageParser messageParser, ISchemaSource schemaSource, ITaskCancellationTokenProvider tokenProvider)
         {
             this.stream = stream;
             this.messageParser = messageParser;
+            this.tokenProvider = tokenProvider;
 
             readerSettings = GetXmlReaderSettings(schemaSource);
             document = new XmlDocument();
@@ -48,10 +50,10 @@ namespace TheProjectGame.Messaging
 
         public void Write(IMessage message, double delayMiliseconds = 0)
         {
-            Task.Delay(TimeSpan.FromMilliseconds(delayMiliseconds)).ContinueWith((t) =>
+            Task.Delay(TimeSpan.FromMilliseconds(delayMiliseconds), tokenProvider.Token).ContinueWith((t) =>
             {
-                    messageParser.Write(stream, message);
-            });
+                messageParser.Write(stream, message);
+            }, tokenProvider.Token);
         }
 
         private XmlReaderSettings GetXmlReaderSettings(ISchemaSource schemaSource)
